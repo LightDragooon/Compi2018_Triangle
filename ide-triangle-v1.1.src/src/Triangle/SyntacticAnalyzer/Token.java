@@ -68,42 +68,53 @@ final class Token extends Object {
 
     // reserved words - must be in alphabetical order...
     ARRAY		= 4,
-    BEGIN		= 5,
+    //BEGIN		= 5,    //SE ELIMINA LA PALABRA RESERVADA BEGIN    
+    CASE                = 5,    //SE AÑADE LA PALABRA RESERVADA CASE
     CONST		= 6,
     DO			= 7,
     ELSE		= 8,
-    END			= 9,
-    FUNC		= 10,
-    IF			= 11,
-    IN			= 12,
-    LET			= 13,
-    OF			= 14,
-    PROC		= 15,
-    RECORD		= 16,
-    THEN		= 17,
-    TYPE		= 18,
-    VAR			= 19,
-    WHILE		= 20,
+    ELSIF               = 9,    //SE AÑADE LA PALABRA RESERVADA ELSIF
+    END			= 10,
+    FOR                 = 11,   //SE AÑADE LA PALABRA RESERVADA FOR
+    FROM                = 12,   //SE AÑADE LA PALABRA RESERVADA FROM
+    FUNC		= 13,
+    IF			= 14,
+    IN			= 15,
+    LET			= 16,
+    LOCAL               = 17,   //SE AÑADE LA PALABRA RESERVADA LOCAL
+    NIL                 = 18,   //SE AÑADE LA PALABRA RESERVADA NIL
+    OF			= 19,
+    PROC		= 20,
+    RECORD		= 21,
+    RECURSIVE           = 22,   //SE AÑADE LA PALABRA RESERVADA RECURSIVE
+    REPEAT              = 23,   //SE AÑADE LA PALABRA RESERVADA REPEAT
+    SELECT              = 24,   //SE AÑADE LA PALABRA RESERVADA SELECT
+    THEN		= 25,
+    TO                  = 26,   //SE AÑADE LA PALABRA RESERVADA TO
+    TYPE		= 27,
+    UNTIL               = 28,   //SE AÑADE LA PALABRA RESERVADA UNTIL
+    VAR			= 29,
+    WHILE		= 30,
 
     // punctuation...
-    DOT			= 21,
-    COLON		= 22,
-    SEMICOLON	= 23,
-    COMMA		= 24,
-    BECOMES		= 25,
-    IS			= 26,
+    DOT			= 31,
+    COLON		= 32,
+    SEMICOLON	        = 33,
+    COMMA		= 34,
+    BECOMES		= 35,
+    IS			= 36,
 
     // brackets...
-    LPAREN		= 27,
-    RPAREN		= 28,
-    LBRACKET	= 29,
-    RBRACKET	= 30,
-    LCURLY		= 31,
-    RCURLY		= 32,
+    LPAREN		= 37,
+    RPAREN		= 38,
+    LBRACKET	        = 39,
+    RBRACKET	        = 40,
+    LCURLY		= 41,
+    RCURLY		= 42,
 
     // special tokens...
-    EOT			= 33,
-    ERROR		= 34;
+    EOT			= 43,
+    ERROR		= 44;
 
   private static String[] tokenTable = new String[] {
     "<int>",
@@ -111,20 +122,31 @@ final class Token extends Object {
     "<identifier>",
     "<operator>",
     "array",
-    "begin",
+    //"begin",     //SE ELIMINA LA PALABRA RESERVADA BEGIN
+    "case",        //SE AÑADE LA PALABRA RESERVADA CASE
     "const",
     "do",
     "else",
+    "elsif",       //SE AÑADE LA PALABRA RESERVADA CASE
     "end",
+    "for",         //SE AÑADE LA PALABRA RESERVADA CASE
+    "from",        //SE AÑADE LA PALABRA RESERVADA CASE
     "func",
     "if",
     "in",
     "let",
+    "local",      //SE AÑADE LA PALABRA RESERVADA CASE
+    "nil",        //SE AÑADE LA PALABRA RESERVADA CASE
     "of",
     "proc",
     "record",
+    "recursive",  //SE AÑADE LA PALABRA RESERVADA CASE
+    "repeat",     //SE AÑADE LA PALABRA RESERVADA CASE
+    "select",     //SE AÑADE LA PALABRA RESERVADA CASE
     "then",
+    "to",         //SE AÑADE LA PALABRA RESERVADA CASE
     "type",
+    "until",      //SE AÑADE LA PALABRA RESERVADA CASE
     "var",
     "while",
     ".",
