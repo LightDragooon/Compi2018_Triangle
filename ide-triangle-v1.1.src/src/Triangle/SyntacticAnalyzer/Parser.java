@@ -292,13 +292,13 @@ public class Parser {
         }
       }
       break;
-
+    /*
     case Token.BEGIN:
       acceptIt();
-      commandAST = parseCommand();
+      commandAST = parseCommand();  //EL COMANDO BEGIN YA NO EXISTE
       accept(Token.END);
       break;
-
+    */
     case Token.LET:
       {
         acceptIt();
