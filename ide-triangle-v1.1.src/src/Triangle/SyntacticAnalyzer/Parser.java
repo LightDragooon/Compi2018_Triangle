@@ -367,24 +367,36 @@ public class Parser {
     }
         break;
         
-        case Token.IF:
-      {
+    case Token.IF:
+    {
         acceptIt();
-        Expression eAST = parseExpression();
+        Expression e1AST = parseExpression();
         accept(Token.THEN);
         Command c1AST = parseCommand();
         while (currentToken.kind == Token.ELSIF){
             acceptIt();
-            
+            Expression e2AST = parseExpression();
+            accept(Token.THEN);
+            Command c2AST = parseCommand();
+            c1AST = new IfCommand(e2AST, c1AST, c2AST, commandPos);
         }
         accept(Token.ELSE);
-        Command c2AST = parseCommand();
-          accept(Token.END);
+        Command c3AST = parseCommand();
+        accept(Token.END);
         finish(commandPos);
-        commandAST = new IfCommand(eAST, c1AST, c2AST, commandPos);
-      }
-      break;
-        
+        commandAST = new IfCommand(e1AST, c1AST, c3AST, commandPos);
+    }
+        break;
+    case Token.SELECT:
+    {
+        acceptIt();
+        Expression eAST = parseExpression();
+        accept(Token.FROM);
+        //CASES
+        accept(Token.END);
+    }
+        break;
+     
     /* SE ELIMINA LA ALTERNATIVA: "begin" Command "end"
     case Token.BEGIN:
       acceptIt();
