@@ -292,13 +292,107 @@ public class Parser {
         }
       }
       break;
-    /*
+    case Token.NIL:
+      acceptIt();
+      finish(commandPos);
+      commandAST = new EmptyCommand(commandPos);
+      break;
+      
+    case Token.REPEAT:
+        acceptIt();
+        switch(currentToken.kind){
+            case Token.WHILE:
+            case Token.UNTIL:
+            {
+                acceptIt();
+                Expression eAST = parseExpression();
+                accept(Token.DO);
+                Command cAST = parseCommand();
+                accept(Token.END);
+                finish(commandPos);
+                commandAST = new WhileCommand(eAST, cAST, commandPos);
+            }
+                break;
+            case Token.DO:
+            {
+                acceptIt();
+                Command cAST = parseCommand();
+                switch(currentToken.kind){
+                    case Token.WHILE:
+                    case Token.UNTIL:
+                    {
+                        acceptIt();
+                        Expression eAST = parseExpression();
+                        accept(Token.END);
+                        commandAST = new WhileCommand(eAST, cAST, commandPos);
+                    }
+                        break;
+                    default:
+                        syntacticError("\"%\" expected a different word",
+                          currentToken.spelling);
+                        break;
+                }
+            }
+                break;
+            case Token.FOR:
+            {
+                acceptIt();
+                Identifier iAST = parseIdentifier();
+                accept(Token.FROM);
+                Expression e1AST = parseExpression();
+                accept(Token.TO);
+                Expression e2AST = parseExpression();
+                accept(Token.DO);
+                Command cAST = parseCommand();
+                accept(Token.END);
+                //HACE FALTA EL AST
+            }
+                break;
+            default:
+                syntacticError("\"%\" expected a different word",
+                  currentToken.spelling);
+                break;
+        }
+        break;
+      
+    case Token.LET:
+    {
+        acceptIt();
+        Declaration dAST = parseDeclaration();
+        accept(Token.IN);
+        Command cAST = parseCommand();
+        accept(Token.END);
+        finish(commandPos);
+        commandAST = new LetCommand(dAST, cAST, commandPos);
+    }
+        break;
+        
+        case Token.IF:
+      {
+        acceptIt();
+        Expression eAST = parseExpression();
+        accept(Token.THEN);
+        Command c1AST = parseCommand();
+        while (currentToken.kind == Token.ELSIF){
+            acceptIt();
+            
+        }
+        accept(Token.ELSE);
+        Command c2AST = parseCommand();
+          accept(Token.END);
+        finish(commandPos);
+        commandAST = new IfCommand(eAST, c1AST, c2AST, commandPos);
+      }
+      break;
+        
+    /* SE ELIMINA LA ALTERNATIVA: "begin" Command "end"
     case Token.BEGIN:
       acceptIt();
-      commandAST = parseCommand();  //EL COMANDO BEGIN YA NO EXISTE
+      commandAST = parseCommand();
       accept(Token.END);
       break;
     */
+    /* SE ELIMINA LA ALTERNATIVA:  "let" Declaration "in" single-Command
     case Token.LET:
       {
         acceptIt();
@@ -309,7 +403,8 @@ public class Parser {
         commandAST = new LetCommand(dAST, cAST, commandPos);
       }
       break;
-
+    */
+    /* SE ELIMINA LA ALTERNATIVA:  "if" Expression "then" single-Command "else" single-Command
     case Token.IF:
       {
         acceptIt();
@@ -322,7 +417,8 @@ public class Parser {
         commandAST = new IfCommand(eAST, c1AST, c2AST, commandPos);
       }
       break;
-
+    */
+    /* SE ELIMINA LA ALTERNATIVA:  "while" Expression "do" single-Command
     case Token.WHILE:
       {
         acceptIt();
@@ -333,7 +429,9 @@ public class Parser {
         commandAST = new WhileCommand(eAST, cAST, commandPos);
       }
       break;
-
+    */
+     
+    /* SE ELIMINA LA ALTERNATIVA:  VACIO
     case Token.SEMICOLON:
     case Token.END:
     case Token.ELSE:
@@ -343,7 +441,8 @@ public class Parser {
       finish(commandPos);
       commandAST = new EmptyCommand(commandPos);
       break;
-
+    */
+      
     default:
       syntacticError("\"%\" cannot start a command",
         currentToken.spelling);
