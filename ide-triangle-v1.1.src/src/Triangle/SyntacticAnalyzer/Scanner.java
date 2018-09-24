@@ -113,7 +113,7 @@ public final class Scanner {
 
     case '+':  case '-':  case '*': case '/':  case '=':
     case '<':  case '>':  case '\\':  case '&':  case '@':
-    case '%':  case '^':  case '?':
+    case '%':  case '^':  case '?': case '|':               //SE AÑADE EL OPERADOR "|"
       takeIt();
       while (isOperator(currentChar))
         takeIt();
@@ -130,8 +130,12 @@ public final class Scanner {
 
     case '.':
       takeIt();
+      if (currentChar == '.'){
+          takeIt();
+          return Token.DOTDOT;
+      } else
       return Token.DOT;
-
+      
     case ':':
       takeIt();
       if (currentChar == '=') {

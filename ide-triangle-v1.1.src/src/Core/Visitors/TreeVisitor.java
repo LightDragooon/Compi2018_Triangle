@@ -49,6 +49,11 @@ import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
 import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
+import Triangle.AbstractSyntaxTrees.RepeatDoUntilCommand;
+import Triangle.AbstractSyntaxTrees.RepeatDoWhileCommand;
+import Triangle.AbstractSyntaxTrees.RepeatForCommand;
+import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
+import Triangle.AbstractSyntaxTrees.RepeatWhileCommand;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
@@ -106,6 +111,31 @@ public class TreeVisitor implements Visitor {
     
     public Object visitLetCommand(LetCommand ast, Object obj) {
         return(createBinary("Let Command", ast.D, ast.C));
+    }
+    
+    //Se añade la implementación visitRepeatDoUntilCommand
+    public Object visitRepeatDoUntilCommand(RepeatDoUntilCommand ast, Object obj) {
+        return(createBinary("Repeat Do Until Command", ast.E, ast.C));
+    }
+    
+    //Se añade la implementación visitRepeatDoUntilCommand
+    public Object visitRepeatDoWhileCommand(RepeatDoWhileCommand ast, Object obj) {
+        return(createBinary("Repeat Do While Command", ast.E, ast.C));
+    } 
+    
+    //Se añade la implementación visitRepeatDoUntilCommand
+    public Object visitRepeatForCommand(RepeatForCommand ast, Object obj) {
+        return(createQuaternary("Repeat For Command", ast.I, ast.E1, ast.E2, ast.C));
+    } 
+    
+    //Se añade la implementación visitRepeatWhileCommand
+    public Object visitRepeatUntilCommand(RepeatUntilCommand ast, Object obj) {
+        return(createBinary("Repeat Until Command", ast.E, ast.C));
+    }
+    
+    //Se añade la implementación visitRepeatWhileCommand
+    public Object visitRepeatWhileCommand(RepeatWhileCommand ast, Object obj) {
+        return(createBinary("Repeat While Command", ast.E, ast.C));
     }
     
     public Object visitSequentialCommand(SequentialCommand ast, Object obj) {
