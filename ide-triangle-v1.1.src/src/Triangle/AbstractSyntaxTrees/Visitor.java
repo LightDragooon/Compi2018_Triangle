@@ -45,6 +45,7 @@ public interface Visitor {
   public abstract Object visitVnameExpression(VnameExpression ast, Object o);
 
   // Declarations
+  public abstract Object visitAssignDeclaration(AssignDeclaration ast, Object o);
   public abstract Object visitBinaryOperatorDeclaration(BinaryOperatorDeclaration ast, Object o);
   public abstract Object visitConstDeclaration(ConstDeclaration ast, Object o);
   public abstract Object visitFuncDeclaration(FuncDeclaration ast, Object o);

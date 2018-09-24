@@ -226,7 +226,7 @@ public class Parser {
     }
     return I;
   }
-
+  
 // parseOperator parses an operator, and constructs a leaf AST to
 // represent it.
 
@@ -508,7 +508,7 @@ public class Parser {
   Declaration parseProcFunc() throws SyntaxError {
     Declaration declarationAST = null; // in case there's a syntactic error
 
-    SourcePosition declarationPos = new SourcePosition(); // Posición Actual en el buffer
+    SourcePosition declarationPos = new SourcePosition(); // Posiciï¿½n Actual en el buffer
     start(declarationPos); // Establece esta posicion
 
     switch (currentToken.kind) { 
@@ -559,12 +559,12 @@ public class Parser {
   }
   
   // ProcFunc (|ProcFunc)+  
-  // Declaración secuencial. El ciclo se repite 1 o más veces
+  // Declaraciï¿½n secuencial. El ciclo se repite 1 o mï¿½s veces
   
   Declaration parseProcFuncs() throws SyntaxError {
     Declaration declarationAST = null; // in case there's a syntactic error
 
-    SourcePosition declarationPos = new SourcePosition(); // Posición Actual en el buffer
+    SourcePosition declarationPos = new SourcePosition(); // Posiciï¿½n Actual en el buffer
     start(declarationPos); // Establece esta posicion
     declarationAST = parseProcFunc();
     do { 
@@ -902,10 +902,18 @@ public class Parser {
       {
         acceptIt();
         Identifier iAST = parseIdentifier();
-        accept(Token.COLON);
-        TypeDenoter tAST = parseTypeDenoter();
-        finish(declarationPos);
-        declarationAST = new VarDeclaration(iAST, tAST, declarationPos);
+        if (currentToken.kind == Token.COLON){    
+            accept(Token.COLON);
+            TypeDenoter tAST = parseTypeDenoter();
+            finish(declarationPos);
+            declarationAST = new VarDeclaration(iAST, tAST, declarationPos);
+        }
+        else if (currentToken.kind == Token.BECOMES){
+            accept(Token.BECOMES);
+            Expression eAST = parseExpression();
+            finish(declarationPos);
+            declarationAST = new AssignDeclaration(iAST, eAST, declarationPos);
+        }
       }
       break;
 
@@ -917,7 +925,8 @@ public class Parser {
         FormalParameterSequence fpsAST = parseFormalParameterSequence();
         accept(Token.RPAREN);
         accept(Token.IS);
-        Command cAST = parseSingleCommand();
+        Command cAST = parseCommand(); //SE MODIFICA DE SINGLE COMMAND A COMMAND
+        accept(Token.END); // SE Aï¿½ADE EL END AL FINAL
         finish(declarationPos);
         declarationAST = new ProcDeclaration(iAST, fpsAST, cAST, declarationPos);
       }
