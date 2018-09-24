@@ -809,15 +809,33 @@ public class Parser {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+//  Declaration parseDeclaration() throws SyntaxError {
+//    Declaration declarationAST = null; // in case there's a syntactic error
+//
+//    SourcePosition declarationPos = new SourcePosition();
+//    start(declarationPos);
+//    declarationAST = parseSingleDeclaration();
+//    while (currentToken.kind == Token.SEMICOLON) {
+//      acceptIt();
+//      Declaration d2AST = parseSingleDeclaration();
+//      finish(declarationPos);
+//      declarationAST = new SequentialDeclaration(declarationAST, d2AST,
+//        declarationPos);
+//    }
+//    return declarationAST;
+//  }
+
+  
+  //parseDeclaration modificado
   Declaration parseDeclaration() throws SyntaxError {
     Declaration declarationAST = null; // in case there's a syntactic error
 
     SourcePosition declarationPos = new SourcePosition();
     start(declarationPos);
-    declarationAST = parseSingleDeclaration();
+    declarationAST = parseCompoundDeclaration();
     while (currentToken.kind == Token.SEMICOLON) {
       acceptIt();
-      Declaration d2AST = parseSingleDeclaration();
+      Declaration d2AST = parseCompoundDeclaration();
       finish(declarationPos);
       declarationAST = new SequentialDeclaration(declarationAST, d2AST,
         declarationPos);
@@ -825,6 +843,39 @@ public class Parser {
     return declarationAST;
   }
 
+  Declaration parseCompoundDeclaration() throws SyntaxError {
+    Declaration declarationAST = null; // in case there's a syntactic error
+    
+    SourcePosition declarationPos = new SourcePosition();
+    start(declarationPos);
+    
+    switch(currentToken.kind){
+        case Token.RECURSIVE:
+        {
+            acceptIt();
+//            ProcFuncs pfAST = parseProcFuncs();
+            accept(Token.END);
+            finish(declarationPos);
+//            declarationAST = new RecursiveDeclaration(pfAST, declarationPos);
+        }
+        break;
+        
+        case Token.LOCAL:
+        {
+            acceptIt();
+            Declaration d1AST = parseDeclaration();
+            accept(Token.IN);
+            Declaration d2AST = parseDeclaration();
+            accept(Token.END);
+            finish(declarationPos);
+//            declarationAST = new LocalDeclaration(d1AST, d2AST, declarationPos);
+        }
+        break;
+    }
+    
+    return declarationAST;
+  }
+  
   Declaration parseSingleDeclaration() throws SyntaxError {
     Declaration declarationAST = null; // in case there's a syntactic error
 
