@@ -69,36 +69,36 @@ final class Token extends Object {
     // reserved words - must be in alphabetical order...
     ARRAY		= 4,
     //BEGIN		= 5,    //SE ELIMINA LA PALABRA RESERVADA BEGIN    
-    CASE                = 5,    //SE AÑADE LA PALABRA RESERVADA CASE
+    CASE                = 5,    //SE Aï¿½ADE LA PALABRA RESERVADA CASE
     CONST		= 6,
     DO			= 7,
     ELSE		= 8,
-    ELSIF               = 9,    //SE AÑADE LA PALABRA RESERVADA ELSIF
+    ELSIF               = 9,    //SE Aï¿½ADE LA PALABRA RESERVADA ELSIF
     END			= 10,
-    FOR                 = 11,   //SE AÑADE LA PALABRA RESERVADA FOR
-    FROM                = 12,   //SE AÑADE LA PALABRA RESERVADA FROM
+    FOR                 = 11,   //SE Aï¿½ADE LA PALABRA RESERVADA FOR
+    FROM                = 12,   //SE Aï¿½ADE LA PALABRA RESERVADA FROM
     FUNC		= 13,
     IF			= 14,
     IN			= 15,
     LET			= 16,
-    LOCAL               = 17,   //SE AÑADE LA PALABRA RESERVADA LOCAL
-    NIL                 = 18,   //SE AÑADE LA PALABRA RESERVADA NIL
+    LOCAL               = 17,   //SE Aï¿½ADE LA PALABRA RESERVADA LOCAL
+    NIL                 = 18,   //SE Aï¿½ADE LA PALABRA RESERVADA NIL
     OF			= 19,
     PROC		= 20,
     RECORD		= 21,
-    RECURSIVE           = 22,   //SE AÑADE LA PALABRA RESERVADA RECURSIVE
-    REPEAT              = 23,   //SE AÑADE LA PALABRA RESERVADA REPEAT
-    SELECT              = 24,   //SE AÑADE LA PALABRA RESERVADA SELECT
+    RECURSIVE           = 22,   //SE Aï¿½ADE LA PALABRA RESERVADA RECURSIVE
+    REPEAT              = 23,   //SE Aï¿½ADE LA PALABRA RESERVADA REPEAT
+    SELECT              = 24,   //SE Aï¿½ADE LA PALABRA RESERVADA SELECT
     THEN		= 25,
-    TO                  = 26,   //SE AÑADE LA PALABRA RESERVADA TO
+    TO                  = 26,   //SE Aï¿½ADE LA PALABRA RESERVADA TO
     TYPE		= 27,
-    UNTIL               = 28,   //SE AÑADE LA PALABRA RESERVADA UNTIL
+    UNTIL               = 28,   //SE Aï¿½ADE LA PALABRA RESERVADA UNTIL
     VAR			= 29,
     WHILE		= 30,
 
     // punctuation...
     DOT			= 31,
-    DOTDOT              = 32, //SE AÑADE EL DOBLE PUNTO
+    DOTDOT              = 32, //SE Aï¿½ADE EL DOBLE PUNTO
     COLON		= 33,
     SEMICOLON	        = 34,
     COMMA		= 35,
@@ -124,34 +124,34 @@ final class Token extends Object {
     "<operator>",
     "array",
     //"begin",     //SE ELIMINA LA PALABRA RESERVADA BEGIN
-    "case",        //SE AÑADE LA PALABRA RESERVADA CASE
+    "case",        //SE Aï¿½ADE LA PALABRA RESERVADA CASE
     "const",
     "do",
     "else",
-    "elsif",       //SE AÑADE LA PALABRA RESERVADA CASE
+    "elsif",       //SE Aï¿½ADE LA PALABRA RESERVADA CASE
     "end",
-    "for",         //SE AÑADE LA PALABRA RESERVADA CASE
-    "from",        //SE AÑADE LA PALABRA RESERVADA CASE
+    "for",         //SE Aï¿½ADE LA PALABRA RESERVADA CASE
+    "from",        //SE Aï¿½ADE LA PALABRA RESERVADA CASE
     "func",
     "if",
     "in",
     "let",
-    "local",      //SE AÑADE LA PALABRA RESERVADA CASE
-    "nil",        //SE AÑADE LA PALABRA RESERVADA CASE
+    "local",      //SE Aï¿½ADE LA PALABRA RESERVADA CASE
+    "nil",        //SE Aï¿½ADE LA PALABRA RESERVADA CASE
     "of",
     "proc",
     "record",
-    "recursive",  //SE AÑADE LA PALABRA RESERVADA CASE
-    "repeat",     //SE AÑADE LA PALABRA RESERVADA CASE
-    "select",     //SE AÑADE LA PALABRA RESERVADA CASE
+    "recursive",  //SE Aï¿½ADE LA PALABRA RESERVADA CASE
+    "repeat",     //SE Aï¿½ADE LA PALABRA RESERVADA CASE
+    "select",     //SE Aï¿½ADE LA PALABRA RESERVADA CASE
     "then",
-    "to",         //SE AÑADE LA PALABRA RESERVADA CASE
+    "to",         //SE Aï¿½ADE LA PALABRA RESERVADA CASE
     "type",
-    "until",      //SE AÑADE LA PALABRA RESERVADA CASE
+    "until",      //SE Aï¿½ADE LA PALABRA RESERVADA CASE
     "var",
     "while",
     ".",
-    "..",         //SE AÑADE EL DOBLE PUNTO   
+    "..",         //SE Aï¿½ADE EL DOBLE PUNTO   
     ":",
     ";",
     ",",
@@ -164,7 +164,8 @@ final class Token extends Object {
     "{",
     "}",
     "",
-    "<error>"
+    "<error>",
+    "|"
   };
 
   private final static int	firstReservedWord = Token.ARRAY,

@@ -15,7 +15,7 @@
 package Triangle.SyntacticAnalyzer;
 
 
-public final class Scanner {
+public final class Scanner { 
 
   private SourceFile sourceFile;
   private boolean debug;
