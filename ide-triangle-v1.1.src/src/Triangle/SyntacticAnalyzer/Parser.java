@@ -62,6 +62,11 @@ import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordAggregate;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
+import Triangle.AbstractSyntaxTrees.RepeatDoUntilCommand;
+import Triangle.AbstractSyntaxTrees.RepeatDoWhileCommand;
+import Triangle.AbstractSyntaxTrees.RepeatForCommand;
+import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
+import Triangle.AbstractSyntaxTrees.RepeatWhileCommand;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
@@ -81,6 +86,7 @@ import Triangle.AbstractSyntaxTrees.VarFormalParameter;
 import Triangle.AbstractSyntaxTrees.Vname;
 import Triangle.AbstractSyntaxTrees.VnameExpression;
 import Triangle.AbstractSyntaxTrees.WhileCommand;
+import java.util.Stack;
 
 public class Parser {
 
@@ -302,6 +308,16 @@ public class Parser {
         acceptIt();
         switch(currentToken.kind){
             case Token.WHILE:
+            {
+                acceptIt();
+                Expression eAST = parseExpression();
+                accept(Token.DO);
+                Command cAST = parseCommand();
+                accept(Token.END);
+                finish(commandPos);
+                commandAST = new RepeatWhileCommand(eAST, cAST, commandPos);
+            }
+                break;
             case Token.UNTIL:
             {
                 acceptIt();
@@ -310,7 +326,7 @@ public class Parser {
                 Command cAST = parseCommand();
                 accept(Token.END);
                 finish(commandPos);
-                commandAST = new WhileCommand(eAST, cAST, commandPos);
+                commandAST = new RepeatUntilCommand(eAST, cAST, commandPos);
             }
                 break;
             case Token.DO:
@@ -319,12 +335,21 @@ public class Parser {
                 Command cAST = parseCommand();
                 switch(currentToken.kind){
                     case Token.WHILE:
+                    {
+                        acceptIt();
+                        Expression eAST = parseExpression();
+                        accept(Token.END);
+                        finish(commandPos);
+                        commandAST = new RepeatDoWhileCommand(eAST, cAST, commandPos);
+                    }
+                        break;
                     case Token.UNTIL:
                     {
                         acceptIt();
                         Expression eAST = parseExpression();
                         accept(Token.END);
-                        commandAST = new WhileCommand(eAST, cAST, commandPos);
+                        finish(commandPos);
+                        commandAST = new RepeatDoUntilCommand(eAST, cAST, commandPos);
                     }
                         break;
                     default:
@@ -346,6 +371,8 @@ public class Parser {
                 Command cAST = parseCommand();
                 accept(Token.END);
                 //HACE FALTA EL AST
+                finish(commandPos);
+                commandAST = new RepeatForCommand(iAST, e1AST, e2AST, cAST, commandPos);
             }
                 break;
             default:
@@ -369,22 +396,34 @@ public class Parser {
         
     case Token.IF:
     {
+        Stack st = new Stack();
         acceptIt();
         Expression e1AST = parseExpression();
+        st.push(e1AST);
         accept(Token.THEN);
         Command c1AST = parseCommand();
+        st.push(c1AST);
         while (currentToken.kind == Token.ELSIF){
             acceptIt();
             Expression e2AST = parseExpression();
+            st.push(e2AST);
             accept(Token.THEN);
             Command c2AST = parseCommand();
-            c1AST = new IfCommand(e2AST, c1AST, c2AST, commandPos);
+            st.push(c2AST);
         }
+        
         accept(Token.ELSE);
-        Command c3AST = parseCommand();
+        c1AST = parseCommand();
         accept(Token.END);
+        
+        while (!st.empty()){
+            Command c2AST = (Command) st.pop();
+            Expression e2AST = (Expression) st.pop();
+            c1AST = new IfCommand(e2AST, c2AST, c1AST, commandPos);
+        }
+        
         finish(commandPos);
-        commandAST = new IfCommand(e1AST, c1AST, c3AST, commandPos);
+        commandAST = c1AST;
     }
         break;
     case Token.SELECT:

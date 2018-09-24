@@ -49,6 +49,11 @@ import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
 import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
+import Triangle.AbstractSyntaxTrees.RepeatDoUntilCommand;
+import Triangle.AbstractSyntaxTrees.RepeatDoWhileCommand;
+import Triangle.AbstractSyntaxTrees.RepeatForCommand;
+import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
+import Triangle.AbstractSyntaxTrees.RepeatWhileCommand;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
@@ -126,6 +131,47 @@ public class TableVisitor implements Visitor {
       
       return(null);
   }
+   //Se añade la implementación de visitRepeatDoUntilCommand
+  public Object visitRepeatDoUntilCommand(RepeatDoUntilCommand ast, Object o) { 
+      ast.E.visit(this, null);
+      ast.C.visit(this, null);
+      
+      return(null);
+  }
+  
+   //Se añade la implementación de visitRepeatDoUntilCommand
+  public Object visitRepeatDoWhileCommand(RepeatDoWhileCommand ast, Object o) { 
+      ast.E.visit(this, null);
+      ast.C.visit(this, null);
+      
+      return(null);
+  }
+  
+   //Se añade la implementación de visitRepeatDoUntilCommand
+  public Object visitRepeatForCommand(RepeatForCommand ast, Object o) { 
+      ast.I.visit(this, null);
+      ast.E1.visit(this, null);
+      ast.E2.visit(this, null);
+      ast.C.visit(this, null);
+      
+      return(null);
+  }
+  
+  //Se añade la implementación de visitRepeatUntilCommand
+  public Object visitRepeatUntilCommand(RepeatUntilCommand ast, Object o) { 
+      ast.E.visit(this, null);
+      ast.C.visit(this, null);
+      
+      return(null);
+  }
+  
+  //Se añade la implementación de visitRepeatWhileCommand
+  public Object visitRepeatWhileCommand(RepeatWhileCommand ast, Object o) { 
+      ast.E.visit(this, null);
+      ast.C.visit(this, null);
+      
+      return(null);
+  }
   
   public Object visitSequentialCommand(SequentialCommand ast, Object o) { 
       ast.C1.visit(this, null);
@@ -140,6 +186,7 @@ public class TableVisitor implements Visitor {
       
       return(null);
   }
+  
   // </editor-fold>
 
   // <editor-fold defaultstate="collapsed" desc=" Expressions ">
