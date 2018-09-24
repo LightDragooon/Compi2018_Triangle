@@ -21,6 +21,7 @@ import Triangle.AbstractSyntaxTrees.ArrayAggregate;
 import Triangle.AbstractSyntaxTrees.ArrayExpression;
 import Triangle.AbstractSyntaxTrees.ArrayTypeDenoter;
 import Triangle.AbstractSyntaxTrees.AssignCommand;
+import Triangle.AbstractSyntaxTrees.AssignDeclaration;
 import Triangle.AbstractSyntaxTrees.BinaryExpression;
 import Triangle.AbstractSyntaxTrees.CallCommand;
 import Triangle.AbstractSyntaxTrees.CallExpression;
@@ -904,13 +905,13 @@ public class Parser {
         acceptIt();
         Identifier iAST = parseIdentifier();
         if (currentToken.kind == Token.COLON){    
-            accept(Token.COLON);
+            acceptIt();
             TypeDenoter tAST = parseTypeDenoter();
             finish(declarationPos);
             declarationAST = new VarDeclaration(iAST, tAST, declarationPos);
         }
         else if (currentToken.kind == Token.BECOMES){
-            accept(Token.BECOMES);
+            acceptIt();
             Expression eAST = parseExpression();
             finish(declarationPos);
             declarationAST = new AssignDeclaration(iAST, eAST, declarationPos);
