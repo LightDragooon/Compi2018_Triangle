@@ -353,7 +353,81 @@ public class Parser {
 
     return commandAST;
   }
+  
+  
+  
+  Declaration parseProcFunc() throws SyntaxError {
+    Declaration declarationAST = null; // in case there's a syntactic error
 
+    SourcePosition declarationPos = new SourcePosition(); // Posición Actual en el buffer
+    start(declarationPos); // Establece esta posicion
+
+    switch (currentToken.kind) { 
+
+    case Token.PROC:
+      {
+        acceptIt();
+        Identifier iAST = parseIdentifier();
+        accept(Token.LPAREN);
+        FormalParameterSequence fpsAST = parseFormalParameterSequence();
+        accept(Token.RPAREN);
+        accept(Token.IS);
+        Command cAST = parseCommand();  
+        accept(Token.END);
+        finish(declarationPos);
+        declarationAST = new ProcDeclaration(iAST, fpsAST, cAST, declarationPos); 
+
+        
+      }
+      
+    break;
+    
+    case Token.FUNC:
+      {
+        acceptIt();
+        Identifier iAST = parseIdentifier();
+        accept(Token.LPAREN);
+        FormalParameterSequence fpsAST = parseFormalParameterSequence();
+        accept(Token.RPAREN);
+        accept(Token.COLON);
+        TypeDenoter tAST = parseTypeDenoter();
+        accept(Token.IS);
+        Expression eAST = parseExpression();
+        finish(declarationPos);
+        declarationAST = new FuncDeclaration(iAST, fpsAST, tAST, eAST,declarationPos);
+      }
+      
+    break;
+      
+    default:
+      syntacticError("\"%\" cannot start a command",
+        currentToken.spelling);
+      
+    break;
+           
+    }
+    return declarationAST;
+  }
+  
+  // ProcFunc (|ProcFunc)+  
+  // Declaración secuencial. El ciclo se repite 1 o más veces
+  
+  Declaration parseProcFuncs() throws SyntaxError {
+    Declaration declarationAST = null; // in case there's a syntactic error
+
+    SourcePosition declarationPos = new SourcePosition(); // Posición Actual en el buffer
+    start(declarationPos); // Establece esta posicion
+    declarationAST = parseProcFunc();
+    do { 
+        acceptIt();
+        Declaration d2AST = parseProcFunc();
+        finish(declarationPos);
+        declarationAST = new SequentialDeclaration(declarationAST, d2AST, declarationPos);
+    } while (currentToken.kind == Token.PALITO);
+    
+    return declarationAST;
+  }
+  
 ///////////////////////////////////////////////////////////////////////////////
 //
 // EXPRESSIONS
