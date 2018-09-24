@@ -852,10 +852,9 @@ public class Parser {
         case Token.RECURSIVE:
         {
             acceptIt();
-//            ProcFuncs pfAST = parseProcFuncs();
+            Declaration pfAST = parseProcFuncs();
             accept(Token.END);
             finish(declarationPos);
-//            declarationAST = new RecursiveDeclaration(pfAST, declarationPos);
         }
         break;
         
@@ -870,6 +869,11 @@ public class Parser {
 //            declarationAST = new LocalDeclaration(d1AST, d2AST, declarationPos);
         }
         break;
+        
+        default:
+        {
+            parseSingleDeclaration();
+        }
     }
     
     return declarationAST;
