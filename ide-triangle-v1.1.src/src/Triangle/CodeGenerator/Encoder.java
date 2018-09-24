@@ -57,6 +57,7 @@ import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
+import Triangle.AbstractSyntaxTrees.LocalDeclaration;
 import Triangle.AbstractSyntaxTrees.MultipleActualParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
@@ -140,6 +141,14 @@ public final class Encoder implements Visitor {
     ast.C.visit(this, new Frame(frame, extraSize));
     if (extraSize > 0)
       emit(Machine.POPop, 0, 0, extraSize);
+    return null;
+  }
+  
+    public Object visitLocalDeclaration(LocalDeclaration ast, Object o) {
+//    Frame frame = (Frame) o;
+//    Integer valSize = (Integer) ast.E.visit(this, frame);
+//    encodeStore(ast.V, new Frame (frame, valSize.intValue()),
+//		valSize.intValue());
     return null;
   }
     //Se añade visitRepeatUntilCommand

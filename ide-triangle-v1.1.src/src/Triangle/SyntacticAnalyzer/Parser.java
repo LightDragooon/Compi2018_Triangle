@@ -49,6 +49,7 @@ import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
+import Triangle.AbstractSyntaxTrees.LocalDeclaration;
 import Triangle.AbstractSyntaxTrees.MultipleActualParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
@@ -867,7 +868,7 @@ public class Parser {
             Declaration d2AST = parseDeclaration();
             accept(Token.END);
             finish(declarationPos);
-//            declarationAST = new LocalDeclaration(d1AST, d2AST, declarationPos);
+            declarationAST = new LocalDeclaration(d1AST, d2AST, declarationPos);
         }
         break;
         
