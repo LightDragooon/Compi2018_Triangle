@@ -5,6 +5,7 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             <file>file:/C:/Users/Josua/Documents/TEC/Compiladores/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/SyntacticAnalyzer/Parser.java</file>
             <file>file:/C:/Users/Josua/Documents/TEC/Compiladores/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/SyntacticAnalyzer/Token.java</file>
             <file>file:/C:/Users/Josua/Documents/TEC/Compiladores/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/SyntacticAnalyzer/Scanner.java</file>
@@ -12,6 +13,18 @@
             <file>file:/D:/Users/joser/Documents/2018/SEMESTRE%20II/Compiladores/Proyectos/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/SyntacticAnalyzer/Parser.java</file>
             <file>file:/D:/Users/joser/Documents/2018/SEMESTRE%20II/Compiladores/Proyectos/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/AbstractSyntaxTrees/Visitor.java</file>
             <file>file:/D:/Users/joser/Documents/2018/SEMESTRE%20II/Compiladores/Proyectos/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/AbstractSyntaxTrees/ConstDeclaration.java</file>
+>>>>>>> Stashed changes
+=======
+            <file>file:/C:/Users/Esteban/OneDrive/TEC/Semestre_VI_2018/Compiladores%20e%20Interpretes/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/AbstractSyntaxTrees/Visitor.java</file>
+            <file>file:/C:/Users/Esteban/OneDrive/TEC/Semestre_VI_2018/Compiladores%20e%20Interpretes/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/CodeGenerator/Encoder.java</file>
+            <file>file:/C:/Users/Esteban/OneDrive/TEC/Semestre_VI_2018/Compiladores%20e%20Interpretes/Compi2018_Triangle/ide-triangle-v1.1.src/src/Core/Visitors/TreeVisitor.java</file>
+            <file>file:/C:/Users/Esteban/OneDrive/TEC/Semestre_VI_2018/Compiladores%20e%20Interpretes/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/ContextualAnalyzer/Checker.java</file>
+            <file>file:/C:/Users/Esteban/OneDrive/TEC/Semestre_VI_2018/Compiladores%20e%20Interpretes/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/TreeDrawer/LayoutVisitor.java</file>
+            <file>file:/C:/Users/Esteban/OneDrive/TEC/Semestre_VI_2018/Compiladores%20e%20Interpretes/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/AbstractSyntaxTrees/IfCommand.java</file>
+            <file>file:/C:/Users/Esteban/OneDrive/TEC/Semestre_VI_2018/Compiladores%20e%20Interpretes/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/SyntacticAnalyzer/Scanner.java</file>
+            <file>file:/C:/Users/Esteban/OneDrive/TEC/Semestre_VI_2018/Compiladores%20e%20Interpretes/Compi2018_Triangle/ide-triangle-v1.1.src/src/Core/Visitors/TableVisitor.java</file>
+            <file>file:/C:/Users/Esteban/OneDrive/TEC/Semestre_VI_2018/Compiladores%20e%20Interpretes/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/SyntacticAnalyzer/Token.java</file>
+            <file>file:/C:/Users/Esteban/OneDrive/TEC/Semestre_VI_2018/Compiladores%20e%20Interpretes/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/SyntacticAnalyzer/Parser.java</file>
 >>>>>>> Stashed changes
         </group>
     </open-files>

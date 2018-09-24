@@ -371,7 +371,6 @@ public class Parser {
                 accept(Token.DO);
                 Command cAST = parseCommand();
                 accept(Token.END);
-                //HACE FALTA EL AST
                 finish(commandPos);
                 commandAST = new RepeatForCommand(iAST, e1AST, e2AST, cAST, commandPos);
             }
