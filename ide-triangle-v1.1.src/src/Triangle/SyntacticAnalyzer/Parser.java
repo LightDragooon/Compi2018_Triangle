@@ -573,7 +573,7 @@ public class Parser {
         Declaration d2AST = parseProcFunc();
         finish(declarationPos);
         declarationAST = new SequentialDeclaration(declarationAST, d2AST, declarationPos);
-    } while (currentToken.kind == Token.PALITO);
+    } while (currentToken.kind == Token.OPERATOR);
     
     return declarationAST;
   }
