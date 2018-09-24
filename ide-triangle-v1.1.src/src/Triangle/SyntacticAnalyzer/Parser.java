@@ -62,6 +62,11 @@ import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordAggregate;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
+import Triangle.AbstractSyntaxTrees.RepeatDoUntilCommand;
+import Triangle.AbstractSyntaxTrees.RepeatDoWhileCommand;
+import Triangle.AbstractSyntaxTrees.RepeatForCommand;
+import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
+import Triangle.AbstractSyntaxTrees.RepeatWhileCommand;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
@@ -81,6 +86,7 @@ import Triangle.AbstractSyntaxTrees.VarFormalParameter;
 import Triangle.AbstractSyntaxTrees.Vname;
 import Triangle.AbstractSyntaxTrees.VnameExpression;
 import Triangle.AbstractSyntaxTrees.WhileCommand;
+import java.util.Stack;
 
 public class Parser {
 
@@ -292,13 +298,152 @@ public class Parser {
         }
       }
       break;
-    /*
+    case Token.NIL:
+      acceptIt();
+      finish(commandPos);
+      commandAST = new EmptyCommand(commandPos);
+      break;
+      
+    case Token.REPEAT:
+        acceptIt();
+        switch(currentToken.kind){
+            case Token.WHILE:
+            {
+                acceptIt();
+                Expression eAST = parseExpression();
+                accept(Token.DO);
+                Command cAST = parseCommand();
+                accept(Token.END);
+                finish(commandPos);
+                commandAST = new RepeatWhileCommand(eAST, cAST, commandPos);
+            }
+                break;
+            case Token.UNTIL:
+            {
+                acceptIt();
+                Expression eAST = parseExpression();
+                accept(Token.DO);
+                Command cAST = parseCommand();
+                accept(Token.END);
+                finish(commandPos);
+                commandAST = new RepeatUntilCommand(eAST, cAST, commandPos);
+            }
+                break;
+            case Token.DO:
+            {
+                acceptIt();
+                Command cAST = parseCommand();
+                switch(currentToken.kind){
+                    case Token.WHILE:
+                    {
+                        acceptIt();
+                        Expression eAST = parseExpression();
+                        accept(Token.END);
+                        finish(commandPos);
+                        commandAST = new RepeatDoWhileCommand(eAST, cAST, commandPos);
+                    }
+                        break;
+                    case Token.UNTIL:
+                    {
+                        acceptIt();
+                        Expression eAST = parseExpression();
+                        accept(Token.END);
+                        finish(commandPos);
+                        commandAST = new RepeatDoUntilCommand(eAST, cAST, commandPos);
+                    }
+                        break;
+                    default:
+                        syntacticError("\"%\" expected a different word",
+                          currentToken.spelling);
+                        break;
+                }
+            }
+                break;
+            case Token.FOR:
+            {
+                acceptIt();
+                Identifier iAST = parseIdentifier();
+                accept(Token.FROM);
+                Expression e1AST = parseExpression();
+                accept(Token.TO);
+                Expression e2AST = parseExpression();
+                accept(Token.DO);
+                Command cAST = parseCommand();
+                accept(Token.END);
+                //HACE FALTA EL AST
+                finish(commandPos);
+                commandAST = new RepeatForCommand(iAST, e1AST, e2AST, cAST, commandPos);
+            }
+                break;
+            default:
+                syntacticError("\"%\" expected a different word",
+                  currentToken.spelling);
+                break;
+        }
+        break;
+      
+    case Token.LET:
+    {
+        acceptIt();
+        Declaration dAST = parseDeclaration();
+        accept(Token.IN);
+        Command cAST = parseCommand();
+        accept(Token.END);
+        finish(commandPos);
+        commandAST = new LetCommand(dAST, cAST, commandPos);
+    }
+        break;
+        
+    case Token.IF:
+    {
+        Stack st = new Stack();
+        acceptIt();
+        Expression e1AST = parseExpression();
+        st.push(e1AST);
+        accept(Token.THEN);
+        Command c1AST = parseCommand();
+        st.push(c1AST);
+        while (currentToken.kind == Token.ELSIF){
+            acceptIt();
+            Expression e2AST = parseExpression();
+            st.push(e2AST);
+            accept(Token.THEN);
+            Command c2AST = parseCommand();
+            st.push(c2AST);
+        }
+        
+        accept(Token.ELSE);
+        c1AST = parseCommand();
+        accept(Token.END);
+        
+        while (!st.empty()){
+            Command c2AST = (Command) st.pop();
+            Expression e2AST = (Expression) st.pop();
+            c1AST = new IfCommand(e2AST, c2AST, c1AST, commandPos);
+        }
+        
+        finish(commandPos);
+        commandAST = c1AST;
+    }
+        break;
+    case Token.SELECT:
+    {
+        acceptIt();
+        Expression eAST = parseExpression();
+        accept(Token.FROM);
+        //CASES
+        accept(Token.END);
+    }
+        break;
+     
+    /* SE ELIMINA LA ALTERNATIVA: "begin" Command "end"
     case Token.BEGIN:
       acceptIt();
-      commandAST = parseCommand();  //EL COMANDO BEGIN YA NO EXISTE
+      commandAST = parseCommand();
       accept(Token.END);
       break;
     */
+    /* SE ELIMINA LA ALTERNATIVA:  "let" Declaration "in" single-Command
     case Token.LET:
       {
         acceptIt();
@@ -309,7 +454,8 @@ public class Parser {
         commandAST = new LetCommand(dAST, cAST, commandPos);
       }
       break;
-
+    */
+    /* SE ELIMINA LA ALTERNATIVA:  "if" Expression "then" single-Command "else" single-Command
     case Token.IF:
       {
         acceptIt();
@@ -322,7 +468,8 @@ public class Parser {
         commandAST = new IfCommand(eAST, c1AST, c2AST, commandPos);
       }
       break;
-
+    */
+    /* SE ELIMINA LA ALTERNATIVA:  "while" Expression "do" single-Command
     case Token.WHILE:
       {
         acceptIt();
@@ -333,7 +480,9 @@ public class Parser {
         commandAST = new WhileCommand(eAST, cAST, commandPos);
       }
       break;
-
+    */
+     
+    /* SE ELIMINA LA ALTERNATIVA:  VACIO
     case Token.SEMICOLON:
     case Token.END:
     case Token.ELSE:
@@ -343,7 +492,8 @@ public class Parser {
       finish(commandPos);
       commandAST = new EmptyCommand(commandPos);
       break;
-
+    */
+      
     default:
       syntacticError("\"%\" cannot start a command",
         currentToken.spelling);

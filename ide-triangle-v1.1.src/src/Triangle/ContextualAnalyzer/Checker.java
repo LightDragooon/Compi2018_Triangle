@@ -64,6 +64,11 @@ import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
 import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
+import Triangle.AbstractSyntaxTrees.RepeatDoUntilCommand;
+import Triangle.AbstractSyntaxTrees.RepeatDoWhileCommand;
+import Triangle.AbstractSyntaxTrees.RepeatForCommand;
+import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
+import Triangle.AbstractSyntaxTrees.RepeatWhileCommand;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
@@ -139,6 +144,54 @@ public final class Checker implements Visitor {
     idTable.closeScope();
     return null;
   }
+  
+      //Se añade visitRepeatWhileCommand
+    public Object visitRepeatDoUntilCommand(RepeatDoUntilCommand ast, Object o) {
+        /*
+        TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+        if (! eType.equals(StdEnvironment.booleanType))
+          reporter.reportError("Boolean expression expected here", "", ast.E.position);
+        ast.C.visit(this, null);*/
+        return null;
+    }
+      //Se añade visitRepeatWhileCommand
+    public Object visitRepeatDoWhileCommand(RepeatDoWhileCommand ast, Object o) {
+        /*
+        TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+        if (! eType.equals(StdEnvironment.booleanType))
+          reporter.reportError("Boolean expression expected here", "", ast.E.position);
+        ast.C.visit(this, null);*/
+        return null;
+    }
+    
+    //Se añade visitRepeatWhileCommand
+    public Object visitRepeatForCommand(RepeatForCommand ast, Object o) {
+        /*
+        TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+        if (! eType.equals(StdEnvironment.booleanType))
+          reporter.reportError("Boolean expression expected here", "", ast.E.position);
+        ast.C.visit(this, null);*/
+        return null;
+    }
+    
+    //Se añade visitRepeatWhileCommand
+    public Object visitRepeatUntilCommand(RepeatUntilCommand ast, Object o) {
+        /*
+        TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+        if (! eType.equals(StdEnvironment.booleanType))
+          reporter.reportError("Boolean expression expected here", "", ast.E.position);
+        ast.C.visit(this, null);*/
+        return null;
+    }
+    
+    //Se añade visitRepeatWhileCommand
+    public Object visitRepeatWhileCommand(RepeatWhileCommand ast, Object o) {
+        TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+        if (! eType.equals(StdEnvironment.booleanType))
+          reporter.reportError("Boolean expression expected here", "", ast.E.position);
+        ast.C.visit(this, null);
+        return null;
+    }
 
   public Object visitSequentialCommand(SequentialCommand ast, Object o) {
     ast.C1.visit(this, null);
