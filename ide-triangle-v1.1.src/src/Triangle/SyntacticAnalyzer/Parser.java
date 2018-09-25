@@ -856,7 +856,6 @@ public class Parser {
             acceptIt();
             Declaration pfAST = parseProcFuncs();
             accept(Token.END);
-            finish(declarationPos);
         }
         break;
         
@@ -983,9 +982,10 @@ public class Parser {
     SourcePosition formalsPos = new SourcePosition();
 
     start(formalsPos);
-    if (currentToken.kind == Token.RPAREN) {
-      finish(formalsPos);
-      formalsAST = new EmptyFormalParameterSequence(formalsPos);
+    if (currentToken.kind == Token.NIL) {
+        acceptIt();
+        finish(formalsPos);
+        formalsAST = new EmptyFormalParameterSequence(formalsPos);
 
     } else {
       formalsAST = parseProperFormalParameterSequence();
@@ -1084,7 +1084,7 @@ public class Parser {
     SourcePosition actualsPos = new SourcePosition();
 
     start(actualsPos);
-    if (currentToken.kind == Token.RPAREN) {
+    if (currentToken.kind == Token.NIL) {
       finish(actualsPos);
       actualsAST = new EmptyActualParameterSequence(actualsPos);
 
@@ -1201,6 +1201,10 @@ public class Parser {
       {
         acceptIt();
         IntegerLiteral ilAST = parseIntegerLiteral();
+        if (currentToken.kind == Token.DOTDOT){
+            acceptIt();
+            IntegerLiteral i2AST = parseIntegerLiteral();
+        }
         accept(Token.OF);
         TypeDenoter tAST = parseTypeDenoter();
         finish(typePos);
