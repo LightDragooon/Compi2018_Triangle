@@ -56,6 +56,7 @@ import Triangle.AbstractSyntaxTrees.RepeatDoWhileCommand;
 import Triangle.AbstractSyntaxTrees.RepeatForCommand;
 import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
 import Triangle.AbstractSyntaxTrees.RepeatWhileCommand;
+import Triangle.AbstractSyntaxTrees.SequentialCase;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
@@ -98,6 +99,13 @@ public class TableVisitor implements Visitor {
     /** Creates a new instance of TableDetails */
     public TableVisitor() {        
     }
+  //Case
+    public Object visitSequentialCase(SequentialCase ast, Object o) { 
+      ast.C1.visit(this, null);
+      ast.C2.visit(this, null);
+      
+      return(null);
+  }
 
   // <editor-fold defaultstate="collapsed" desc=" Commands ">
   // Commands
