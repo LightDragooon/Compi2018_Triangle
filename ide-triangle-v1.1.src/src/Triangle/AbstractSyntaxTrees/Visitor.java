@@ -15,7 +15,7 @@
 package Triangle.AbstractSyntaxTrees;
 
 public interface Visitor {
-
+    
   // Commands
   public abstract Object visitAssignCommand(AssignCommand ast, Object o);
   public abstract Object visitCallCommand(CallCommand ast, Object o);
@@ -29,7 +29,10 @@ public interface Visitor {
   public abstract Object visitRepeatWhileCommand(RepeatWhileCommand ast, Object o);
   public abstract Object visitSequentialCommand(SequentialCommand ast, Object o);
   public abstract Object visitWhileCommand(WhileCommand ast, Object o);
-
+  
+  //Case
+  
+  public abstract Object visitSequentialCase(SequentialCase ast, Object o);
 
   // Expressions
   public abstract Object visitArrayExpression(ArrayExpression ast, Object o);

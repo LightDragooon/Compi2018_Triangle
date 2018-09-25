@@ -68,6 +68,7 @@ import Triangle.AbstractSyntaxTrees.RepeatDoWhileCommand;
 import Triangle.AbstractSyntaxTrees.RepeatForCommand;
 import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
 import Triangle.AbstractSyntaxTrees.RepeatWhileCommand;
+import Triangle.AbstractSyntaxTrees.SequentialCase;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
@@ -97,6 +98,11 @@ public class LayoutVisitor implements Visitor {
 
   public LayoutVisitor (FontMetrics fontMetrics) {
     this.fontMetrics = fontMetrics;
+  }
+  //Case
+  
+  public Object visitSequentialCase(SequentialCase ast, Object obj){
+      return layoutBinary("Seq.Case", ast.C1 , ast.C2);
   }
 
   // Commands
