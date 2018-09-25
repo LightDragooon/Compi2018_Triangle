@@ -1,0 +1,26 @@
+!MODIFICACIONES A SINGLE-COMMAND
+nil;
+repeat while myExpr1 do myCommand1 := 1 end;
+repeat until myExpr2 do myCommand2 := 2 end;
+repeat do myCommand3 := 3 while myExpr3 end;
+repeat do myCommand4 := 4 until myExpr4 end;
+repeat for myIdent5 from myExpr51 to myExpr52 do myCommand5 := 5 end;
+let 
+!DECLARATION Y COMPOUND-DECLARATION
+var myIdent6 : typeDenoter6;
+recursive
+!PROC-FUNCS
+proc myIdent71 (nil) ~ myCommand7 := 7 end | func myIdent72 (nil) : typeDenoter7 ~ myExpr7
+!PROC-FUNCS
+end;
+local proc myIdent81(nil) ~ myCommand8 := 8 end in var myIdent82 := myExpr82 end
+!DECLARATION Y COMPOUND-DECLARATION
+in myCommand9 := 9 end;
+!ANIDACION DE IF's
+if 1 then myVar1 := 1
+elsif 2 then myVar2 := 2
+elsif 3 then myVar3 := 3
+else myVar4 := 4 end!ACA DEBE DE COLOCAR UN ';' SI DESEA PROBAR LOS CASES
+!ANIDACION DE IF's
+!select myExpreA from case 1 | 2 | 3 then myCommandA := 10 case 'A' then myCommandA2 := 100 else myCommandA3 := 1000
+!select myExpreB from case 1 | '2' | 3 then myCommandB := 11 case 'B' then myCommandA2 := 111

@@ -854,7 +854,7 @@ public class Parser {
         case Token.RECURSIVE:
         {
             acceptIt();
-            Declaration pfAST = parseProcFuncs();
+            declarationAST = parseProcFuncs();
             accept(Token.END);
         }
         break;
@@ -873,7 +873,7 @@ public class Parser {
         
         default:
         {
-            parseSingleDeclaration();
+            declarationAST = parseSingleDeclaration();
         }
     }
     
