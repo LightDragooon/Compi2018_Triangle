@@ -165,7 +165,8 @@ final class Token extends Object {
     "{",
     "}",
     "",
-    "<error>"
+    "<error>",
+    "|"         // SE AÑADE PIPE
   };
 
   private final static int	firstReservedWord = Token.ARRAY,
