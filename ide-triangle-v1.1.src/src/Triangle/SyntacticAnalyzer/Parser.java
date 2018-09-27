@@ -78,6 +78,7 @@ import Triangle.AbstractSyntaxTrees.SequentialCase;
 import Triangle.AbstractSyntaxTrees.SequentialCaseLiteral;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
+import Triangle.AbstractSyntaxTrees.SequentialElseCase;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleVname;
 import Triangle.AbstractSyntaxTrees.SingleActualParameterSequence;
@@ -287,14 +288,13 @@ public class Parser {
       
       SourcePosition casePos = new SourcePosition();
       start(casePos);
-      if (currentToken.kind == Token.CASE){
-          acceptIt();
-          commandAST = parseCaseLiterals();
-          accept(Token.THEN);
-          Command c1AST = parseCommand();
-          finish(casePos);
-          commandAST = new CaseCommand(commandAST, c1AST, casePos);//Este es el arbol del case
-      }
+      accept(Token.CASE);
+      commandAST = parseCaseLiterals();
+      accept(Token.THEN);
+      Command c1AST = parseCommand();
+      finish(casePos);
+      commandAST = new CaseCommand(commandAST, c1AST, casePos);//Este es el arbol del case
+      
       
       return commandAST;
   }
@@ -337,6 +337,13 @@ public class Parser {
         commandAST = new CharacterCommand(clAST, commandPos);
       }
       break;
+      
+    default:
+        {
+        syntacticError("\"%\" found. Expected a <IntegerLiteral> or <CharacterLiteral>",
+            currentToken.spelling);
+        }
+        break;
                                   
       }
       return commandAST;
@@ -464,7 +471,7 @@ public class Parser {
                     }
                         break;
                     default:
-                        syntacticError("\"%\" expected a different word",
+                        syntacticError("\"%\" expected one of te following words: [while, until]",
                           currentToken.spelling);
                         break;
                 }
@@ -487,7 +494,7 @@ public class Parser {
             }
                 break;
             default:
-                syntacticError("\"%\" expected a different word",
+                syntacticError("\"%\" expected one of te following words: [while, until, do, for]",
                   currentToken.spelling);
                 break;
         }
@@ -697,7 +704,7 @@ public class Parser {
         Declaration d2AST = parseProcFunc();
         finish(declarationPos);
         declarationAST = new SequentialDeclaration(declarationAST, d2AST, declarationPos);
-    } while (currentToken.kind == Token.OPERATOR);
+    } while (currentToken.kind == Token.PIPE);
     
     return declarationAST;
   }

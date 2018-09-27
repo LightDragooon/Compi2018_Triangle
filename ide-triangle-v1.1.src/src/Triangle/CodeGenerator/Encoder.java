@@ -106,10 +106,6 @@ import Triangle.AbstractSyntaxTrees.WhileCommand;
 
 public final class Encoder implements Visitor {
 
-//Case 
-    public Object visitSequentialCaseLiteral (SequentialCaseLiteral ast, Object o){
-        return null;
-    }
   // Commands
   public Object visitAssignCommand(AssignCommand ast, Object o) {
     Frame frame = (Frame) o;
@@ -263,7 +259,11 @@ public final class Encoder implements Visitor {
         ast.C1.visit(this, o);
         ast.C2.visit(this, o);
         return null;
-    }   
+    }  
+    
+    public Object visitSequentialCaseLiteral (SequentialCaseLiteral ast, Object o){
+        return null;
+    }
     
     public Object visitSequentialCommand(SequentialCommand ast, Object o) {
         ast.C1.visit(this, o);

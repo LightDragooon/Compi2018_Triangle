@@ -1,0 +1,12 @@
+!"select" Expression "from" Cases "end"
+!REGLAS DEL CASE
+!Cases         ::= Case+ [ ElseCase ]
+!Case          ::= "case" Case-Literals "then" Command
+!ElseCase      ::= "else" Command
+!Case-Literals ::= Case-Literal ("|" Case-Literal)*
+!Case-Literal ::= Integer-Literal | Character-Literal
+
+select myExpreA from 
+  case 1 | 2 | 3 | then !Al realizar el análisis se da cuenta que no debe ir un '&' sino un 'then'
+    putInt(1) 
+end

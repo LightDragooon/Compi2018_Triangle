@@ -100,11 +100,6 @@ public class TreeVisitor implements Visitor {
     public TreeVisitor() {
     }
     
-    //Case
-    public Object visitSequentialCaseLiteral(SequentialCaseLiteral ast, Object o) {
-        return(createBinary("Assign Command", ast.C1, ast.C2));
-    }
-    
     // <editor-fold defaultstate="collapsed" desc=" Commands ">    
     // Commands  
     public Object visitAssignCommand(AssignCommand ast, Object o) {
@@ -170,6 +165,10 @@ public class TreeVisitor implements Visitor {
     
     public Object visitSequentialCase(SequentialCase ast, Object o) { 
         return(createBinary("Sequential Case", ast.C1, ast.C2));
+    }
+    
+    public Object visitSequentialCaseLiteral(SequentialCaseLiteral ast, Object o) {
+        return(createBinary("Sequential Case Literal", ast.C1, ast.C2));
     }
       
     public Object visitSequentialCommand(SequentialCommand ast, Object obj) {

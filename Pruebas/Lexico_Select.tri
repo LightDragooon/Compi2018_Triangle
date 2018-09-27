@@ -1,0 +1,15 @@
+select myExpreA from 
+
+case 1 | 2 | 3 then 
+
+	myCommandA := 10 
+end 
+case 'A' then 
+
+	myCommandA2 := 100 
+end
+else 
+
+	myCommandA3 := 1000
+end
+end

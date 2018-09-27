@@ -105,13 +105,6 @@ public class TableVisitor implements Visitor {
     /** Creates a new instance of TableDetails */
     public TableVisitor() {        
     }
-  //Case
-    public Object visitSequentialCaseLiteral(SequentialCaseLiteral ast, Object o) { 
-      ast.C1.visit(this, null);
-      ast.C2.visit(this, null);
-      
-      return(null);
-  }
 
   // <editor-fold defaultstate="collapsed" desc=" Commands ">
   // Commands
@@ -214,12 +207,19 @@ public class TableVisitor implements Visitor {
       return(null);
   }
   
-  public Object visitSequentialCase(SequentialCase ast, Object o) { 
+    public Object visitSequentialCase(SequentialCase ast, Object o) { 
+        ast.C1.visit(this, null);
+        ast.C2.visit(this, null);
+
+        return(null);
+    }
+  
+    public Object visitSequentialCaseLiteral(SequentialCaseLiteral ast, Object o) { 
       ast.C1.visit(this, null);
       ast.C2.visit(this, null);
-
+      
       return(null);
-  }
+    }
   
     public Object visitSequentialCommand(SequentialCommand ast, Object o) { 
         ast.C1.visit(this, null);

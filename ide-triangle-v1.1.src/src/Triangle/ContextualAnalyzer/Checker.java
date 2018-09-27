@@ -102,10 +102,7 @@ import Triangle.AbstractSyntaxTrees.WhileCommand;
 import Triangle.SyntacticAnalyzer.SourcePosition;
 
 public final class Checker implements Visitor {
-//Case 
-    public Object visitSequentialCaseLiteral(SequentialCaseLiteral ast, Object o){
-        return null;
-    }
+    
   // Commands
 
   // Always returns null. Does not use the given object.
@@ -234,6 +231,10 @@ public final class Checker implements Visitor {
         ast.C2.visit(this, null);
         return null;
     }  
+    
+    public Object visitSequentialCaseLiteral(SequentialCaseLiteral ast, Object o){
+        return null;
+    }
     
     public Object visitSequentialCommand(SequentialCommand ast, Object o) {
         ast.C1.visit(this, null);

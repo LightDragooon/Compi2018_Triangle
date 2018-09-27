@@ -105,11 +105,7 @@ public class LayoutVisitor implements Visitor {
   public LayoutVisitor (FontMetrics fontMetrics) {
     this.fontMetrics = fontMetrics;
   }
-  //Case
-  
-  public Object visitSequentialCaseLiteral(SequentialCaseLiteral ast, Object obj){
-      return layoutBinary("Seq.Case", ast.C1 , ast.C2);
-  }
+
 
   // Commands
   public Object visitAssignCommand(AssignCommand ast, Object obj) {
@@ -151,6 +147,10 @@ public class LayoutVisitor implements Visitor {
     public Object visitSequentialCase(SequentialCase ast, Object o) { 
         return layoutBinary("Seq.Case", ast.C1, ast.C2);
     }
+    
+    public Object visitSequentialCaseLiteral(SequentialCaseLiteral ast, Object obj){
+      return layoutBinary("Seq.CaseLit.", ast.C1 , ast.C2);
+  }
     
     public Object visitSequentialCommand(SequentialCommand ast, Object obj) {
         return layoutBinary("Seq.Com.", ast.C1, ast.C2);
