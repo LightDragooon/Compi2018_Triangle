@@ -15,6 +15,7 @@ import Triangle.AbstractSyntaxTrees.BinaryOperatorDeclaration;
 import Triangle.AbstractSyntaxTrees.BoolTypeDenoter;
 import Triangle.AbstractSyntaxTrees.CallCommand;
 import Triangle.AbstractSyntaxTrees.CallExpression;
+import Triangle.AbstractSyntaxTrees.CaseCommand;
 import Triangle.AbstractSyntaxTrees.CharTypeDenoter;
 import Triangle.AbstractSyntaxTrees.CharacterCommand;
 import Triangle.AbstractSyntaxTrees.CharacterExpression;
@@ -110,6 +111,10 @@ public class TreeVisitor implements Visitor {
     
     public Object visitCallCommand(CallCommand ast, Object o) {
         return(createBinary("Call Command", ast.I, ast.APS));
+    }
+    
+    public Object visitCaseCommand(CaseCommand ast, Object o) {
+        return(createBinary("Case Command", ast.C1, ast.C2));
     }
     
      public Object visitCharacterCommand(CharacterCommand ast, Object o) { 

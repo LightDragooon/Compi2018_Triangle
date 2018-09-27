@@ -27,6 +27,7 @@ import Triangle.AbstractSyntaxTrees.BinaryOperatorDeclaration;
 import Triangle.AbstractSyntaxTrees.BoolTypeDenoter;
 import Triangle.AbstractSyntaxTrees.CallCommand;
 import Triangle.AbstractSyntaxTrees.CallExpression;
+import Triangle.AbstractSyntaxTrees.CaseCommand;
 import Triangle.AbstractSyntaxTrees.CharTypeDenoter;
 import Triangle.AbstractSyntaxTrees.CharacterCommand;
 import Triangle.AbstractSyntaxTrees.CharacterExpression;
@@ -115,6 +116,10 @@ public class LayoutVisitor implements Visitor {
 
   public Object visitCallCommand(CallCommand ast, Object obj) {
     return layoutBinary("CallCom.", ast.I, ast.APS);
+   }
+  
+  public Object visitCaseCommand(CaseCommand ast, Object obj) {
+    return layoutBinary("CaseCom.", ast.C1, ast.C2);
    }
 
     public Object visitCharacterCommand(CharacterCommand ast, Object o) { 

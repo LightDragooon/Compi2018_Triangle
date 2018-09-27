@@ -19,6 +19,7 @@ public interface Visitor {
   // Commands
   public abstract Object visitAssignCommand(AssignCommand ast, Object o);
   public abstract Object visitCallCommand(CallCommand ast, Object o);
+  public abstract Object visitCaseCommand(CaseCommand ast, Object o);
   public abstract Object visitCharacterCommand(CharacterCommand ast, Object o);
   public abstract Object visitEmptyCommand(EmptyCommand ast, Object o);
   public abstract Object visitIfCommand(IfCommand ast, Object o);
