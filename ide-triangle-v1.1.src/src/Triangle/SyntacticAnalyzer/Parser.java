@@ -72,6 +72,7 @@ import Triangle.AbstractSyntaxTrees.RepeatDoWhileCommand;
 import Triangle.AbstractSyntaxTrees.RepeatForCommand;
 import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
 import Triangle.AbstractSyntaxTrees.RepeatWhileCommand;
+import Triangle.AbstractSyntaxTrees.SelectCommand;
 import Triangle.AbstractSyntaxTrees.SequentialCase;
 import Triangle.AbstractSyntaxTrees.SequentialCaseLiteral;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
@@ -541,7 +542,9 @@ public class Parser {
         Expression eAST = parseExpression();
         accept(Token.FROM);
         //CASES
+        Command cAST = parseCases();
         accept(Token.END);
+        commandAST = new SelectCommand(eAST, cAST, commandPos);
     }
         break;
         

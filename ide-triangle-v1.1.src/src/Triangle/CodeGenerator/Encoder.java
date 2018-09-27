@@ -78,6 +78,7 @@ import Triangle.AbstractSyntaxTrees.RepeatDoWhileCommand;
 import Triangle.AbstractSyntaxTrees.RepeatForCommand;
 import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
 import Triangle.AbstractSyntaxTrees.RepeatWhileCommand;
+import Triangle.AbstractSyntaxTrees.SelectCommand;
 import Triangle.AbstractSyntaxTrees.SequentialCase;
 import Triangle.AbstractSyntaxTrees.SequentialCaseLiteral;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
@@ -243,6 +244,12 @@ public final class Encoder implements Visitor {
         patch(jumpAddr, nextInstrAddr);
         ast.E.visit(this, frame);
         emit(Machine.JUMPIFop, Machine.trueRep, Machine.CBr, loopAddr);
+        return null;
+    }
+    
+    public Object visitSelectCommand(SelectCommand ast, Object o) { 
+        ast.E.visit(this, o);
+        ast.C.visit(this, o);
         return null;
     }
     

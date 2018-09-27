@@ -70,6 +70,7 @@ import Triangle.AbstractSyntaxTrees.RepeatDoWhileCommand;
 import Triangle.AbstractSyntaxTrees.RepeatForCommand;
 import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
 import Triangle.AbstractSyntaxTrees.RepeatWhileCommand;
+import Triangle.AbstractSyntaxTrees.SelectCommand;
 import Triangle.AbstractSyntaxTrees.SequentialCase;
 import Triangle.AbstractSyntaxTrees.SequentialCaseLiteral;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
@@ -135,6 +136,10 @@ public class LayoutVisitor implements Visitor {
     
     public Object visitLetCommand(LetCommand ast, Object obj) {
         return layoutBinary("LetCom.", ast.D, ast.C);
+    }
+    
+    public Object visitSelectCommand(SelectCommand ast, Object o) { 
+        return layoutBinary("Seq.Case", ast.E, ast.C);
     }
     
     public Object visitSequentialCase(SequentialCase ast, Object o) { 
