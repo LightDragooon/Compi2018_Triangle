@@ -26,6 +26,7 @@ import Triangle.AbstractSyntaxTrees.BinaryExpression;
 import Triangle.AbstractSyntaxTrees.CallCommand;
 import Triangle.AbstractSyntaxTrees.CallExpression;
 import Triangle.AbstractSyntaxTrees.Case;
+import Triangle.AbstractSyntaxTrees.CaseCommand;
 import Triangle.AbstractSyntaxTrees.CharacterCommand;
 import Triangle.AbstractSyntaxTrees.CharacterExpression;
 import Triangle.AbstractSyntaxTrees.CharacterLiteral;
@@ -292,7 +293,7 @@ public class Parser {
           accept(Token.THEN);
           Command c1AST = parseCommand();
           finish(casePos);
-          //commandAST = new Case(commandAST, c1AST, casePos);//Este es el arbol del case
+          commandAST = new CaseCommand(commandAST, c1AST, casePos);//Este es el arbol del case
       }
       
       return commandAST;

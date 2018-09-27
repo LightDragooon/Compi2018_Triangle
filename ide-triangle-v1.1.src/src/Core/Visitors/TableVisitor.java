@@ -15,6 +15,7 @@ import Triangle.AbstractSyntaxTrees.BinaryOperatorDeclaration;
 import Triangle.AbstractSyntaxTrees.BoolTypeDenoter;
 import Triangle.AbstractSyntaxTrees.CallCommand;
 import Triangle.AbstractSyntaxTrees.CallExpression;
+import Triangle.AbstractSyntaxTrees.CaseCommand;
 import Triangle.AbstractSyntaxTrees.CharTypeDenoter;
 import Triangle.AbstractSyntaxTrees.CharacterCommand;
 import Triangle.AbstractSyntaxTrees.CharacterExpression;
@@ -124,6 +125,13 @@ public class TableVisitor implements Visitor {
   public Object visitCallCommand(CallCommand ast, Object o) { 
       ast.I.visit(this, null);
       ast.APS.visit(this, null);
+      
+      return(null);
+  }
+  
+  public Object visitCaseCommand(CaseCommand ast, Object o) { 
+      ast.C1.visit(this, null);
+      ast.C2.visit(this, null);
       
       return(null);
   }

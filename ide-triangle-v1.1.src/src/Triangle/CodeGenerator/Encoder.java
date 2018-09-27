@@ -34,6 +34,7 @@ import Triangle.AbstractSyntaxTrees.BinaryOperatorDeclaration;
 import Triangle.AbstractSyntaxTrees.BoolTypeDenoter;
 import Triangle.AbstractSyntaxTrees.CallCommand;
 import Triangle.AbstractSyntaxTrees.CallExpression;
+import Triangle.AbstractSyntaxTrees.CaseCommand;
 import Triangle.AbstractSyntaxTrees.CharTypeDenoter;
 import Triangle.AbstractSyntaxTrees.CharacterCommand;
 import Triangle.AbstractSyntaxTrees.CharacterExpression;
@@ -124,6 +125,10 @@ public final class Encoder implements Visitor {
     ast.I.visit(this, new Frame(frame.level, argsSize));
     return null;
   }
+  
+  public Object visitCaseCommand(CaseCommand ast, Object o) { 
+        return null;
+    }
   
     public Object visitCharacterCommand(CharacterCommand ast, Object o) { 
         return null;
