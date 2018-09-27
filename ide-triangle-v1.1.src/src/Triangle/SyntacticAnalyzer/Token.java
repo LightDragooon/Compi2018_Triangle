@@ -125,34 +125,34 @@ final class Token extends Object {
     "<operator>",
     "array",
     //"begin",     //SE ELIMINA LA PALABRA RESERVADA BEGIN
-    "case",        //SE Aï¿½ADE LA PALABRA RESERVADA CASE
+    "case",        //SE AÑADE LA PALABRA RESERVADA CASE
     "const",
     "do",
     "else",
-    "elsif",       //SE Aï¿½ADE LA PALABRA RESERVADA CASE
+    "elsif",       //SE AÑADE LA PALABRA RESERVADA CASE
     "end",
-    "for",         //SE Aï¿½ADE LA PALABRA RESERVADA CASE
-    "from",        //SE Aï¿½ADE LA PALABRA RESERVADA CASE
+    "for",         //SE AÑADE LA PALABRA RESERVADA CASE
+    "from",        //SE AÑADE LA PALABRA RESERVADA CASE
     "func",
     "if",
     "in",
     "let",
-    "local",      //SE Aï¿½ADE LA PALABRA RESERVADA CASE
-    "nil",        //SE Aï¿½ADE LA PALABRA RESERVADA CASE
+    "local",      //SE AÑADE LA PALABRA RESERVADA CASE
+    "nil",        //SE AÑADE LA PALABRA RESERVADA CASE
     "of",
     "proc",
     "record",
-    "recursive",  //SE Aï¿½ADE LA PALABRA RESERVADA CASE
-    "repeat",     //SE Aï¿½ADE LA PALABRA RESERVADA CASE
-    "select",     //SE Aï¿½ADE LA PALABRA RESERVADA CASE
+    "recursive",  //SE AÑADE LA PALABRA RESERVADA CASE
+    "repeat",     //SE AÑADE LA PALABRA RESERVADA CASE
+    "select",     //SE AÑADE LA PALABRA RESERVADA CASE
     "then",
-    "to",         //SE Aï¿½ADE LA PALABRA RESERVADA CASE
+    "to",         //SE AÑADE LA PALABRA RESERVADA CASE
     "type",
-    "until",      //SE Aï¿½ADE LA PALABRA RESERVADA CASE
+    "until",      //SE AÑADE LA PALABRA RESERVADA CASE
     "var",
     "while",
     ".",
-    "..",         //SE Aï¿½ADE EL DOBLE PUNTO   
+    "..",         //SE AÑADE EL DOBLE PUNTO   
     ":",
     ";",
     ",",
