@@ -26,6 +26,7 @@ import Triangle.AbstractSyntaxTrees.BinaryExpression;
 import Triangle.AbstractSyntaxTrees.CallCommand;
 import Triangle.AbstractSyntaxTrees.CallExpression;
 import Triangle.AbstractSyntaxTrees.Case;
+import Triangle.AbstractSyntaxTrees.CharacterCommand;
 import Triangle.AbstractSyntaxTrees.CharacterExpression;
 import Triangle.AbstractSyntaxTrees.CharacterLiteral;
 import Triangle.AbstractSyntaxTrees.Command;
@@ -47,6 +48,7 @@ import Triangle.AbstractSyntaxTrees.FuncFormalParameter;
 import Triangle.AbstractSyntaxTrees.Identifier;
 import Triangle.AbstractSyntaxTrees.IfCommand;
 import Triangle.AbstractSyntaxTrees.IfExpression;
+import Triangle.AbstractSyntaxTrees.IntegerCommand;
 import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
 import Triangle.AbstractSyntaxTrees.LetCommand;
@@ -71,6 +73,7 @@ import Triangle.AbstractSyntaxTrees.RepeatForCommand;
 import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
 import Triangle.AbstractSyntaxTrees.RepeatWhileCommand;
 import Triangle.AbstractSyntaxTrees.SequentialCase;
+import Triangle.AbstractSyntaxTrees.SequentialCaseLiteral;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
@@ -254,71 +257,87 @@ public class Parser {
 // CASE
 //
 ///////////////////////////////////////////////////////////////////////////////
+    Command parseCases() throws SyntaxError{
+        Command commandAST = null;
+      
+        SourcePosition commandPos = new SourcePosition();
+        start(commandPos);
+      
+        commandAST = parseCase();
+        while (currentToken.kind == Token.CASE) {
+            Command c1AST = parseCase();
+            finish(commandPos);
+            commandAST = new SequentialCase(commandAST, c1AST, commandPos);
+        }
+        
+        if(currentToken.kind == Token.ELSE){
+            acceptIt();
+            Command c2AST = parseCommand();
+            commandAST = new SequentialCase(commandAST, c2AST, commandPos);
+        }
+        
+        return commandAST;
+  }
   
-//  Case parseCases() throws SyntaxError{
-//      Case caseAST = null;
-//      
-//      SourcePosition casePos = new SourcePosition();
-//      start(casePos);
-//      caseAST = parseCase();
-//      
-//  }
-  Case parseCase() throws SyntaxError{
-      Case caseAST = null;
+  
+  Command parseCase() throws SyntaxError{
+      Command commandAST = null;
       
       SourcePosition casePos = new SourcePosition();
       start(casePos);
       if (currentToken.kind == Token.CASE){
           acceptIt();
-          caseAST = parseCaseLiterals();
+          commandAST = parseCaseLiterals();
           accept(Token.THEN);
-          Command cAST = parseCommand();
+          Command c1AST = parseCommand();
           finish(casePos);
-          //caseAST = new SequentialCase(caseAST, cAST, casePos);
+          commandAST = new Case(commandAST, c1AST, casePos);//Este es el arbol del case
       }
       
-      return caseAST;
+      return commandAST;
   }
   
-  Case parseCaseLiterals() throws SyntaxError{
-      Case caseAST = null;
+  Command parseCaseLiterals() throws SyntaxError{
+      Command commandAST = null;
       
-      SourcePosition casePos = new SourcePosition();
-      start(casePos);
-      //caseAST = parseCaseLiteral();
+      SourcePosition commandPos = new SourcePosition();
+      start(commandPos);
+      commandAST = parseCaseLiteral();
       while (currentToken.kind == Token.PIPE) {
         acceptIt();
-        Case case2AST = parseCaseLiteral();
-        finish(casePos);
-        caseAST = new SequentialCase(caseAST, case2AST, casePos);
+        Command c1AST = parseCaseLiteral();
+        finish(commandPos);
+        commandAST = new SequentialCaseLiteral(commandAST, c1AST, commandPos);
       }
-    return caseAST;
+    return commandAST;
       
   }
   
-  Case parseCaseLiteral() throws SyntaxError{
-      Case caseAST = null;
+  Command parseCaseLiteral() throws SyntaxError{
+      Command commandAST = null;
       
-      SourcePosition casePos = new SourcePosition();
-      start(casePos);
+      SourcePosition commandPos = new SourcePosition();
+      start(commandPos);
       
       switch(currentToken.kind){
           case Token.INTLITERAL:
-          {
-              IntegerLiteral ilAST = parseIntegerLiteral();
-              finish(casePos);
-              //caseAST = parseSequentialCase(ilAST,casePos);
-          }break;
-          
-          case Token.CHARLITERAL:
-          {
-              CharacterLiteral clAST = parseCharacterLiteral();           
-              finish(casePos);
-              //caseAST = parseSequentialCase(clAST,casePos);
-          }break;
+      {
+        IntegerLiteral ilAST = parseIntegerLiteral();
+        finish(commandPos);
+        commandAST = new IntegerCommand(ilAST, commandPos);
+      }
+      break;
+
+    case Token.CHARLITERAL:
+      {
+        CharacterLiteral clAST= parseCharacterLiteral();
+        finish(commandPos);
+        commandAST = new CharacterCommand(clAST, commandPos);
+      }
+      break;
                                   
       }
-      return caseAST;
+      return commandAST;
   }
   
   Case parseElseCase () throws SyntaxError{
@@ -460,8 +479,9 @@ public class Parser {
                 accept(Token.DO);
                 Command cAST = parseCommand();
                 accept(Token.END);
+                Declaration dAST = new ConstDeclaration(iAST, e1AST, commandPos);
                 finish(commandPos);
-                commandAST = new RepeatForCommand(iAST, e1AST, e2AST, cAST, commandPos);
+                commandAST = new RepeatForCommand(dAST, e2AST, cAST, commandPos);
             }
                 break;
             default:
@@ -524,6 +544,17 @@ public class Parser {
         accept(Token.END);
     }
         break;
+        
+    case Token.CASE:
+    {
+        commandAST = parseCase();
+        while (currentToken.kind == Token.CASE) {
+          Command c2AST = parseCase();
+          finish(commandPos);
+          commandAST = new SequentialCaseLiteral(commandAST, c2AST, commandPos);
+        }
+    }
+    break;
      
     /* SE ELIMINA LA ALTERNATIVA: "begin" Command "end"
     case Token.BEGIN:

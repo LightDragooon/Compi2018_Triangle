@@ -28,6 +28,7 @@ import Triangle.AbstractSyntaxTrees.BoolTypeDenoter;
 import Triangle.AbstractSyntaxTrees.CallCommand;
 import Triangle.AbstractSyntaxTrees.CallExpression;
 import Triangle.AbstractSyntaxTrees.CharTypeDenoter;
+import Triangle.AbstractSyntaxTrees.CharacterCommand;
 import Triangle.AbstractSyntaxTrees.CharacterExpression;
 import Triangle.AbstractSyntaxTrees.CharacterLiteral;
 import Triangle.AbstractSyntaxTrees.ConstActualParameter;
@@ -46,6 +47,7 @@ import Triangle.AbstractSyntaxTrees.Identifier;
 import Triangle.AbstractSyntaxTrees.IfCommand;
 import Triangle.AbstractSyntaxTrees.IfExpression;
 import Triangle.AbstractSyntaxTrees.IntTypeDenoter;
+import Triangle.AbstractSyntaxTrees.IntegerCommand;
 import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
 import Triangle.AbstractSyntaxTrees.LetCommand;
@@ -69,6 +71,7 @@ import Triangle.AbstractSyntaxTrees.RepeatForCommand;
 import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
 import Triangle.AbstractSyntaxTrees.RepeatWhileCommand;
 import Triangle.AbstractSyntaxTrees.SequentialCase;
+import Triangle.AbstractSyntaxTrees.SequentialCaseLiteral;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
@@ -101,7 +104,7 @@ public class LayoutVisitor implements Visitor {
   }
   //Case
   
-  public Object visitSequentialCase(SequentialCase ast, Object obj){
+  public Object visitSequentialCaseLiteral(SequentialCaseLiteral ast, Object obj){
       return layoutBinary("Seq.Case", ast.C1 , ast.C2);
   }
 
@@ -114,6 +117,10 @@ public class LayoutVisitor implements Visitor {
     return layoutBinary("CallCom.", ast.I, ast.APS);
    }
 
+    public Object visitCharacterCommand(CharacterCommand ast, Object o) { 
+        return layoutUnary("CharCom..", ast.CL);
+    }
+      
   public Object visitEmptyCommand(EmptyCommand ast, Object obj) {
     return layoutNullary("EmptyCom.");
   }
@@ -122,20 +129,28 @@ public class LayoutVisitor implements Visitor {
     return layoutTernary("IfCom.", ast.E, ast.C1, ast.C2);
   }
 
-  public Object visitLetCommand(LetCommand ast, Object obj) {
-    return layoutBinary("LetCom.", ast.D, ast.C);
-  }
-
-  public Object visitSequentialCommand(SequentialCommand ast, Object obj) {
-    return layoutBinary("Seq.Com.", ast.C1, ast.C2);
-  }
+    public Object visitIntegerCommand(IntegerCommand ast, Object o) { 
+        return layoutUnary("IntCom..", ast.IL);
+    }
+    
+    public Object visitLetCommand(LetCommand ast, Object obj) {
+        return layoutBinary("LetCom.", ast.D, ast.C);
+    }
+    
+    public Object visitSequentialCase(SequentialCase ast, Object o) { 
+        return layoutBinary("Seq.Case", ast.C1, ast.C2);
+    }
+    
+    public Object visitSequentialCommand(SequentialCommand ast, Object obj) {
+        return layoutBinary("Seq.Com.", ast.C1, ast.C2);
+    }
   
   public Object visitRepeatDoUntilCommand(RepeatDoUntilCommand ast, Object obj) {
     return layoutBinary("RepeatDoUntilCom.", ast.E, ast.C);
   }
   
   public Object visitRepeatForCommand(RepeatForCommand ast, Object obj) {
-    return layoutQuaternary("RepeatForCom.", ast.I, ast.E1, ast.E2, ast.C);
+    return layoutTernary("RepeatForCom.", ast.D, ast.E, ast.C);
   }
     
   public Object visitRepeatDoWhileCommand(RepeatDoWhileCommand ast, Object obj) {
