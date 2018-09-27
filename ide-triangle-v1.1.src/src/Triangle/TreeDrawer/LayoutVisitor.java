@@ -75,6 +75,7 @@ import Triangle.AbstractSyntaxTrees.SequentialCase;
 import Triangle.AbstractSyntaxTrees.SequentialCaseLiteral;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
+import Triangle.AbstractSyntaxTrees.SequentialElseCase;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleVname;
 import Triangle.AbstractSyntaxTrees.SingleActualParameterSequence;
@@ -148,6 +149,10 @@ public class LayoutVisitor implements Visitor {
     
     public Object visitSequentialCommand(SequentialCommand ast, Object obj) {
         return layoutBinary("Seq.Com.", ast.C1, ast.C2);
+    }
+    
+    public Object visitSequentialElseCase(SequentialElseCase ast, Object o) { 
+        return layoutBinary("Seq.ElseCase.", ast.C1, ast.C2);
     }
   
   public Object visitRepeatDoUntilCommand(RepeatDoUntilCommand ast, Object obj) {

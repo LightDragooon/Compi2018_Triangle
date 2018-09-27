@@ -83,6 +83,7 @@ import Triangle.AbstractSyntaxTrees.SequentialCase;
 import Triangle.AbstractSyntaxTrees.SequentialCaseLiteral;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
+import Triangle.AbstractSyntaxTrees.SequentialElseCase;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleVname;
 import Triangle.AbstractSyntaxTrees.SingleActualParameterSequence;
@@ -260,6 +261,12 @@ public final class Encoder implements Visitor {
     }   
     
     public Object visitSequentialCommand(SequentialCommand ast, Object o) {
+        ast.C1.visit(this, o);
+        ast.C2.visit(this, o);
+        return null;
+    }
+    
+    public Object visitSequentialElseCase(SequentialElseCase ast, Object o) { 
         ast.C1.visit(this, o);
         ast.C2.visit(this, o);
         return null;

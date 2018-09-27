@@ -32,6 +32,7 @@ public interface Visitor {
   public abstract Object visitSelectCommand(SelectCommand ast, Object o);
   public abstract Object visitSequentialCase(SequentialCase ast, Object o);
   public abstract Object visitSequentialCommand(SequentialCommand ast, Object o);
+  public abstract Object visitSequentialElseCase(SequentialElseCase ast, Object o);
   public abstract Object visitWhileCommand(WhileCommand ast, Object o);
   
   //Case

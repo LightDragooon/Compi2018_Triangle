@@ -78,6 +78,7 @@ import Triangle.AbstractSyntaxTrees.SequentialCase;
 import Triangle.AbstractSyntaxTrees.SequentialCaseLiteral;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
+import Triangle.AbstractSyntaxTrees.SequentialElseCase;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleVname;
 import Triangle.AbstractSyntaxTrees.SingleActualParameterSequence;
@@ -233,7 +234,13 @@ public final class Checker implements Visitor {
         ast.C1.visit(this, null);
         ast.C2.visit(this, null);
         return null;
-  }
+    }
+    
+    public Object visitSequentialElseCase(SequentialElseCase ast, Object o) { 
+        ast.C1.visit(this, o);
+        ast.C2.visit(this, o);
+        return null;
+    }
 
   public Object visitWhileCommand(WhileCommand ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);

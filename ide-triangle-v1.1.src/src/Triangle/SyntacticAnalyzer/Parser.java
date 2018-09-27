@@ -274,7 +274,7 @@ public class Parser {
         if(currentToken.kind == Token.ELSE){
             acceptIt();
             Command c2AST = parseCommand();
-            commandAST = new SequentialCase(commandAST, c2AST, commandPos);
+            commandAST = new SequentialElseCase(commandAST, c2AST, commandPos);
         }
         
         return commandAST;
@@ -292,7 +292,7 @@ public class Parser {
           accept(Token.THEN);
           Command c1AST = parseCommand();
           finish(casePos);
-          commandAST = new Case(commandAST, c1AST, casePos);//Este es el arbol del case
+          //commandAST = new Case(commandAST, c1AST, casePos);//Este es el arbol del case
       }
       
       return commandAST;

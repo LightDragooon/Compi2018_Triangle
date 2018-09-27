@@ -63,6 +63,7 @@ import Triangle.AbstractSyntaxTrees.SequentialCase;
 import Triangle.AbstractSyntaxTrees.SequentialCaseLiteral;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
+import Triangle.AbstractSyntaxTrees.SequentialElseCase;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleVname;
 import Triangle.AbstractSyntaxTrees.SingleActualParameterSequence;
@@ -212,11 +213,18 @@ public class TableVisitor implements Visitor {
       return(null);
   }
   
-  public Object visitSequentialCommand(SequentialCommand ast, Object o) { 
-      ast.C1.visit(this, null);
-      ast.C2.visit(this, null);
+    public Object visitSequentialCommand(SequentialCommand ast, Object o) { 
+        ast.C1.visit(this, null);
+        ast.C2.visit(this, null);
       
-      return(null);
+        return(null);
+    }
+  
+    public Object visitSequentialElseCase(SequentialElseCase ast, Object o) { 
+        ast.C1.visit(this, null);
+        ast.C2.visit(this, null);
+
+        return(null);
   }
   
   public Object visitWhileCommand(WhileCommand ast, Object o) { 
