@@ -20,6 +20,7 @@ import Triangle.AbstractSyntaxTrees.AnyTypeDenoter;
 import Triangle.AbstractSyntaxTrees.ArrayExpression;
 import Triangle.AbstractSyntaxTrees.ArrayTypeDenoter;
 import Triangle.AbstractSyntaxTrees.AssignCommand;
+import Triangle.AbstractSyntaxTrees.AssignDeclaration;
 import Triangle.AbstractSyntaxTrees.BinaryExpression;
 import Triangle.AbstractSyntaxTrees.BinaryOperatorDeclaration;
 import Triangle.AbstractSyntaxTrees.BoolTypeDenoter;
@@ -52,6 +53,7 @@ import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
+import Triangle.AbstractSyntaxTrees.LocalDeclaration;
 import Triangle.AbstractSyntaxTrees.MultipleActualParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
@@ -69,6 +71,7 @@ import Triangle.AbstractSyntaxTrees.RepeatDoWhileCommand;
 import Triangle.AbstractSyntaxTrees.RepeatForCommand;
 import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
 import Triangle.AbstractSyntaxTrees.RepeatWhileCommand;
+import Triangle.AbstractSyntaxTrees.SequentialCase;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
@@ -93,7 +96,10 @@ import Triangle.AbstractSyntaxTrees.WhileCommand;
 import Triangle.SyntacticAnalyzer.SourcePosition;
 
 public final class Checker implements Visitor {
-
+//Case 
+    public Object visitSequentialCase(SequentialCase ast, Object o){
+        return null;
+    }
   // Commands
 
   // Always returns null. Does not use the given object.
@@ -108,7 +114,13 @@ public final class Checker implements Visitor {
     return null;
   }
 
-
+    public Object visitLocalDeclaration(LocalDeclaration ast, Object o) {
+//    Frame frame = (Frame) o;
+//    Integer valSize = (Integer) ast.E.visit(this, frame);
+//    encodeStore(ast.V, new Frame (frame, valSize.intValue()),
+//		valSize.intValue());
+    return null;
+  }
   public Object visitCallCommand(CallCommand ast, Object o) {
 
     Declaration binding = (Declaration) ast.I.visit(this, null);
@@ -334,6 +346,10 @@ public final class Checker implements Visitor {
   }
 
   // Declarations
+  
+  public Object visitAssignDeclaration(AssignDeclaration ast, Object o) {
+    return null;
+  }
 
   // Always returns null. Does not use the given object.
   public Object visitBinaryOperatorDeclaration(BinaryOperatorDeclaration ast, Object o) {

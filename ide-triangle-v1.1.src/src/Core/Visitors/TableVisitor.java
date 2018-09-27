@@ -9,6 +9,7 @@ import Triangle.AbstractSyntaxTrees.AnyTypeDenoter;
 import Triangle.AbstractSyntaxTrees.ArrayExpression;
 import Triangle.AbstractSyntaxTrees.ArrayTypeDenoter;
 import Triangle.AbstractSyntaxTrees.AssignCommand;
+import Triangle.AbstractSyntaxTrees.AssignDeclaration;
 import Triangle.AbstractSyntaxTrees.BinaryExpression;
 import Triangle.AbstractSyntaxTrees.BinaryOperatorDeclaration;
 import Triangle.AbstractSyntaxTrees.BoolTypeDenoter;
@@ -37,6 +38,7 @@ import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
+import Triangle.AbstractSyntaxTrees.LocalDeclaration;
 import Triangle.AbstractSyntaxTrees.MultipleActualParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
@@ -54,6 +56,7 @@ import Triangle.AbstractSyntaxTrees.RepeatDoWhileCommand;
 import Triangle.AbstractSyntaxTrees.RepeatForCommand;
 import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
 import Triangle.AbstractSyntaxTrees.RepeatWhileCommand;
+import Triangle.AbstractSyntaxTrees.SequentialCase;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
@@ -96,6 +99,13 @@ public class TableVisitor implements Visitor {
     /** Creates a new instance of TableDetails */
     public TableVisitor() {        
     }
+  //Case
+    public Object visitSequentialCase(SequentialCase ast, Object o) { 
+      ast.C1.visit(this, null);
+      ast.C2.visit(this, null);
+      
+      return(null);
+  }
 
   // <editor-fold defaultstate="collapsed" desc=" Commands ">
   // Commands
@@ -263,6 +273,22 @@ public class TableVisitor implements Visitor {
   
   // <editor-fold defaultstate="collapsed" desc=" Declarations ">
   // Declarations
+  public Object visitAssignDeclaration(AssignDeclaration ast, Object o) {        
+      String name = ast.I.spelling;
+      try {
+      addIdentifier(ast.I.spelling, 
+              "KnownAddress", 
+              (ast.entity!=null?ast.entity.size:0), 
+              ((KnownAddress)ast.entity).address.level, 
+              ((KnownAddress)ast.entity).address.displacement, 
+              -1);
+      } catch (NullPointerException e) { }
+      
+      ast.I.visit(this, null);
+      ast.E.visit(this, null);
+      return(null);
+  }
+  
   public Object visitBinaryOperatorDeclaration(BinaryOperatorDeclaration ast, Object o) {        
       return(null);
   }
@@ -326,6 +352,13 @@ public class TableVisitor implements Visitor {
   }
   
   public Object visitSequentialDeclaration(SequentialDeclaration ast, Object o) {   
+      ast.D1.visit(this, null);
+      ast.D2.visit(this, null);
+      
+      return(null);
+  }
+  
+    public Object visitLocalDeclaration(LocalDeclaration ast, Object o) {   
       ast.D1.visit(this, null);
       ast.D2.visit(this, null);
       
@@ -669,4 +702,5 @@ public class TableVisitor implements Visitor {
   // <editor-fold defaultstate="collapsed" desc=" Attributes ">
     private DefaultTableModel model;
     // </editor-fold>
+
 }

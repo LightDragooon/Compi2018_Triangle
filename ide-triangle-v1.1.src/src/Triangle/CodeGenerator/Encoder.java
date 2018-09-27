@@ -28,6 +28,7 @@ import Triangle.AbstractSyntaxTrees.AnyTypeDenoter;
 import Triangle.AbstractSyntaxTrees.ArrayExpression;
 import Triangle.AbstractSyntaxTrees.ArrayTypeDenoter;
 import Triangle.AbstractSyntaxTrees.AssignCommand;
+import Triangle.AbstractSyntaxTrees.AssignDeclaration;
 import Triangle.AbstractSyntaxTrees.BinaryExpression;
 import Triangle.AbstractSyntaxTrees.BinaryOperatorDeclaration;
 import Triangle.AbstractSyntaxTrees.BoolTypeDenoter;
@@ -57,6 +58,7 @@ import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
+import Triangle.AbstractSyntaxTrees.LocalDeclaration;
 import Triangle.AbstractSyntaxTrees.MultipleActualParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
@@ -74,6 +76,7 @@ import Triangle.AbstractSyntaxTrees.RepeatDoWhileCommand;
 import Triangle.AbstractSyntaxTrees.RepeatForCommand;
 import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
 import Triangle.AbstractSyntaxTrees.RepeatWhileCommand;
+import Triangle.AbstractSyntaxTrees.SequentialCase;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
@@ -97,7 +100,10 @@ import Triangle.AbstractSyntaxTrees.WhileCommand;
 
 public final class Encoder implements Visitor {
 
-
+//Case 
+    public Object visitSequentialCase (SequentialCase ast, Object o){
+        return null;
+    }
   // Commands
   public Object visitAssignCommand(AssignCommand ast, Object o) {
     Frame frame = (Frame) o;
@@ -140,6 +146,14 @@ public final class Encoder implements Visitor {
     ast.C.visit(this, new Frame(frame, extraSize));
     if (extraSize > 0)
       emit(Machine.POPop, 0, 0, extraSize);
+    return null;
+  }
+  
+    public Object visitLocalDeclaration(LocalDeclaration ast, Object o) {
+//    Frame frame = (Frame) o;
+//    Integer valSize = (Integer) ast.E.visit(this, frame);
+//    encodeStore(ast.V, new Frame (frame, valSize.intValue()),
+//		valSize.intValue());
     return null;
   }
     //Se añade visitRepeatUntilCommand
@@ -337,6 +351,9 @@ public final class Encoder implements Visitor {
 
 
   // Declarations
+  public Object visitAssignDeclaration(AssignDeclaration ast, Object o){
+      return null;
+  }
   public Object visitBinaryOperatorDeclaration(BinaryOperatorDeclaration ast,
 					       Object o){
     return new Integer(0);

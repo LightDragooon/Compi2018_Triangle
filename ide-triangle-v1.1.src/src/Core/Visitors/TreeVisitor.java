@@ -9,6 +9,7 @@ import Triangle.AbstractSyntaxTrees.AnyTypeDenoter;
 import Triangle.AbstractSyntaxTrees.ArrayExpression;
 import Triangle.AbstractSyntaxTrees.ArrayTypeDenoter;
 import Triangle.AbstractSyntaxTrees.AssignCommand;
+import Triangle.AbstractSyntaxTrees.AssignDeclaration;
 import Triangle.AbstractSyntaxTrees.BinaryExpression;
 import Triangle.AbstractSyntaxTrees.BinaryOperatorDeclaration;
 import Triangle.AbstractSyntaxTrees.BoolTypeDenoter;
@@ -37,6 +38,7 @@ import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
+import Triangle.AbstractSyntaxTrees.LocalDeclaration;
 import Triangle.AbstractSyntaxTrees.MultipleActualParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
@@ -54,6 +56,7 @@ import Triangle.AbstractSyntaxTrees.RepeatDoWhileCommand;
 import Triangle.AbstractSyntaxTrees.RepeatForCommand;
 import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
 import Triangle.AbstractSyntaxTrees.RepeatWhileCommand;
+import Triangle.AbstractSyntaxTrees.SequentialCase;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
@@ -89,6 +92,11 @@ public class TreeVisitor implements Visitor {
      * Creates a new instance of TreeVisitor.
      */
     public TreeVisitor() {
+    }
+    
+    //Case
+    public Object visitSequentialCase(SequentialCase ast, Object o) {
+        return(createBinary("Assign Command", ast.C1, ast.C2));
     }
     
     // <editor-fold defaultstate="collapsed" desc=" Commands ">    
@@ -196,6 +204,10 @@ public class TreeVisitor implements Visitor {
     
     // <editor-fold defaultstate="collapsed" desc=" Declarations ">
     // Declarations
+    public Object visitAssignDeclaration(AssignDeclaration ast, Object obj) {
+        return(createBinary("Assign Declaration", ast.I, ast.E));
+    }
+    
     public Object visitBinaryOperatorDeclaration(BinaryOperatorDeclaration ast, Object obj) {
         return(createQuaternary("Binary Operator Declaration", ast.O, ast.ARG1, ast.ARG2, ast.RES));
     }
@@ -226,6 +238,10 @@ public class TreeVisitor implements Visitor {
     
     public Object visitVarDeclaration(VarDeclaration ast, Object obj) {
         return(createBinary("Variable Declaration", ast.I, ast.T));
+    }
+    
+    public Object visitLocalDeclaration(LocalDeclaration ast, Object obj) {
+        return(createBinary("Local Declaration", ast.D1, ast.D2));
     }
     // </editor-fold>
     
@@ -467,4 +483,5 @@ public class TreeVisitor implements Visitor {
         return(t);             
     }
     // </editor-fold>
+
 }

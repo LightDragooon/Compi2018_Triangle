@@ -21,6 +21,7 @@ import Triangle.AbstractSyntaxTrees.AnyTypeDenoter;
 import Triangle.AbstractSyntaxTrees.ArrayExpression;
 import Triangle.AbstractSyntaxTrees.ArrayTypeDenoter;
 import Triangle.AbstractSyntaxTrees.AssignCommand;
+import Triangle.AbstractSyntaxTrees.AssignDeclaration;
 import Triangle.AbstractSyntaxTrees.BinaryExpression;
 import Triangle.AbstractSyntaxTrees.BinaryOperatorDeclaration;
 import Triangle.AbstractSyntaxTrees.BoolTypeDenoter;
@@ -49,6 +50,7 @@ import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
+import Triangle.AbstractSyntaxTrees.LocalDeclaration;
 import Triangle.AbstractSyntaxTrees.MultipleActualParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
@@ -66,6 +68,7 @@ import Triangle.AbstractSyntaxTrees.RepeatDoWhileCommand;
 import Triangle.AbstractSyntaxTrees.RepeatForCommand;
 import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
 import Triangle.AbstractSyntaxTrees.RepeatWhileCommand;
+import Triangle.AbstractSyntaxTrees.SequentialCase;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
@@ -95,6 +98,11 @@ public class LayoutVisitor implements Visitor {
 
   public LayoutVisitor (FontMetrics fontMetrics) {
     this.fontMetrics = fontMetrics;
+  }
+  //Case
+  
+  public Object visitSequentialCase(SequentialCase ast, Object obj){
+      return layoutBinary("Seq.Case", ast.C1 , ast.C2);
   }
 
   // Commands
@@ -194,6 +202,11 @@ public class LayoutVisitor implements Visitor {
 
 
   // Declarations
+  
+  public Object visitAssignDeclaration(AssignDeclaration ast, Object obj) {
+    return layoutBinary("Ass.Decl.", ast.I, ast.E);
+  }
+  
   public Object visitBinaryOperatorDeclaration(BinaryOperatorDeclaration ast, Object obj) {
     return layoutQuaternary("Bin.Op.Decl.", ast.O, ast.ARG1, ast.ARG2, ast.RES);
   }
@@ -213,6 +226,11 @@ public class LayoutVisitor implements Visitor {
   public Object visitSequentialDeclaration(SequentialDeclaration ast, Object obj) {
     return layoutBinary("Seq.Decl.", ast.D1, ast.D2);
   }
+  
+  public Object visitLocalDeclaration(LocalDeclaration ast, Object obj) {
+    return layoutBinary("Loc.Decl.", ast.D1, ast.D2);
+  }
+
 
   public Object visitTypeDeclaration(TypeDeclaration ast, Object obj) {
     return layoutBinary("TypeDecl.", ast.I, ast.T);
