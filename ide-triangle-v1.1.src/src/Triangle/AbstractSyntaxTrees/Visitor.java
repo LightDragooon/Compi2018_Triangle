@@ -30,6 +30,7 @@ public interface Visitor {
   public abstract Object visitRepeatForCommand(RepeatForCommand ast, Object o);
   public abstract Object visitRepeatUntilCommand(RepeatUntilCommand ast, Object o);
   public abstract Object visitRepeatWhileCommand(RepeatWhileCommand ast, Object o);
+  public abstract Object visitSelectCommand(SelectCommand ast, Object o);
   public abstract Object visitSequentialCase(SequentialCase ast, Object o);
   public abstract Object visitSequentialCommand(SequentialCommand ast, Object o);
   public abstract Object visitWhileCommand(WhileCommand ast, Object o);

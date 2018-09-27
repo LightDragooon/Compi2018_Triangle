@@ -59,6 +59,7 @@ import Triangle.AbstractSyntaxTrees.RepeatDoWhileCommand;
 import Triangle.AbstractSyntaxTrees.RepeatForCommand;
 import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
 import Triangle.AbstractSyntaxTrees.RepeatWhileCommand;
+import Triangle.AbstractSyntaxTrees.SelectCommand;
 import Triangle.AbstractSyntaxTrees.SequentialCase;
 import Triangle.AbstractSyntaxTrees.SequentialCaseLiteral;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
@@ -202,6 +203,13 @@ public class TableVisitor implements Visitor {
       ast.E.visit(this, null);
       ast.C.visit(this, null);
       
+      return(null);
+  }
+  
+    public Object visitSelectCommand(SelectCommand ast, Object o) { 
+      ast.E.visit(this, null);
+      ast.C.visit(this, null);
+
       return(null);
   }
   

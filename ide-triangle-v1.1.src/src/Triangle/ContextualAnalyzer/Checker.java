@@ -74,6 +74,7 @@ import Triangle.AbstractSyntaxTrees.RepeatDoWhileCommand;
 import Triangle.AbstractSyntaxTrees.RepeatForCommand;
 import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
 import Triangle.AbstractSyntaxTrees.RepeatWhileCommand;
+import Triangle.AbstractSyntaxTrees.SelectCommand;
 import Triangle.AbstractSyntaxTrees.SequentialCase;
 import Triangle.AbstractSyntaxTrees.SequentialCaseLiteral;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
@@ -217,6 +218,12 @@ public final class Checker implements Visitor {
         TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
         if (! eType.equals(StdEnvironment.booleanType))
           reporter.reportError("Boolean expression expected here", "", ast.E.position);
+        ast.C.visit(this, null);
+        return null;
+    }
+    
+    public Object visitSelectCommand(SelectCommand ast, Object o) { 
+        ast.E.visit(this, null);
         ast.C.visit(this, null);
         return null;
     }
