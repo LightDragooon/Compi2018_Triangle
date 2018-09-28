@@ -1,0 +1,6 @@
+!"let" Declaration "in" Command "end"
+let
+  var a := 1
+in
+  putint(a)
+end

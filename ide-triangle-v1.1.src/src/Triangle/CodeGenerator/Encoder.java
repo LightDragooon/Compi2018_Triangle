@@ -34,7 +34,9 @@ import Triangle.AbstractSyntaxTrees.BinaryOperatorDeclaration;
 import Triangle.AbstractSyntaxTrees.BoolTypeDenoter;
 import Triangle.AbstractSyntaxTrees.CallCommand;
 import Triangle.AbstractSyntaxTrees.CallExpression;
+import Triangle.AbstractSyntaxTrees.CaseCommand;
 import Triangle.AbstractSyntaxTrees.CharTypeDenoter;
+import Triangle.AbstractSyntaxTrees.CharacterCommand;
 import Triangle.AbstractSyntaxTrees.CharacterExpression;
 import Triangle.AbstractSyntaxTrees.CharacterLiteral;
 import Triangle.AbstractSyntaxTrees.ConstActualParameter;
@@ -54,6 +56,7 @@ import Triangle.AbstractSyntaxTrees.Identifier;
 import Triangle.AbstractSyntaxTrees.IfCommand;
 import Triangle.AbstractSyntaxTrees.IfExpression;
 import Triangle.AbstractSyntaxTrees.IntTypeDenoter;
+import Triangle.AbstractSyntaxTrees.IntegerCommand;
 import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
 import Triangle.AbstractSyntaxTrees.LetCommand;
@@ -76,9 +79,12 @@ import Triangle.AbstractSyntaxTrees.RepeatDoWhileCommand;
 import Triangle.AbstractSyntaxTrees.RepeatForCommand;
 import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
 import Triangle.AbstractSyntaxTrees.RepeatWhileCommand;
+import Triangle.AbstractSyntaxTrees.SelectCommand;
 import Triangle.AbstractSyntaxTrees.SequentialCase;
+import Triangle.AbstractSyntaxTrees.SequentialCaseLiteral;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
+import Triangle.AbstractSyntaxTrees.SequentialElseCase;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleVname;
 import Triangle.AbstractSyntaxTrees.SingleActualParameterSequence;
@@ -100,10 +106,6 @@ import Triangle.AbstractSyntaxTrees.WhileCommand;
 
 public final class Encoder implements Visitor {
 
-//Case 
-    public Object visitSequentialCase (SequentialCase ast, Object o){
-        return null;
-    }
   // Commands
   public Object visitAssignCommand(AssignCommand ast, Object o) {
     Frame frame = (Frame) o;
@@ -119,6 +121,14 @@ public final class Encoder implements Visitor {
     ast.I.visit(this, new Frame(frame.level, argsSize));
     return null;
   }
+  
+  public Object visitCaseCommand(CaseCommand ast, Object o) { 
+        return null;
+    }
+  
+    public Object visitCharacterCommand(CharacterCommand ast, Object o) { 
+        return null;
+    }
 
   public Object visitEmptyCommand(EmptyCommand ast, Object o) {
     return null;
@@ -139,6 +149,10 @@ public final class Encoder implements Visitor {
     patch(jumpAddr, nextInstrAddr);
     return null;
   }
+  
+    public Object visitIntegerCommand(IntegerCommand ast, Object o) { 
+        return null;
+    }
 
   public Object visitLetCommand(LetCommand ast, Object o) {
     Frame frame = (Frame) o;
@@ -235,11 +249,33 @@ public final class Encoder implements Visitor {
         return null;
     }
     
-  public Object visitSequentialCommand(SequentialCommand ast, Object o) {
-    ast.C1.visit(this, o);
-    ast.C2.visit(this, o);
-    return null;
-  }
+    public Object visitSelectCommand(SelectCommand ast, Object o) { 
+        ast.E.visit(this, o);
+        ast.C.visit(this, o);
+        return null;
+    }
+    
+    public Object visitSequentialCase(SequentialCase ast, Object o) { 
+        ast.C1.visit(this, o);
+        ast.C2.visit(this, o);
+        return null;
+    }  
+    
+    public Object visitSequentialCaseLiteral (SequentialCaseLiteral ast, Object o){
+        return null;
+    }
+    
+    public Object visitSequentialCommand(SequentialCommand ast, Object o) {
+        ast.C1.visit(this, o);
+        ast.C2.visit(this, o);
+        return null;
+    }
+    
+    public Object visitSequentialElseCase(SequentialElseCase ast, Object o) { 
+        ast.C1.visit(this, o);
+        ast.C2.visit(this, o);
+        return null;
+    }
 
   public Object visitWhileCommand(WhileCommand ast, Object o) {
     Frame frame = (Frame) o;

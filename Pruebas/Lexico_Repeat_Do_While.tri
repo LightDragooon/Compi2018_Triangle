@@ -1,0 +1,7 @@
+repeat do
+
+    putint(1)
+
+  while true
+
+end

@@ -20,7 +20,7 @@ in myCommand9 := 9 end;
 if 1 then myVar1 := 1
 elsif 2 then myVar2 := 2
 elsif 3 then myVar3 := 3
-else myVar4 := 4 end!ACA DEBE DE COLOCAR UN ';' SI DESEA PROBAR LOS CASES
+else myVar4 := 4 end;!ACA DEBE DE COLOCAR UN ';' SI DESEA PROBAR LOS CASES
 !ANIDACION DE IF's
-!select myExpreA from case 1 | 2 | 3 then myCommandA := 10 case 'A' then myCommandA2 := 100 else myCommandA3 := 1000
-!select myExpreB from case 1 | '2' | 3 then myCommandB := 11 case 'B' then myCommandA2 := 111
+select myExpreA from case 1 | 2 | 3 then myCommandA := 10 case 'A' then myCommandA2 := 100 else myCommandA3 := 1000 end;
+select myExpreB from case 1 | '2' | 3 then myCommandB := 11 case 'B' then myCommandA2 := 111 end

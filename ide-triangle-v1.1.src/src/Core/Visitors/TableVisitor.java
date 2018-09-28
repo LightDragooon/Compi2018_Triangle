@@ -15,7 +15,9 @@ import Triangle.AbstractSyntaxTrees.BinaryOperatorDeclaration;
 import Triangle.AbstractSyntaxTrees.BoolTypeDenoter;
 import Triangle.AbstractSyntaxTrees.CallCommand;
 import Triangle.AbstractSyntaxTrees.CallExpression;
+import Triangle.AbstractSyntaxTrees.CaseCommand;
 import Triangle.AbstractSyntaxTrees.CharTypeDenoter;
+import Triangle.AbstractSyntaxTrees.CharacterCommand;
 import Triangle.AbstractSyntaxTrees.CharacterExpression;
 import Triangle.AbstractSyntaxTrees.CharacterLiteral;
 import Triangle.AbstractSyntaxTrees.ConstActualParameter;
@@ -34,6 +36,7 @@ import Triangle.AbstractSyntaxTrees.Identifier;
 import Triangle.AbstractSyntaxTrees.IfCommand;
 import Triangle.AbstractSyntaxTrees.IfExpression;
 import Triangle.AbstractSyntaxTrees.IntTypeDenoter;
+import Triangle.AbstractSyntaxTrees.IntegerCommand;
 import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
 import Triangle.AbstractSyntaxTrees.LetCommand;
@@ -56,9 +59,12 @@ import Triangle.AbstractSyntaxTrees.RepeatDoWhileCommand;
 import Triangle.AbstractSyntaxTrees.RepeatForCommand;
 import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
 import Triangle.AbstractSyntaxTrees.RepeatWhileCommand;
+import Triangle.AbstractSyntaxTrees.SelectCommand;
 import Triangle.AbstractSyntaxTrees.SequentialCase;
+import Triangle.AbstractSyntaxTrees.SequentialCaseLiteral;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
+import Triangle.AbstractSyntaxTrees.SequentialElseCase;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleVname;
 import Triangle.AbstractSyntaxTrees.SingleActualParameterSequence;
@@ -99,13 +105,6 @@ public class TableVisitor implements Visitor {
     /** Creates a new instance of TableDetails */
     public TableVisitor() {        
     }
-  //Case
-    public Object visitSequentialCase(SequentialCase ast, Object o) { 
-      ast.C1.visit(this, null);
-      ast.C2.visit(this, null);
-      
-      return(null);
-  }
 
   // <editor-fold defaultstate="collapsed" desc=" Commands ">
   // Commands
@@ -123,6 +122,19 @@ public class TableVisitor implements Visitor {
       return(null);
   }
   
+  public Object visitCaseCommand(CaseCommand ast, Object o) { 
+      ast.C1.visit(this, null);
+      ast.C2.visit(this, null);
+      
+      return(null);
+  }
+  
+  public Object visitCharacterCommand(CharacterCommand ast, Object o) { 
+      ast.CL.visit(this, null);
+      
+      return(null);
+  }
+  
   public Object visitEmptyCommand(EmptyCommand ast, Object o) { 
       return(null);
   }
@@ -133,6 +145,12 @@ public class TableVisitor implements Visitor {
       ast.C2.visit(this, null);
       
       return(null);
+  }
+  
+    public Object visitIntegerCommand(IntegerCommand ast, Object o) { 
+        ast.IL.visit(this, null);
+      
+        return(null);
   }
   
   public Object visitLetCommand(LetCommand ast, Object o) {     
@@ -159,9 +177,8 @@ public class TableVisitor implements Visitor {
   
    //Se añade la implementación de visitRepeatDoUntilCommand
   public Object visitRepeatForCommand(RepeatForCommand ast, Object o) { 
-      ast.I.visit(this, null);
-      ast.E1.visit(this, null);
-      ast.E2.visit(this, null);
+      ast.D.visit(this, null);
+      ast.E.visit(this, null);
       ast.C.visit(this, null);
       
       return(null);
@@ -183,11 +200,39 @@ public class TableVisitor implements Visitor {
       return(null);
   }
   
-  public Object visitSequentialCommand(SequentialCommand ast, Object o) { 
+    public Object visitSelectCommand(SelectCommand ast, Object o) { 
+      ast.E.visit(this, null);
+      ast.C.visit(this, null);
+
+      return(null);
+  }
+  
+    public Object visitSequentialCase(SequentialCase ast, Object o) { 
+        ast.C1.visit(this, null);
+        ast.C2.visit(this, null);
+
+        return(null);
+    }
+  
+    public Object visitSequentialCaseLiteral(SequentialCaseLiteral ast, Object o) { 
       ast.C1.visit(this, null);
       ast.C2.visit(this, null);
       
       return(null);
+    }
+  
+    public Object visitSequentialCommand(SequentialCommand ast, Object o) { 
+        ast.C1.visit(this, null);
+        ast.C2.visit(this, null);
+      
+        return(null);
+    }
+  
+    public Object visitSequentialElseCase(SequentialElseCase ast, Object o) { 
+        ast.C1.visit(this, null);
+        ast.C2.visit(this, null);
+
+        return(null);
   }
   
   public Object visitWhileCommand(WhileCommand ast, Object o) { 

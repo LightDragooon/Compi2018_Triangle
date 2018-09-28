@@ -1,0 +1,11 @@
+!"select" Expression "from" Cases "end"
+!REGLAS DEL CASE
+!Cases         ::= Case+ [ ElseCase ]
+!Case          ::= "case" Case-Literals "then" Command
+!ElseCase      ::= "else" Command
+!Case-Literals ::= Case-Literal ("|" Case-Literal)*
+!Case-Literal ::= Integer-Literal | Character-Literal
+
+select myExpreA from 
+
+end
