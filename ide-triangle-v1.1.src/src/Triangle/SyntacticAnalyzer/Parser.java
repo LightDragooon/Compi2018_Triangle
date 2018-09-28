@@ -349,8 +349,7 @@ public class Parser {
       return commandAST;
   }
   
-<<<<<<< Updated upstream
-=======
+
   Command parseElseCase () throws SyntaxError{
       Command cAST = null;
       
@@ -364,7 +363,7 @@ public class Parser {
       }
       return cAST;
   }
->>>>>>> Stashed changes
+
 ///////////////////////////////////////////////////////////////////////////////
 //
 // COMMANDS
