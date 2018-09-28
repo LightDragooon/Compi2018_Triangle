@@ -402,7 +402,7 @@ public class Parser {
         }
       }
       break;
-    case Token.NIL:
+    case Token.NIL: 
       acceptIt();
       finish(commandPos);
       commandAST = new EmptyCommand(commandPos);
@@ -542,16 +542,6 @@ public class Parser {
     }
         break;
         
-    case Token.CASE:
-    {
-        commandAST = parseCase();
-        while (currentToken.kind == Token.CASE) {
-          Command c2AST = parseCase();
-          finish(commandPos);
-          commandAST = new SequentialCaseLiteral(commandAST, c2AST, commandPos);
-        }
-    }
-    break;
      
     /* SE ELIMINA LA ALTERNATIVA: "begin" Command "end"
     case Token.BEGIN:
@@ -612,7 +602,7 @@ public class Parser {
     */
       
     default:
-      syntacticError("\"%\" cannot start a command",
+      syntacticError("\"%\" cannot start a command. Expected [nil, repeat, let, if, select]",
         currentToken.spelling);
       break;
 
