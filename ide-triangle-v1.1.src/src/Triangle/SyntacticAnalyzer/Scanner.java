@@ -38,7 +38,7 @@ public final class Scanner {
     return (c == '+' || c == '-' || c == '*' || c == '/' ||
 	    c == '=' || c == '<' || c == '>' || c == '\\' ||
 	    c == '&' || c == '@' || c == '%' || c == '^' ||
-	    c == '?' || c == '|');
+	    c == '?');
   }
 
 
@@ -113,7 +113,7 @@ public final class Scanner {
 
     case '+':  case '-':  case '*': case '/':  case '=':
     case '<':  case '>':  case '\\':  case '&':  case '@':
-    case '%':  case '^':  case '?': case '|':               //SE AÑADE EL OPERADOR "|"
+    case '%':  case '^':  case '?':               
       takeIt();
       while (isOperator(currentChar))
         takeIt();
@@ -143,11 +143,15 @@ public final class Scanner {
         return Token.BECOMES;
       } else
         return Token.COLON;
-
+      
     case ';':
       takeIt();
       return Token.SEMICOLON;
-
+      
+    //SE AÑADE EL OPERADOR "|"
+    case '|':
+      takeIt();
+      return Token.PIPE;
     case ',':
       takeIt();
       return Token.COMMA;

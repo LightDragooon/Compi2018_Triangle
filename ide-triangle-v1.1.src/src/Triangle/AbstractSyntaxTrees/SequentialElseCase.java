@@ -7,9 +7,9 @@ package Triangle.AbstractSyntaxTrees;
 
 import Triangle.SyntacticAnalyzer.SourcePosition;
 
-public class SequentialCase extends Command {
+public class SequentialElseCase extends Command {
 
-  public SequentialCase (Command c1AST, Command c2AST,
+  public SequentialElseCase (Command c1AST, Command c2AST,
                        SourcePosition thePosition) {
     super (thePosition);
     C1 = c1AST;
@@ -17,7 +17,7 @@ public class SequentialCase extends Command {
   }
 
   public Object visit(Visitor v, Object o) {
-    return v.visitSequentialCase(this, o);
+    return v.visitSequentialElseCase(this, o);
   }
 
   public Command C1;

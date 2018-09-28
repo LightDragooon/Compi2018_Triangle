@@ -12,11 +12,10 @@ import Triangle.SyntacticAnalyzer.SourcePosition;
  * @author Esteban
  */
 public class RepeatForCommand extends Command{
-    public RepeatForCommand (Identifier iAST, Expression e1AST, Expression e2AST, Command cAST, SourcePosition thePosition) {
+    public RepeatForCommand (Declaration dAST, Expression eAST, Command cAST, SourcePosition thePosition) {
         super (thePosition);
-        I = iAST;
-        E1 = e1AST;
-        E2 = e2AST;
+        D = dAST;
+        E = eAST;
         C = cAST;
     }
 
@@ -25,8 +24,7 @@ public class RepeatForCommand extends Command{
         return v.visitRepeatForCommand(this, o);
     }
 
-    public Identifier I;
-    public Expression E1;
-    public Expression E2;
+    public Declaration D;
+    public Expression E;
     public Command C;
 }

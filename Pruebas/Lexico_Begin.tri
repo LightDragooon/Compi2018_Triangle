@@ -1,0 +1,11 @@
+let
+
+  var a := Integer
+
+in begin ! ya no es una palabra reservada y puede servir como "V-name := Expression" como "begin := Expression"
+
+  putint (a)
+
+end 
+
+

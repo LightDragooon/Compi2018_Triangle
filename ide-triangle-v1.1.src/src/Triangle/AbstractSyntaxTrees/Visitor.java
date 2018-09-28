@@ -19,20 +19,26 @@ public interface Visitor {
   // Commands
   public abstract Object visitAssignCommand(AssignCommand ast, Object o);
   public abstract Object visitCallCommand(CallCommand ast, Object o);
+  public abstract Object visitCaseCommand(CaseCommand ast, Object o);
+  public abstract Object visitCharacterCommand(CharacterCommand ast, Object o);
   public abstract Object visitEmptyCommand(EmptyCommand ast, Object o);
   public abstract Object visitIfCommand(IfCommand ast, Object o);
+  public abstract Object visitIntegerCommand(IntegerCommand ast, Object o);
   public abstract Object visitLetCommand(LetCommand ast, Object o);
   public abstract Object visitRepeatDoUntilCommand(RepeatDoUntilCommand ast, Object o);
   public abstract Object visitRepeatDoWhileCommand(RepeatDoWhileCommand ast, Object o);
   public abstract Object visitRepeatForCommand(RepeatForCommand ast, Object o);
   public abstract Object visitRepeatUntilCommand(RepeatUntilCommand ast, Object o);
   public abstract Object visitRepeatWhileCommand(RepeatWhileCommand ast, Object o);
+  public abstract Object visitSelectCommand(SelectCommand ast, Object o);
+  public abstract Object visitSequentialCase(SequentialCase ast, Object o);
   public abstract Object visitSequentialCommand(SequentialCommand ast, Object o);
+  public abstract Object visitSequentialElseCase(SequentialElseCase ast, Object o);
   public abstract Object visitWhileCommand(WhileCommand ast, Object o);
   
   //Case
   
-  public abstract Object visitSequentialCase(SequentialCase ast, Object o);
+  public abstract Object visitSequentialCaseLiteral(SequentialCaseLiteral ast, Object o);
 
   // Expressions
   public abstract Object visitArrayExpression(ArrayExpression ast, Object o);

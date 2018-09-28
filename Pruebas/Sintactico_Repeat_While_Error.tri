@@ -1,0 +1,5 @@
+!"repeat" "while" Expression "do" Command "end"
+repeat slice
+  while true do
+    putint(1)
+end
