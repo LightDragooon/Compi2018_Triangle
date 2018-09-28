@@ -349,6 +349,22 @@ public class Parser {
       return commandAST;
   }
   
+<<<<<<< Updated upstream
+=======
+  Command parseElseCase () throws SyntaxError{
+      Command cAST = null;
+      
+      SourcePosition casePos = new SourcePosition();
+      start(casePos);
+      
+      if(currentToken.kind == Token.ELSE){
+          acceptIt();
+          cAST = parseCommand();
+          finish(casePos);
+      }
+      return cAST;
+  }
+>>>>>>> Stashed changes
 ///////////////////////////////////////////////////////////////////////////////
 //
 // COMMANDS
