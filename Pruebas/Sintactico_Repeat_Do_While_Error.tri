@@ -1,4 +1,0 @@
-!"repeat" "do" Command "while" Expression "end"
-repeat do
-    putint(1)
-  while myVar > 5

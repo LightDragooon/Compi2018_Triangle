@@ -1,4 +1,3 @@
-! Ya no es una palabra reservada y puede servir como "V-name := Expression" como "begin := Expression"
 begin 
   putint (2)
 end 

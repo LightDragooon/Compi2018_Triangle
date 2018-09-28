@@ -1,4 +1,3 @@
-!"if" Expression "then" Command ("elsif" Expression "then" Command)* "else" Command "end"
 if b<0 then
 	putint(1)
 elsif b=2 then

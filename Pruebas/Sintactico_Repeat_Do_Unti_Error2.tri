@@ -1,4 +1,4 @@
-repeat do
+repeat 
 
     putint(1)
 
