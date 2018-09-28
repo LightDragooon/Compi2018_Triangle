@@ -657,7 +657,7 @@ public class Parser {
     break;
       
     default:
-      syntacticError("\"%\" cannot start a command",
+      syntacticError("\"%\" found. Expected some of the following [proc, func]",
         currentToken.spelling);
       
     break;
