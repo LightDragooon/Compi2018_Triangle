@@ -1,15 +1,17 @@
+!"select" Expression "from" Cases "end"
+
+!REGLAS DEL CASE
+!Cases         ::= Case+ [ ElseCase ]
+!Case          ::= "case" Case-Literals "then" Command
+!ElseCase      ::= "else" Command
+!Case-Literals ::= Case-Literal ("|" Case-Literal)*
+!Case-Literal ::= Integer-Literal | Character-Literal
+
 select myExpreA from 
-
-case 1 | 2 | 3 then 
-
-	myCommandA := 10 
-end 
-case 'A' then 
-
-	myCommandA2 := 100 
-end
-else 
-
-	myCommandA3 := 1000
-end
+  case 1 | 2 | 3 then 
+    yCommandA := 10 
+  case 'A' then 
+    myCommandA2 := 100 
+  else 
+    myCommandA3 := 1000
 end
