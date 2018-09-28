@@ -349,20 +349,6 @@ public class Parser {
       return commandAST;
   }
   
-  Case parseElseCase () throws SyntaxError{
-      Case caseAST = null;
-      
-      SourcePosition casePos = new SourcePosition();
-      start(casePos);
-      
-      if(currentToken.kind == Token.ELSE){
-          acceptIt();
-          Command cAST = parseCommand();
-          finish(casePos);
-          //caseAST = parseSequentialCase(cAST, casePos);
-      }
-      return caseAST;
-  }
 ///////////////////////////////////////////////////////////////////////////////
 //
 // COMMANDS
