@@ -1,3 +1,0 @@
-select myExpreA from 
-case 1 | 2 | 3 then myCommandA := 10
-case 'A' then myCommandA2 := 100 else myCommandA3 := 1000 end

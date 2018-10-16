@@ -39,6 +39,7 @@ import Triangle.AbstractSyntaxTrees.IntTypeDenoter;
 import Triangle.AbstractSyntaxTrees.IntegerCommand;
 import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
+import Triangle.AbstractSyntaxTrees.IntegerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
 import Triangle.AbstractSyntaxTrees.LocalDeclaration;
@@ -65,6 +66,7 @@ import Triangle.AbstractSyntaxTrees.SequentialCaseLiteral;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SequentialElseCase;
+import Triangle.AbstractSyntaxTrees.SequentialIntegerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleVname;
 import Triangle.AbstractSyntaxTrees.SingleActualParameterSequence;
@@ -611,6 +613,16 @@ public class TableVisitor implements Visitor {
   }
   
   public Object visitErrorTypeDenoter(ErrorTypeDenoter ast, Object o) { 
+      return(null);
+  }
+  
+  public Object visitIntegerTypeDenoter(IntegerTypeDenoter ast, Object o) { 
+      return(null);
+  }
+  
+  public Object visitSequentialIntegerTypeDenoter(SequentialIntegerTypeDenoter ast, Object o) { 
+      ast.IL1.visit(this, null);
+      ast.IL2.visit(this, null);
       return(null);
   }
   

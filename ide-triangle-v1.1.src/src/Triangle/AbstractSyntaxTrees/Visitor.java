@@ -98,7 +98,9 @@ public interface Visitor {
   public abstract Object visitArrayTypeDenoter(ArrayTypeDenoter ast, Object o);
   public abstract Object visitBoolTypeDenoter(BoolTypeDenoter ast, Object o);
   public abstract Object visitCharTypeDenoter(CharTypeDenoter ast, Object o);
+  public abstract Object visitIntegerTypeDenoter(IntegerTypeDenoter ast, Object o);
   public abstract Object visitErrorTypeDenoter(ErrorTypeDenoter ast, Object o);
+  public abstract Object visitSequentialIntegerTypeDenoter(SequentialIntegerTypeDenoter ast, Object o);
   public abstract Object visitSimpleTypeDenoter(SimpleTypeDenoter ast, Object o);
   public abstract Object visitIntTypeDenoter(IntTypeDenoter ast, Object o);
   public abstract Object visitRecordTypeDenoter(RecordTypeDenoter ast, Object o);

@@ -1,0 +1,17 @@
+!"let" Declaration "in" Command "end"
+!Proc-Funcs ::= Proc-Func ("|" Proc-Func)+
+!Proc-Func  ::= 
+!              "proc" Identifier "(" Formal-Parameter-Sequence ")" "~" Command "end"
+!            | "func" Identifier "(" Formal-Parameter-Sequence ")" ":" Type-denoter "~" Expression
+
+let
+  recursive 
+    func 
+      myIdent  (a : Integer) : array 5 .. 10 of Integer ~ myArray
+    |
+    proc  
+      myIdent2 (b : Integer) ~ b := 100 end
+    end 
+in
+  putint(a)
+end
