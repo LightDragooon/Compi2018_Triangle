@@ -12,6 +12,8 @@
  * of the authors.
  */
 
+
+//Prueba
 package Triangle.ContextualAnalyzer;
 
 import Triangle.ErrorReporter;
@@ -109,7 +111,7 @@ public final class Checker implements Visitor {
 
   // Always returns null. Does not use the given object.
 
-  public Object visitAssignCommand(AssignCommand ast, Object o) {
+  public Object visitAssignCommand(AssignCommand ast, Object o) {//
     TypeDenoter vType = (TypeDenoter) ast.V.visit(this, null);
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (!ast.V.variable)
@@ -120,13 +122,15 @@ public final class Checker implements Visitor {
   }
 
     public Object visitLocalDeclaration(LocalDeclaration ast, Object o) {
+        ast.D1.visit(this, null);
+        ast.D2.visit(this, null);
+        return null;
 //    Frame frame = (Frame) o;
 //    Integer valSize = (Integer) ast.E.visit(this, frame);
 //    encodeStore(ast.V, new Frame (frame, valSize.intValue()),
 //		valSize.intValue());
-    return null;
   }
-  public Object visitCallCommand(CallCommand ast, Object o) {
+  public Object visitCallCommand(CallCommand ast, Object o) {//
 
     Declaration binding = (Declaration) ast.I.visit(this, null);
     if (binding == null)
@@ -149,7 +153,7 @@ public final class Checker implements Visitor {
         return null;
     }
 
-  public Object visitEmptyCommand(EmptyCommand ast, Object o) {
+  public Object visitEmptyCommand(EmptyCommand ast, Object o) {//
     return null;
   }
 
@@ -166,7 +170,7 @@ public final class Checker implements Visitor {
         return null;
     }
 
-  public Object visitLetCommand(LetCommand ast, Object o) {
+  public Object visitLetCommand(LetCommand ast, Object o) { //
     idTable.openScope();
     ast.D.visit(this, null);
     ast.C.visit(this, null);
@@ -194,12 +198,14 @@ public final class Checker implements Visitor {
     }
     
     //Se añade visitRepeatWhileCommand
-    public Object visitRepeatForCommand(RepeatForCommand ast, Object o) {
-        /*
-        TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
-        if (! eType.equals(StdEnvironment.booleanType))
-          reporter.reportError("Boolean expression expected here", "", ast.E.position);
-        ast.C.visit(this, null);*/
+    public Object visitRepeatForCommand(RepeatForCommand ast, Object o) {  
+        ast.D.visit(this, o); // visitConstDeclaration Declarar variable
+        TypeDenoter eType = (TypeDenoter) ast.E.visit(this, o);
+        if (! eType.equals(StdEnvironment.integerType))
+               reporter.reportError ("Integer expression expected here", "",
+                          ast.E.position);  
+        
+        ast.C.visit(this, o);
         return null;
     }
     
@@ -223,7 +229,11 @@ public final class Checker implements Visitor {
     }
     
     public Object visitSelectCommand(SelectCommand ast, Object o) { 
-        ast.E.visit(this, null);
+        TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+        if (! eType.equals(StdEnvironment.integerType) || ! eType.equals(StdEnvironment.charType))
+               reporter.reportError ("Integer or Char expression expected here", "",
+                          ast.E.position);  
+   
         ast.C.visit(this, null);
         return null;
     }
@@ -235,6 +245,8 @@ public final class Checker implements Visitor {
     }  
     
     public Object visitSequentialCaseLiteral(SequentialCaseLiteral ast, Object o){
+        ast.C1.visit(this, null);
+        ast.C2.visit(this, null);
         return null;
     }
     
@@ -386,10 +398,16 @@ public final class Checker implements Visitor {
 
   // Declarations
   
-  public Object visitAssignDeclaration(AssignDeclaration ast, Object o) {
-    return null;
+//Nuevo
+  public Object visitAssignDeclaration(AssignDeclaration ast, Object o) { // Comprobar que sean mismo tipo, y meter en la tabla
+    ast.I.type = (TypeDenoter) ast.E.visit(this, null);
+    idTable.enter(ast.I.spelling, ast);
+    if (ast.duplicated)
+      reporter.reportError ("identifier \"%\" already declared",
+                            ast.I.spelling, ast.position);
+    return null;      
   }
-
+  
   // Always returns null. Does not use the given object.
   public Object visitBinaryOperatorDeclaration(BinaryOperatorDeclaration ast, Object o) {
     return null;
@@ -757,7 +775,7 @@ public final class Checker implements Visitor {
     return StdEnvironment.charType;
   }
 
-  public Object visitIdentifier(Identifier I, Object o) {
+  public Object visitIdentifier(Identifier I, Object o) {//
     Declaration binding = idTable.retrieve(I.spelling);
     if (binding != null)
       I.decl = binding;
@@ -1007,7 +1025,7 @@ public final class Checker implements Visitor {
 
   private void establishStdEnvironment () {
 
-    // idTable.startIdentification();
+    //idTable.startIdentification();
     StdEnvironment.booleanType = new BoolTypeDenoter(dummyPos);
     StdEnvironment.integerType = new IntTypeDenoter(dummyPos);
     StdEnvironment.charType = new CharTypeDenoter(dummyPos);
