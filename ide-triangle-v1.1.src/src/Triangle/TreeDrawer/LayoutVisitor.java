@@ -51,6 +51,7 @@ import Triangle.AbstractSyntaxTrees.IntTypeDenoter;
 import Triangle.AbstractSyntaxTrees.IntegerCommand;
 import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
+import Triangle.AbstractSyntaxTrees.IntegerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
 import Triangle.AbstractSyntaxTrees.LocalDeclaration;
@@ -77,6 +78,7 @@ import Triangle.AbstractSyntaxTrees.SequentialCaseLiteral;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SequentialElseCase;
+import Triangle.AbstractSyntaxTrees.SequentialIntegerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleVname;
 import Triangle.AbstractSyntaxTrees.SingleActualParameterSequence;
@@ -377,7 +379,15 @@ public class LayoutVisitor implements Visitor {
   public Object visitErrorTypeDenoter(ErrorTypeDenoter ast, Object obj) {
     return layoutNullary("error");
   }
+  
+  public Object visitIntegerTypeDenoter(IntegerTypeDenoter ast, Object o) { 
+    return layoutUnary("Int.TypeD.", ast.IL);
+  }
 
+  public Object visitSequentialIntegerTypeDenoter(SequentialIntegerTypeDenoter ast, Object o) { 
+      return(layoutBinary("Seq.Int.TypeD.", ast.IL1, ast.IL2));
+    }
+  
   public Object visitSimpleTypeDenoter(SimpleTypeDenoter ast, Object obj) {
     return layoutUnary("Sim.TypeD.", ast.I);
   }

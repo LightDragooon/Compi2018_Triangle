@@ -52,6 +52,7 @@ import Triangle.AbstractSyntaxTrees.IfExpression;
 import Triangle.AbstractSyntaxTrees.IntegerCommand;
 import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
+import Triangle.AbstractSyntaxTrees.IntegerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
 import Triangle.AbstractSyntaxTrees.LocalDeclaration;
@@ -79,6 +80,7 @@ import Triangle.AbstractSyntaxTrees.SequentialCaseLiteral;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SequentialElseCase;
+import Triangle.AbstractSyntaxTrees.SequentialIntegerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleVname;
 import Triangle.AbstractSyntaxTrees.SingleActualParameterSequence;
@@ -349,6 +351,21 @@ public class Parser {
       return commandAST;
   }
   
+
+  Command parseElseCase () throws SyntaxError{
+      Command cAST = null;
+      
+      SourcePosition casePos = new SourcePosition();
+      start(casePos);
+      
+      if(currentToken.kind == Token.ELSE){
+          acceptIt();
+          cAST = parseCommand();
+          finish(casePos);
+      }
+      return cAST;
+  }
+
 ///////////////////////////////////////////////////////////////////////////////
 //
 // COMMANDS
@@ -657,7 +674,7 @@ public class Parser {
     break;
       
     default:
-      syntacticError("\"%\" cannot start a command",
+      syntacticError("\"%\" found. Expected some of the following [proc, func]",
         currentToken.spelling);
       
     break;
@@ -676,7 +693,7 @@ public class Parser {
     start(declarationPos); // Establece esta posicion
     declarationAST = parseProcFunc();
     do { 
-        acceptIt();
+        accept(Token.PIPE);
         Declaration d2AST = parseProcFunc();
         finish(declarationPos);
         declarationAST = new SequentialDeclaration(declarationAST, d2AST, declarationPos);
@@ -1307,9 +1324,11 @@ public class Parser {
       {
         acceptIt();
         IntegerLiteral ilAST = parseIntegerLiteral();
+        Command c1AST = new IntegerTypeDenoter(ilAST, typePos);
         if (currentToken.kind == Token.DOTDOT){
             acceptIt();
             IntegerLiteral i2AST = parseIntegerLiteral();
+            c1AST = new SequentialIntegerTypeDenoter(ilAST, i2AST, typePos);
         }
         accept(Token.OF);
         TypeDenoter tAST = parseTypeDenoter();

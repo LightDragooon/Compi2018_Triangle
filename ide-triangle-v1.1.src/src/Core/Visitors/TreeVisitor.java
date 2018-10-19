@@ -39,6 +39,7 @@ import Triangle.AbstractSyntaxTrees.IntTypeDenoter;
 import Triangle.AbstractSyntaxTrees.IntegerCommand;
 import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
+import Triangle.AbstractSyntaxTrees.IntegerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
 import Triangle.AbstractSyntaxTrees.LocalDeclaration;
@@ -65,6 +66,7 @@ import Triangle.AbstractSyntaxTrees.SequentialCaseLiteral;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SequentialElseCase;
+import Triangle.AbstractSyntaxTrees.SequentialIntegerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleVname;
 import Triangle.AbstractSyntaxTrees.SingleActualParameterSequence;
@@ -376,6 +378,14 @@ public class TreeVisitor implements Visitor {
         return(createNullary("error"));
     }
     
+    public Object visitIntegerTypeDenoter(IntegerTypeDenoter ast, Object o) { 
+      return(createUnary("Integer Type Denoter", ast.IL));
+    }
+    
+    public Object visitSequentialIntegerTypeDenoter(SequentialIntegerTypeDenoter ast, Object o) { 
+      return(createBinary("Sequential Integer Type Denoter", ast.IL1, ast.IL2));
+    }
+      
     public Object visitSimpleTypeDenoter(SimpleTypeDenoter ast, Object obj) {
         return(createUnary("Simple Type Denoter", ast.I));
     }
