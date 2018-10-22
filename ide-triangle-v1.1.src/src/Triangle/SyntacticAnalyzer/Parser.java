@@ -65,6 +65,7 @@ import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
 import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
+import Triangle.AbstractSyntaxTrees.ProcFuncsDeclaration;
 import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordAggregate;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
@@ -696,7 +697,7 @@ public class Parser {
         accept(Token.PIPE);
         Declaration d2AST = parseProcFunc();
         finish(declarationPos);
-        declarationAST = new SequentialDeclaration(declarationAST, d2AST, declarationPos);
+        declarationAST = new ProcFuncsDeclaration(declarationAST, d2AST, declarationPos);//REVISAR
     } while (currentToken.kind == Token.PIPE);
     
     return declarationAST;

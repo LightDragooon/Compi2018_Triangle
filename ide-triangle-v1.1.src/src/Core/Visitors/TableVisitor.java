@@ -52,6 +52,8 @@ import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
 import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
+import Triangle.AbstractSyntaxTrees.ProcFuncsDeclaration;
+import Triangle.AbstractSyntaxTrees.ProcPFDeclaration;
 import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
@@ -395,6 +397,28 @@ public class TableVisitor implements Visitor {
       ast.FPS.visit(this, null);
       ast.C.visit(this, null);
             
+      return(null);
+  }
+  
+  public Object visitProcPFDeclaration(ProcPFDeclaration ast, Object o){
+      try {
+      addIdentifier(ast.I.spelling, "KnownRoutine", 
+              (ast.entity!=null?ast.entity.size:0), 
+              ((KnownRoutine)ast.entity).address.level, 
+              ((KnownRoutine)ast.entity).address.displacement, 
+              -1);
+      } catch (NullPointerException e) { }
+      
+      ast.FPS.visit(this, null);
+      ast.C.visit(this, null);
+            
+      return(null);
+  }
+  
+  public Object visitProcFuncsDeclaration(ProcFuncsDeclaration ast, Object o){
+      ast.D1.visit(this, null);
+      ast.D2.visit(this, null);
+      
       return(null);
   }
   

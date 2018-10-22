@@ -72,6 +72,8 @@ import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
 import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
+import Triangle.AbstractSyntaxTrees.ProcFuncsDeclaration;
+import Triangle.AbstractSyntaxTrees.ProcPFDeclaration;
 import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
@@ -460,6 +462,14 @@ public final class Encoder implements Visitor {
     patch(jumpAddr, nextInstrAddr);
     return new Integer(0);
   }
+  
+    public Object visitProcPFDeclaration(ProcPFDeclaration ast, Object o){
+        return(null);
+    }
+  
+    public Object visitProcFuncsDeclaration(ProcFuncsDeclaration ast, Object o){
+      return(null);
+    }
 
   public Object visitSequentialDeclaration(SequentialDeclaration ast, Object o) {
     Frame frame = (Frame) o;

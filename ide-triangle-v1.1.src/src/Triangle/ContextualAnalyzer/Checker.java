@@ -69,6 +69,8 @@ import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
 import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
+import Triangle.AbstractSyntaxTrees.ProcFuncsDeclaration;
+import Triangle.AbstractSyntaxTrees.ProcPFDeclaration;
 import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
@@ -122,13 +124,15 @@ public final class Checker implements Visitor {
   }
 
     public Object visitLocalDeclaration(LocalDeclaration ast, Object o) {
+        idTable.openScope();
         ast.D1.visit(this, null);
+        idTable.closeScope();
         ast.D2.visit(this, null);
-        return null;
-//    Frame frame = (Frame) o;
-//    Integer valSize = (Integer) ast.E.visit(this, frame);
-//    encodeStore(ast.V, new Frame (frame, valSize.intValue()),
-//		valSize.intValue());
+  
+        
+        
+        
+    return null;
   }
   public Object visitCallCommand(CallCommand ast, Object o) {//
 
@@ -178,7 +182,7 @@ public final class Checker implements Visitor {
     return null;
   }
   
-      //Se añade visitRepeatWhileCommand
+      //Se aï¿½ade visitRepeatWhileCommand
     public Object visitRepeatDoUntilCommand(RepeatDoUntilCommand ast, Object o) {
         /*
         TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
@@ -187,7 +191,7 @@ public final class Checker implements Visitor {
         ast.C.visit(this, null);*/
         return null;
     }
-      //Se añade visitRepeatWhileCommand
+      //Se aï¿½ade visitRepeatWhileCommand
     public Object visitRepeatDoWhileCommand(RepeatDoWhileCommand ast, Object o) {
         /*
         TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
@@ -197,7 +201,7 @@ public final class Checker implements Visitor {
         return null;
     }
     
-    //Se añade visitRepeatWhileCommand
+    //Se aï¿½ade visitRepeatWhileCommand
     public Object visitRepeatForCommand(RepeatForCommand ast, Object o) {  
         ast.D.visit(this, o); // visitConstDeclaration Declarar variable
         TypeDenoter eType = (TypeDenoter) ast.E.visit(this, o);
@@ -209,7 +213,7 @@ public final class Checker implements Visitor {
         return null;
     }
     
-    //Se añade visitRepeatWhileCommand
+    //Se aï¿½ade visitRepeatWhileCommand
     public Object visitRepeatUntilCommand(RepeatUntilCommand ast, Object o) {
         /*
         TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
@@ -219,7 +223,7 @@ public final class Checker implements Visitor {
         return null;
     }
     
-    //Se añade visitRepeatWhileCommand
+    //Se aï¿½ade visitRepeatWhileCommand
     public Object visitRepeatWhileCommand(RepeatWhileCommand ast, Object o) {
         TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
         if (! eType.equals(StdEnvironment.booleanType))
@@ -449,6 +453,24 @@ public final class Checker implements Visitor {
     idTable.closeScope();
     return null;
   }
+  
+    public Object visitProcPFDeclaration(ProcPFDeclaration ast, Object o){
+        idTable.enter (ast.I.spelling, ast); // permits recursion
+        if (ast.duplicated)
+          reporter.reportError ("identifier \"%\" already declared",
+                                ast.I.spelling, ast.position);
+        idTable.openScope();
+        ast.FPS.visit(this, null);
+        ast.C.visit(this, null);
+        idTable.closeScope();
+        return null;
+    }
+  
+    public Object visitProcFuncsDeclaration(ProcFuncsDeclaration ast, Object o){
+        ast.D1.visit(this, null);
+        ast.D2.visit(this, null);
+        return null;
+    }
 
   public Object visitSequentialDeclaration(SequentialDeclaration ast, Object o) {
     ast.D1.visit(this, null);

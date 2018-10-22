@@ -37,10 +37,10 @@ public class Instruction {
   //    Operand = -32767..+32767;  {16 bits signed}
 
   // Represents TAM instructions.
-  public int op; // OpCode
-  public int r;  // RegisterNumber
-  public int n;  // Length
-  public int d;  // Operand
+  public int op; // OpCode  |  Código de operación
+  public int r;  // RegisterNumber  |  Número de registro
+  public int n;  // Length  | Largo de operación
+  public int d;  // Operand  |  Desplazamiento
 
   public void write(DataOutputStream output) throws IOException {
     output.writeInt (op);
