@@ -1,0 +1,15 @@
+let
+    proc  
+      myProc (a : Integer,
+              myProc : Integer!,
+              !a : Integer    <- Este es un error
+              ) ~ 
+        let
+          var a : Integer
+        in
+          nil
+        end
+    end
+in
+  nil
+end

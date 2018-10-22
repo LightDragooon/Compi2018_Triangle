@@ -465,6 +465,9 @@ public final class Checker implements Visitor {
     ast.FPS.visit(this, null);
     ast.C.visit(this, null);
     idTable.closeScope();
+    
+    
+    
     return null;
   }
   

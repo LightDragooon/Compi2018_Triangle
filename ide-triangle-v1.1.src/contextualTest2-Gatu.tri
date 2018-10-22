@@ -29,7 +29,7 @@ let
     end
   in
     proc  
-      myProc4 (var b : Integer) ~ b := 100!; myProcL1 (100)
+      myProc5 (var b : Integer) ~ b := 100!; myProcL1 (100)
     end
   end
 in

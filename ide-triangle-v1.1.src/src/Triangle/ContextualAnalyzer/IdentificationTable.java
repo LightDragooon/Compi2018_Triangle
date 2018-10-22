@@ -50,6 +50,27 @@ public final class IdentificationTable {
     this.level--;
     this.latest = entry;
   }
+  
+    // Closes the topmost level in the identification table, discarding
+    // all entries belonging to that level. Also checks duplicats in inner levels
+  public void closeScope (String id, Declaration attr) {
+
+    IdEntry entry, local;
+    boolean present = false;
+    // Presumably, idTable.level > 0.
+    entry = this.latest;
+    
+    while (entry.level == this.level) {
+        if (entry.id.equals(id))
+            present = true;
+        local = entry;
+        entry = local.previous;
+    }
+    
+    attr.duplicated = present;
+    this.level--;
+    this.latest = entry;
+  }
 
   // Makes a new entry in the identification table for the given identifier
   // and attribute. The new entry belongs to the current level.

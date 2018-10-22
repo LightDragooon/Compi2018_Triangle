@@ -1,0 +1,23 @@
+!Objetivo del caso de prueba: Repeat Do Until de forma fallida
+!Disenno del caso de prueba: 
+
+let
+  var myVar : Integer
+in
+  myVar := 0;
+  repeat do
+    let
+      var myVar2 : Integer
+    in
+      myVar2 := myVar !myVar2 esta en un nivel mas profundo, por lo que se tiene acceso a myVar
+    end;
+    myVar := myVar + 1;
+    myVar2 := 100 !Afuera del while no se ha declarado myVar2 -> ERROR
+  until true
+  end
+  
+end
+
+!Resultados esperados: Analisis contextual fallido
+!Resultados observados: Analisis contextual fallido - No se puede acceder a myVar2 porque esta declarada en
+!un nivel mas profundo

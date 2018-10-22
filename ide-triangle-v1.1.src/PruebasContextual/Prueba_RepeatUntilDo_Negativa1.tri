@@ -1,0 +1,20 @@
+!Objetivo del caso de prueba: Repeat Until Do de forma fallida
+!Disenno del caso de prueba: 
+
+let
+  var myVar : Integer
+in
+  myVar := 0;
+  repeat until 5 do !Expression debe ser de tipo Boolean
+    let
+      var myVar2 : Integer
+    in
+      myVar2 := myVar
+    end;
+    myVar := myVar + 1
+  end
+  
+end
+
+!Resultados esperados: Analisis contextual fallido
+!Resultados observados: Analisis contextual fallido - Se espera una expresion de tipo Boolean

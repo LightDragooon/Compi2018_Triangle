@@ -2,11 +2,11 @@ let
   local
     const myCons ~ true !ERROR
   in
-    const myCons2 ~ true!myCons
+    const myCons2 ~ myCons
   end
 in
   let
-    !const myCons11 ~ myCons;
+    const myCons11 ~ myCons;
     const myCons22 ~ myCons2 !ERROR
   in
     nil

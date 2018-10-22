@@ -1,0 +1,20 @@
+!Objetivo del caso de prueba: Repeat Until Do de forma exitosa
+!Disenno del caso de prueba: 
+
+let
+  var myVar : Integer
+in
+  myVar := 0;
+  repeat until true do
+    let
+      var myVar2 : Integer
+    in
+      myVar2 := myVar
+    end;
+    myVar := myVar + 1
+  end
+  
+end
+
+!Resultados esperados: Analisis contextual exitoso
+!Resultados observados: Analisis contextual exitoso

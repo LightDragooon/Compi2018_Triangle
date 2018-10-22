@@ -1,0 +1,11 @@
+!Objetivo del caso de prueba: Asiganción de un valor a una constante
+!Disenno del caso de prueba: 
+
+let
+  const myVar ~ 10
+in
+  myVar := 5
+end
+
+!Resultados esperados: Analisis contextual fallido
+!Resultados observados: Analisis contextual fallido - myVar no es una variable
