@@ -184,21 +184,19 @@ public final class Checker implements Visitor {
   }
   
       //Se a�ade visitRepeatWhileCommand
-    public Object visitRepeatDoUntilCommand(RepeatDoUntilCommand ast, Object o) {
-        /*
+    public Object visitRepeatDoUntilCommand(RepeatDoUntilCommand ast, Object o) { 
         TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
         if (! eType.equals(StdEnvironment.booleanType))
           reporter.reportError("Boolean expression expected here", "", ast.E.position);
-        ast.C.visit(this, null);*/
+        ast.C.visit(this, null);
         return null;
     }
       //Se a�ade visitRepeatWhileCommand
     public Object visitRepeatDoWhileCommand(RepeatDoWhileCommand ast, Object o) {
-        /*
-        TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+      TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
         if (! eType.equals(StdEnvironment.booleanType))
           reporter.reportError("Boolean expression expected here", "", ast.E.position);
-        ast.C.visit(this, null);*/
+        ast.C.visit(this, null);
         return null;
     }
     
@@ -216,11 +214,10 @@ public final class Checker implements Visitor {
     
     //Se a�ade visitRepeatWhileCommand
     public Object visitRepeatUntilCommand(RepeatUntilCommand ast, Object o) {
-        /*
-        TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+       TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
         if (! eType.equals(StdEnvironment.booleanType))
           reporter.reportError("Boolean expression expected here", "", ast.E.position);
-        ast.C.visit(this, null);*/
+        ast.C.visit(this, null);
         return null;
     }
     
@@ -877,7 +874,10 @@ public final class Checker implements Visitor {
         ast.variable = false;
       } else if (binding instanceof VarDeclaration) {
         ast.type = ((VarDeclaration) binding).T;
-        ast.variable = true;
+        ast.variable = true; 
+      }else if (binding instanceof AssignDeclaration) {
+        ast.type = ((AssignDeclaration) binding).I.type;
+        ast.variable = true; // AssignDeclaration
       } else if (binding instanceof ConstFormalParameter) {
         ast.type = ((ConstFormalParameter) binding).T;
         ast.variable = false;
