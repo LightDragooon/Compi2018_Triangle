@@ -878,6 +878,9 @@ public final class Checker implements Visitor {
       } else if (binding instanceof VarDeclaration) {
         ast.type = ((VarDeclaration) binding).T;
         ast.variable = true;
+      } else if (binding instanceof AssignDeclaration) {
+        ast.type = ((AssignDeclaration) binding).I.type;
+        ast.variable = true;
       } else if (binding instanceof ConstFormalParameter) {
         ast.type = ((ConstFormalParameter) binding).T;
         ast.variable = false;
