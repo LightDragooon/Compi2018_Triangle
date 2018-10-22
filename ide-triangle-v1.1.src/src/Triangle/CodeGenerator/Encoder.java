@@ -41,6 +41,7 @@ import Triangle.AbstractSyntaxTrees.CharacterExpression;
 import Triangle.AbstractSyntaxTrees.CharacterLiteral;
 import Triangle.AbstractSyntaxTrees.ConstActualParameter;
 import Triangle.AbstractSyntaxTrees.ConstDeclaration;
+import Triangle.AbstractSyntaxTrees.ConstDeclarationFor;
 import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
 import Triangle.AbstractSyntaxTrees.Declaration;
 import Triangle.AbstractSyntaxTrees.DotVname;
@@ -400,6 +401,27 @@ public final class Encoder implements Visitor {
   }
 
   public Object visitConstDeclaration(ConstDeclaration ast, Object o) {
+    Frame frame = (Frame) o;
+    int extraSize = 0;
+
+    if (ast.E instanceof CharacterExpression) {
+        CharacterLiteral CL = ((CharacterExpression) ast.E).CL;
+        ast.entity = new KnownValue(Machine.characterSize,
+                                 characterValuation(CL.spelling));
+    } else if (ast.E instanceof IntegerExpression) {
+        IntegerLiteral IL = ((IntegerExpression) ast.E).IL;
+        ast.entity = new KnownValue(Machine.integerSize,
+				 Integer.parseInt(IL.spelling));
+    } else {
+      int valSize = ((Integer) ast.E.visit(this, frame)).intValue();
+      ast.entity = new UnknownValue(valSize, frame.level, frame.size);
+      extraSize = valSize;
+    }
+    writeTableDetails(ast);
+    return new Integer(extraSize);
+  }
+  
+  public Object visitConstDeclarationFor(ConstDeclarationFor ast, Object o) {
     Frame frame = (Frame) o;
     int extraSize = 0;
 

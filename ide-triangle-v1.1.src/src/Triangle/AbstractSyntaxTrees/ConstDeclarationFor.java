@@ -16,9 +16,9 @@ package Triangle.AbstractSyntaxTrees;
 import Triangle.ContextualAnalyzer.Checker;
 import Triangle.SyntacticAnalyzer.SourcePosition;
 
-public class ConstDeclaration extends Declaration {
+public class ConstDeclarationFor extends Declaration {
 
-    public ConstDeclaration(Identifier iAST, Expression eAST,
+    public ConstDeclarationFor(Identifier iAST, Expression eAST,
             SourcePosition thePosition) {
         super(thePosition);
         I = iAST;
@@ -26,7 +26,7 @@ public class ConstDeclaration extends Declaration {
     }
 
     public Object visit(Visitor v, Object o) {
-        return v.visitConstDeclaration(this, o);
+        return v.visitConstDeclarationFor(this, o);
     }
 
     public Identifier I;
