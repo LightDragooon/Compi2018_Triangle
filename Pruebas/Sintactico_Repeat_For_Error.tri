@@ -1,5 +1,0 @@
-!"repeat" "for" Identifier "from" Expression "to" Expression "do" Command "end"
-repeat for i
-  from 1 through 10 do
-    putint (10)
-end

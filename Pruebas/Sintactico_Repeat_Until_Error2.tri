@@ -1,5 +1,5 @@
 repeat
-  until true do 
+  until true then 
 
     putint (1) ;
 

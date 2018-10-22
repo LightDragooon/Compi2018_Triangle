@@ -57,9 +57,12 @@ public interface Visitor {
   public abstract Object visitAssignDeclaration(AssignDeclaration ast, Object o);
   public abstract Object visitBinaryOperatorDeclaration(BinaryOperatorDeclaration ast, Object o);
   public abstract Object visitConstDeclaration(ConstDeclaration ast, Object o);
+  public abstract Object visitConstDeclarationFor(ConstDeclarationFor ast, Object o);
   public abstract Object visitFuncDeclaration(FuncDeclaration ast, Object o);
   public abstract Object visitLocalDeclaration(LocalDeclaration ast, Object o);
   public abstract Object visitProcDeclaration(ProcDeclaration ast, Object o);
+  public abstract Object visitProcPFDeclaration(ProcPFDeclaration ast, Object o);
+  public abstract Object visitProcFuncsDeclaration(ProcFuncsDeclaration ast, Object o);
   public abstract Object visitSequentialDeclaration(SequentialDeclaration ast, Object o);
   public abstract Object visitTypeDeclaration(TypeDeclaration ast, Object o);
   public abstract Object visitUnaryOperatorDeclaration(UnaryOperatorDeclaration ast, Object o);
@@ -98,7 +101,9 @@ public interface Visitor {
   public abstract Object visitArrayTypeDenoter(ArrayTypeDenoter ast, Object o);
   public abstract Object visitBoolTypeDenoter(BoolTypeDenoter ast, Object o);
   public abstract Object visitCharTypeDenoter(CharTypeDenoter ast, Object o);
+  public abstract Object visitIntegerTypeDenoter(IntegerTypeDenoter ast, Object o);
   public abstract Object visitErrorTypeDenoter(ErrorTypeDenoter ast, Object o);
+  public abstract Object visitSequentialIntegerTypeDenoter(SequentialIntegerTypeDenoter ast, Object o);
   public abstract Object visitSimpleTypeDenoter(SimpleTypeDenoter ast, Object o);
   public abstract Object visitIntTypeDenoter(IntTypeDenoter ast, Object o);
   public abstract Object visitRecordTypeDenoter(RecordTypeDenoter ast, Object o);
@@ -119,5 +124,4 @@ public interface Visitor {
 
   // Programs
   public abstract Object visitProgram(Program ast, Object o);
-
 }

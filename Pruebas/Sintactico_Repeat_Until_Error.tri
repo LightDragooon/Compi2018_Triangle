@@ -1,6 +1,0 @@
-!"repeat" "until" Expression "do" Command "end"
-repeat
-  until true do 
-    putint (1) !Aca esta realizando el parse y se da cuenta de que despues del command tiene que ir la palabra reservada "end"
-    putint (2)
-end

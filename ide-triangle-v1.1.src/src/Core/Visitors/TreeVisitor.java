@@ -22,6 +22,7 @@ import Triangle.AbstractSyntaxTrees.CharacterExpression;
 import Triangle.AbstractSyntaxTrees.CharacterLiteral;
 import Triangle.AbstractSyntaxTrees.ConstActualParameter;
 import Triangle.AbstractSyntaxTrees.ConstDeclaration;
+import Triangle.AbstractSyntaxTrees.ConstDeclarationFor;
 import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
 import Triangle.AbstractSyntaxTrees.DotVname;
 import Triangle.AbstractSyntaxTrees.EmptyActualParameterSequence;
@@ -39,6 +40,7 @@ import Triangle.AbstractSyntaxTrees.IntTypeDenoter;
 import Triangle.AbstractSyntaxTrees.IntegerCommand;
 import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
+import Triangle.AbstractSyntaxTrees.IntegerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
 import Triangle.AbstractSyntaxTrees.LocalDeclaration;
@@ -51,6 +53,8 @@ import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
 import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
+import Triangle.AbstractSyntaxTrees.ProcFuncsDeclaration;
+import Triangle.AbstractSyntaxTrees.ProcPFDeclaration;
 import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
@@ -65,6 +69,7 @@ import Triangle.AbstractSyntaxTrees.SequentialCaseLiteral;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SequentialElseCase;
+import Triangle.AbstractSyntaxTrees.SequentialIntegerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleVname;
 import Triangle.AbstractSyntaxTrees.SingleActualParameterSequence;
@@ -245,12 +250,24 @@ public class TreeVisitor implements Visitor {
         return(createBinary("Constant Declaration", ast.I, ast.E));
     }
     
+    public Object visitConstDeclarationFor(ConstDeclarationFor ast, Object obj) {
+        return(createBinary("Constant Declaration For", ast.I, ast.E));
+    }
+    
     public Object visitFuncDeclaration(FuncDeclaration ast, Object obj) {
         return(createQuaternary("Function Declaration", ast.I, ast.FPS, ast.T, ast.E));
     }
     
     public Object visitProcDeclaration(ProcDeclaration ast, Object obj) {
         return(createTernary("Procedure Declaration", ast.I, ast.FPS, ast.C));        
+    }
+    
+    public Object visitProcPFDeclaration(ProcPFDeclaration ast, Object o){
+        return(createTernary("Procedure Proc-Funcs Declaration", ast.I, ast.FPS, ast.C));
+    }
+    
+    public Object visitProcFuncsDeclaration(ProcFuncsDeclaration ast, Object o){
+      return(createBinary("Proc-Funcs Declaration", ast.D1, ast.D2));
     }
     
     public Object visitSequentialDeclaration(SequentialDeclaration ast, Object obj) {
@@ -376,6 +393,14 @@ public class TreeVisitor implements Visitor {
         return(createNullary("error"));
     }
     
+    public Object visitIntegerTypeDenoter(IntegerTypeDenoter ast, Object o) { 
+      return(createUnary("Integer Type Denoter", ast.IL));
+    }
+    
+    public Object visitSequentialIntegerTypeDenoter(SequentialIntegerTypeDenoter ast, Object o) { 
+      return(createBinary("Sequential Integer Type Denoter", ast.IL1, ast.IL2));
+    }
+      
     public Object visitSimpleTypeDenoter(SimpleTypeDenoter ast, Object obj) {
         return(createUnary("Simple Type Denoter", ast.I));
     }

@@ -41,6 +41,7 @@ import Triangle.AbstractSyntaxTrees.CharacterExpression;
 import Triangle.AbstractSyntaxTrees.CharacterLiteral;
 import Triangle.AbstractSyntaxTrees.ConstActualParameter;
 import Triangle.AbstractSyntaxTrees.ConstDeclaration;
+import Triangle.AbstractSyntaxTrees.ConstDeclarationFor;
 import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
 import Triangle.AbstractSyntaxTrees.Declaration;
 import Triangle.AbstractSyntaxTrees.DotVname;
@@ -59,6 +60,7 @@ import Triangle.AbstractSyntaxTrees.IntTypeDenoter;
 import Triangle.AbstractSyntaxTrees.IntegerCommand;
 import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
+import Triangle.AbstractSyntaxTrees.IntegerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
 import Triangle.AbstractSyntaxTrees.LocalDeclaration;
@@ -71,6 +73,8 @@ import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
 import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
+import Triangle.AbstractSyntaxTrees.ProcFuncsDeclaration;
+import Triangle.AbstractSyntaxTrees.ProcPFDeclaration;
 import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
@@ -85,6 +89,7 @@ import Triangle.AbstractSyntaxTrees.SequentialCaseLiteral;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SequentialElseCase;
+import Triangle.AbstractSyntaxTrees.SequentialIntegerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleVname;
 import Triangle.AbstractSyntaxTrees.SingleActualParameterSequence;
@@ -415,6 +420,27 @@ public final class Encoder implements Visitor {
     writeTableDetails(ast);
     return new Integer(extraSize);
   }
+  
+  public Object visitConstDeclarationFor(ConstDeclarationFor ast, Object o) {
+    Frame frame = (Frame) o;
+    int extraSize = 0;
+
+    if (ast.E instanceof CharacterExpression) {
+        CharacterLiteral CL = ((CharacterExpression) ast.E).CL;
+        ast.entity = new KnownValue(Machine.characterSize,
+                                 characterValuation(CL.spelling));
+    } else if (ast.E instanceof IntegerExpression) {
+        IntegerLiteral IL = ((IntegerExpression) ast.E).IL;
+        ast.entity = new KnownValue(Machine.integerSize,
+				 Integer.parseInt(IL.spelling));
+    } else {
+      int valSize = ((Integer) ast.E.visit(this, frame)).intValue();
+      ast.entity = new UnknownValue(valSize, frame.level, frame.size);
+      extraSize = valSize;
+    }
+    writeTableDetails(ast);
+    return new Integer(extraSize);
+  }
 
   public Object visitFuncDeclaration(FuncDeclaration ast, Object o) {
     Frame frame = (Frame) o;
@@ -458,6 +484,14 @@ public final class Encoder implements Visitor {
     patch(jumpAddr, nextInstrAddr);
     return new Integer(0);
   }
+  
+    public Object visitProcPFDeclaration(ProcPFDeclaration ast, Object o){
+        return(null);
+    }
+  
+    public Object visitProcFuncsDeclaration(ProcFuncsDeclaration ast, Object o){
+      return(null);
+    }
 
   public Object visitSequentialDeclaration(SequentialDeclaration ast, Object o) {
     Frame frame = (Frame) o;
@@ -687,7 +721,15 @@ public final class Encoder implements Visitor {
   public Object visitErrorTypeDenoter(ErrorTypeDenoter ast, Object o) {
     return new Integer(0);
   }
+  
+  public Object visitIntegerTypeDenoter(IntegerTypeDenoter ast, Object o) { 
+      return(null);
+    }
 
+  public Object visitSequentialIntegerTypeDenoter(SequentialIntegerTypeDenoter ast, Object o) { 
+      return(null);
+    }
+  
   public Object visitSimpleTypeDenoter(SimpleTypeDenoter ast,
 					   Object o) {
     return new Integer(0);

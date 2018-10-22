@@ -34,6 +34,7 @@ import Triangle.AbstractSyntaxTrees.CharacterExpression;
 import Triangle.AbstractSyntaxTrees.CharacterLiteral;
 import Triangle.AbstractSyntaxTrees.ConstActualParameter;
 import Triangle.AbstractSyntaxTrees.ConstDeclaration;
+import Triangle.AbstractSyntaxTrees.ConstDeclarationFor;
 import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
 import Triangle.AbstractSyntaxTrees.DotVname;
 import Triangle.AbstractSyntaxTrees.EmptyActualParameterSequence;
@@ -51,6 +52,7 @@ import Triangle.AbstractSyntaxTrees.IntTypeDenoter;
 import Triangle.AbstractSyntaxTrees.IntegerCommand;
 import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
+import Triangle.AbstractSyntaxTrees.IntegerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
 import Triangle.AbstractSyntaxTrees.LocalDeclaration;
@@ -63,6 +65,8 @@ import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
 import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
+import Triangle.AbstractSyntaxTrees.ProcFuncsDeclaration;
+import Triangle.AbstractSyntaxTrees.ProcPFDeclaration;
 import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
@@ -77,6 +81,7 @@ import Triangle.AbstractSyntaxTrees.SequentialCaseLiteral;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SequentialElseCase;
+import Triangle.AbstractSyntaxTrees.SequentialIntegerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleVname;
 import Triangle.AbstractSyntaxTrees.SingleActualParameterSequence;
@@ -244,6 +249,10 @@ public class LayoutVisitor implements Visitor {
   public Object visitConstDeclaration(ConstDeclaration ast, Object obj) {
     return layoutBinary("ConstDecl.", ast.I, ast.E);
   }
+  
+  public Object visitConstDeclarationFor(ConstDeclarationFor ast, Object obj) {
+    return layoutBinary("ConstDecl.For", ast.I, ast.E);
+  }
 
   public Object visitFuncDeclaration(FuncDeclaration ast, Object obj) {
     return layoutQuaternary("FuncDecl.", ast.I, ast.FPS, ast.T, ast.E);
@@ -251,6 +260,14 @@ public class LayoutVisitor implements Visitor {
 
   public Object visitProcDeclaration(ProcDeclaration ast, Object obj) {
     return layoutTernary("ProcDecl.", ast.I, ast.FPS, ast.C);
+  }
+  
+  public Object visitProcPFDeclaration(ProcPFDeclaration ast, Object o){
+        return(layoutTernary("Proc.PF.Decl", ast.I, ast.FPS, ast.C));
+    }
+  
+  public Object visitProcFuncsDeclaration(ProcFuncsDeclaration ast, Object obj) {
+    return layoutBinary("Proc.Func.Decl.", ast.D1, ast.D2);
   }
 
   public Object visitSequentialDeclaration(SequentialDeclaration ast, Object obj) {
@@ -377,7 +394,15 @@ public class LayoutVisitor implements Visitor {
   public Object visitErrorTypeDenoter(ErrorTypeDenoter ast, Object obj) {
     return layoutNullary("error");
   }
+  
+  public Object visitIntegerTypeDenoter(IntegerTypeDenoter ast, Object o) { 
+    return layoutUnary("Int.TypeD.", ast.IL);
+  }
 
+  public Object visitSequentialIntegerTypeDenoter(SequentialIntegerTypeDenoter ast, Object o) { 
+      return(layoutBinary("Seq.Int.TypeD.", ast.IL1, ast.IL2));
+    }
+  
   public Object visitSimpleTypeDenoter(SimpleTypeDenoter ast, Object obj) {
     return layoutUnary("Sim.TypeD.", ast.I);
   }

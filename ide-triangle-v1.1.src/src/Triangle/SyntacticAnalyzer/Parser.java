@@ -33,6 +33,7 @@ import Triangle.AbstractSyntaxTrees.CharacterLiteral;
 import Triangle.AbstractSyntaxTrees.Command;
 import Triangle.AbstractSyntaxTrees.ConstActualParameter;
 import Triangle.AbstractSyntaxTrees.ConstDeclaration;
+import Triangle.AbstractSyntaxTrees.ConstDeclarationFor;
 import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
 import Triangle.AbstractSyntaxTrees.Declaration;
 import Triangle.AbstractSyntaxTrees.DotVname;
@@ -52,6 +53,7 @@ import Triangle.AbstractSyntaxTrees.IfExpression;
 import Triangle.AbstractSyntaxTrees.IntegerCommand;
 import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
+import Triangle.AbstractSyntaxTrees.IntegerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
 import Triangle.AbstractSyntaxTrees.LocalDeclaration;
@@ -64,6 +66,7 @@ import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
 import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
+import Triangle.AbstractSyntaxTrees.ProcFuncsDeclaration;
 import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordAggregate;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
@@ -79,6 +82,7 @@ import Triangle.AbstractSyntaxTrees.SequentialCaseLiteral;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SequentialElseCase;
+import Triangle.AbstractSyntaxTrees.SequentialIntegerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleVname;
 import Triangle.AbstractSyntaxTrees.SingleActualParameterSequence;
@@ -349,20 +353,21 @@ public class Parser {
       return commandAST;
   }
   
-  Case parseElseCase () throws SyntaxError{
-      Case caseAST = null;
+
+  Command parseElseCase () throws SyntaxError{
+      Command cAST = null;
       
       SourcePosition casePos = new SourcePosition();
       start(casePos);
       
       if(currentToken.kind == Token.ELSE){
           acceptIt();
-          Command cAST = parseCommand();
+          cAST = parseCommand();
           finish(casePos);
-          //caseAST = parseSequentialCase(cAST, casePos);
       }
-      return caseAST;
+      return cAST;
   }
+
 ///////////////////////////////////////////////////////////////////////////////
 //
 // COMMANDS
@@ -416,7 +421,7 @@ public class Parser {
         }
       }
       break;
-    case Token.NIL:
+    case Token.NIL: 
       acceptIt();
       finish(commandPos);
       commandAST = new EmptyCommand(commandPos);
@@ -488,7 +493,7 @@ public class Parser {
                 accept(Token.DO);
                 Command cAST = parseCommand();
                 accept(Token.END);
-                Declaration dAST = new ConstDeclaration(iAST, e1AST, commandPos);
+                Declaration dAST = new ConstDeclarationFor(iAST, e1AST, commandPos);
                 finish(commandPos);
                 commandAST = new RepeatForCommand(dAST, e2AST, cAST, commandPos);
             }
@@ -556,16 +561,6 @@ public class Parser {
     }
         break;
         
-    case Token.CASE:
-    {
-        commandAST = parseCase();
-        while (currentToken.kind == Token.CASE) {
-          Command c2AST = parseCase();
-          finish(commandPos);
-          commandAST = new SequentialCaseLiteral(commandAST, c2AST, commandPos);
-        }
-    }
-    break;
      
     /* SE ELIMINA LA ALTERNATIVA: "begin" Command "end"
     case Token.BEGIN:
@@ -626,7 +621,7 @@ public class Parser {
     */
       
     default:
-      syntacticError("\"%\" cannot start a command",
+      syntacticError("\"%\" cannot start a command. Expected [nil, repeat, let, if, select]",
         currentToken.spelling);
       break;
 
@@ -681,7 +676,7 @@ public class Parser {
     break;
       
     default:
-      syntacticError("\"%\" cannot start a command",
+      syntacticError("\"%\" found. Expected some of the following [proc, func]",
         currentToken.spelling);
       
     break;
@@ -700,10 +695,10 @@ public class Parser {
     start(declarationPos); // Establece esta posicion
     declarationAST = parseProcFunc();
     do { 
-        acceptIt();
+        accept(Token.PIPE);
         Declaration d2AST = parseProcFunc();
         finish(declarationPos);
-        declarationAST = new SequentialDeclaration(declarationAST, d2AST, declarationPos);
+        declarationAST = new ProcFuncsDeclaration(declarationAST, d2AST, declarationPos);//REVISAR
     } while (currentToken.kind == Token.PIPE);
     
     return declarationAST;
@@ -1331,9 +1326,11 @@ public class Parser {
       {
         acceptIt();
         IntegerLiteral ilAST = parseIntegerLiteral();
+        Command c1AST = new IntegerTypeDenoter(ilAST, typePos);
         if (currentToken.kind == Token.DOTDOT){
             acceptIt();
             IntegerLiteral i2AST = parseIntegerLiteral();
+            c1AST = new SequentialIntegerTypeDenoter(ilAST, i2AST, typePos);
         }
         accept(Token.OF);
         TypeDenoter tAST = parseTypeDenoter();

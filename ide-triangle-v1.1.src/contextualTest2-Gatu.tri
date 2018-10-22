@@ -1,0 +1,37 @@
+let
+  recursive 
+    proc  
+      myProc (a : Integer) ~ 
+        let
+          var a : Integer
+        in
+          nil
+        end
+    end
+    |
+    proc  
+      myProc2 (var b : Integer) ~ b := 100; myProc (100)
+    end
+    |
+    func  
+      myFunc (a : Integer) : Integer ~ a + 10
+    |
+    proc  
+      myProc3 (var b : Integer) ~ b := myFunc(100)
+    end
+  end;!FIN RECURSIVE
+  proc  
+      myProc4 (a : Integer) ~ nil
+  end;
+  local
+    proc  
+      myProc3 (var b : Integer) ~ b := 100!; myProcL2 (100)
+    end
+  in
+    proc  
+      myProc4 (var b : Integer) ~ b := 100!; myProcL1 (100)
+    end
+  end
+in
+  nil !myProc(100)
+end

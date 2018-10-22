@@ -1,0 +1,15 @@
+let
+  local
+    const myTrue ~ true
+  in
+    proc myProc (myFalse : Boolean)~
+      if myFalse then nil
+      elsif myTrue then nil
+      else nil
+      end
+    end
+  end
+in
+  myProc(false);
+  myProc(myTrue)!Esto tiene que dar error aca
+end

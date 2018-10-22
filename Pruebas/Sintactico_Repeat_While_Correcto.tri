@@ -1,5 +1,4 @@
-!"repeat" "while" Expression "do" Command "end"
 repeat
-  while true do
+  while true
     putint(1)
 end

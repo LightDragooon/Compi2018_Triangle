@@ -22,6 +22,7 @@ import Triangle.AbstractSyntaxTrees.CharacterExpression;
 import Triangle.AbstractSyntaxTrees.CharacterLiteral;
 import Triangle.AbstractSyntaxTrees.ConstActualParameter;
 import Triangle.AbstractSyntaxTrees.ConstDeclaration;
+import Triangle.AbstractSyntaxTrees.ConstDeclarationFor;
 import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
 import Triangle.AbstractSyntaxTrees.DotVname;
 import Triangle.AbstractSyntaxTrees.EmptyActualParameterSequence;
@@ -39,6 +40,7 @@ import Triangle.AbstractSyntaxTrees.IntTypeDenoter;
 import Triangle.AbstractSyntaxTrees.IntegerCommand;
 import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
+import Triangle.AbstractSyntaxTrees.IntegerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.LetCommand;
 import Triangle.AbstractSyntaxTrees.LetExpression;
 import Triangle.AbstractSyntaxTrees.LocalDeclaration;
@@ -51,6 +53,8 @@ import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
 import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
+import Triangle.AbstractSyntaxTrees.ProcFuncsDeclaration;
+import Triangle.AbstractSyntaxTrees.ProcPFDeclaration;
 import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
@@ -65,6 +69,7 @@ import Triangle.AbstractSyntaxTrees.SequentialCaseLiteral;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
 import Triangle.AbstractSyntaxTrees.SequentialElseCase;
+import Triangle.AbstractSyntaxTrees.SequentialIntegerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
 import Triangle.AbstractSyntaxTrees.SimpleVname;
 import Triangle.AbstractSyntaxTrees.SingleActualParameterSequence;
@@ -365,6 +370,33 @@ public class TableVisitor implements Visitor {
       return(null);
   }
   
+   public Object visitConstDeclarationFor(ConstDeclarationFor ast, Object o) {   
+      String name = ast.I.spelling;
+      String type = "N/A";
+      try {
+        int size = (ast.entity!=null?ast.entity.size:0);
+        int level = -1;
+        int displacement = -1;
+        int value = -1;
+      
+        if (ast.entity instanceof KnownValue) {
+              type = "KnownValue";
+              value = ((KnownValue)ast.entity).value;
+          }
+          else if (ast.entity instanceof UnknownValue) {
+              type = "UnknownValue";
+              level = ((UnknownValue)ast.entity).address.level;
+              displacement = ((UnknownValue)ast.entity).address.displacement;
+          }
+          addIdentifier(name, type, size, level, displacement, value);
+      } catch (NullPointerException e) { }
+      
+      ast.E.visit(this, null);
+      ast.I.visit(this, null);
+
+      return(null);
+  }
+  
   public Object visitFuncDeclaration(FuncDeclaration ast, Object o) {    
       try {
       addIdentifier(ast.I.spelling, 
@@ -393,6 +425,28 @@ public class TableVisitor implements Visitor {
       ast.FPS.visit(this, null);
       ast.C.visit(this, null);
             
+      return(null);
+  }
+  
+  public Object visitProcPFDeclaration(ProcPFDeclaration ast, Object o){
+      try {
+      addIdentifier(ast.I.spelling, "KnownRoutine", 
+              (ast.entity!=null?ast.entity.size:0), 
+              ((KnownRoutine)ast.entity).address.level, 
+              ((KnownRoutine)ast.entity).address.displacement, 
+              -1);
+      } catch (NullPointerException e) { }
+      
+      ast.FPS.visit(this, null);
+      ast.C.visit(this, null);
+            
+      return(null);
+  }
+  
+  public Object visitProcFuncsDeclaration(ProcFuncsDeclaration ast, Object o){
+      ast.D1.visit(this, null);
+      ast.D2.visit(this, null);
+      
       return(null);
   }
   
@@ -611,6 +665,16 @@ public class TableVisitor implements Visitor {
   }
   
   public Object visitErrorTypeDenoter(ErrorTypeDenoter ast, Object o) { 
+      return(null);
+  }
+  
+  public Object visitIntegerTypeDenoter(IntegerTypeDenoter ast, Object o) { 
+      return(null);
+  }
+  
+  public Object visitSequentialIntegerTypeDenoter(SequentialIntegerTypeDenoter ast, Object o) { 
+      ast.IL1.visit(this, null);
+      ast.IL2.visit(this, null);
       return(null);
   }
   

@@ -1,0 +1,16 @@
+let
+  var myBool : Boolean;
+  const myConst ~ true
+in 
+  if myBool then
+    let
+      var my2Bool : Boolean
+    in
+    my2Bool := true
+    end
+  elsif myConst then
+    my2Bool := false
+  else
+    nil
+  end
+end
