@@ -1,0 +1,29 @@
+!Objetivo del caso de prueba: Asiganción de un valor de tipo distinto a la variable
+!Disenno del caso de prueba: 
+
+let
+  var myBool := true
+in
+  if false then 
+    let
+      var mySecondBool := true
+    in
+      nil
+    end
+  elsif myBool then
+    let
+      var myThirdBool := true
+    in
+      nil
+    end
+  else
+    let
+      var myFourthBool := true
+    in
+      nil
+    end
+  end!FIN DE TODO EL IF
+end
+
+!Resultados esperados: Analisis contextual fallido
+!Resultados observados: Analisis contextual fallido - Hay incompatibilidad de tipos

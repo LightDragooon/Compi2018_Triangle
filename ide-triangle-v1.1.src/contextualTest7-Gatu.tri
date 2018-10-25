@@ -5,7 +5,7 @@ in
     case 1 then nil
     case 5 | 2 then !ERROR ACA 
       select 2 from
-        case 1 | 1 then 
+        case 1 | 2 then 
           nil 
       end
   end;
@@ -16,7 +16,7 @@ in
     case '1' then nil
     case '5' | '2' then !ERROR ACA 
       select '2' from
-        case '1' | '1' then 
+        case '1' | '2' then 
           nil 
       end
   end

@@ -1,0 +1,13 @@
+!Objetivo del caso de prueba: Declaracion de variable inicializada de forma fallida
+!Disenno del caso de prueba: 
+
+let
+  var myVar := true;
+  proc myProc (var myVar : Integer) ~ nil end
+in
+  myProc(var myVar)
+end
+
+!Resultados esperados: Analisis contextual fallido
+!Resultados observados: Analisis contextual fallido
+!Se deduce correctamente el tipo de myVar
