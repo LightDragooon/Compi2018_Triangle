@@ -15,7 +15,7 @@ in
 let
   const myConst ~ '5'
 in
-  select '0' from !Da error dado que todas las literales del mismo select deben ser del mismo tipo que la expresión selectora
+  select '0' from 
     case '4' then nil
     case '5' | '2' then 
       select '2' from
