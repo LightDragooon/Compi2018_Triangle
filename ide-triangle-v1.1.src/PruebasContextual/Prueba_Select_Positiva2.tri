@@ -1,0 +1,30 @@
+!Objetivo del caso de prueba: Select de forma exitosa
+!Disenno del caso de prueba: 
+
+let
+  const myConst ~ '5'
+in
+  select 10 from
+    case 1 then nil
+    case 5 | 2 then 
+      select 2 from
+        case 1 | 8 then 
+          nil 
+      end
+  end;
+let
+  const myConst ~ '5'
+in
+  select '1' from
+    case '4' then nil
+    case '5' | '2' then 
+      select '2' from
+        case '1' | '8' then 
+          nil 
+      	end
+      end
+  end
+end
+
+!Resultados esperados: Analisis contextual exitoso
+!Resultados observados: Analisis contextual exitoso

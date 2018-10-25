@@ -1,0 +1,19 @@
+!Objetivo del caso de prueba: Select de forma exitosa
+!Disenno del caso de prueba: 
+
+let
+  var myVar : Integer
+in
+
+  select 'A' from
+
+    case 'B' then
+      myVar := 5
+    else
+      myVar := 10
+  end
+  
+end
+
+!Resultados esperados: Analisis contextual exitoso
+!Resultados observados: Analisis contextual exitoso

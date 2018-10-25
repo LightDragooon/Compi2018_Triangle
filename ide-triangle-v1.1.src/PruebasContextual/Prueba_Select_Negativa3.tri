@@ -1,0 +1,30 @@
+!Objetivo del caso de prueba: Select de forma fallida
+!Disenno del caso de prueba: 
+
+let
+  const myConst ~ '5'
+in
+  select 10 from 
+    case 1 then nil
+    case 1 | 2 then !Da error ya que toda literal debe aparecer solamente una vez en los cases de un mismo select
+      select 2 from
+        case 1 | 8 then !En este caso, a pesar de que se repite, son selects totalmente diferente
+          nil 
+      end
+  end;
+let
+  const myConst ~ '5'
+in
+  select '0' from 
+    case '4' then nil
+    case '5' | '2' then 
+      select '2' from
+        case '1' | '8' then 
+          nil 
+      	end
+      end
+  end
+end
+
+!Resultados esperados: Analisis contextual fallido
+!Resultados observados: Analisis contextual fallido
