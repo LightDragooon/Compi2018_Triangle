@@ -33,6 +33,14 @@ public final class IdentificationTable {
 
     level ++;
   }
+  
+    // Opens a new level in the identification table, 1 higher than the
+  // current topmost level.
+
+  public void diminishScope () {
+
+    level --;
+  }
 
   // Closes the topmost level in the identification table, discarding
   // all entries belonging to that level.
@@ -49,6 +57,28 @@ public final class IdentificationTable {
     }
     this.level--;
     this.latest = entry;
+  }
+  
+  // Closes the topmost level in the identification table, discarding
+  // all entries belonging to that level.
+
+  public void closeScopeDeepLevel () {
+
+    IdEntry entry, local, local2;
+    local = null;
+    // Presumably, idTable.level > 0.
+    entry = this.latest;
+    while (entry.level == this.level) {//entry.level == this.level + deepLevel
+      local = entry;
+      entry = local.previous;
+      
+    }
+    //En local está el primer elemento del nivel profundo
+    while (entry.level == this.level + 1) {//entry.level == this.level + deepLevel
+      local2 = entry;
+      entry = local2.previous;
+    }
+    local.previous = entry;
   }
   
     // Closes the topmost level in the identification table, discarding

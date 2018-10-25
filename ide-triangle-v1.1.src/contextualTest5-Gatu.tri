@@ -1,4 +1,11 @@
 repeat for i
-from 'a' to 10 do
-  nil
+from 10 to 5 do
+    let
+      const myConst ~ i
+      ;proc myProc (var myVar : Integer) ~ nil end
+    in
+      nil
+      !;myProc (i)
+    end
+    !;i := 10 
 end

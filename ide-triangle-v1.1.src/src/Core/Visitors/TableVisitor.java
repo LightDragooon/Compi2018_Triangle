@@ -22,7 +22,7 @@ import Triangle.AbstractSyntaxTrees.CharacterExpression;
 import Triangle.AbstractSyntaxTrees.CharacterLiteral;
 import Triangle.AbstractSyntaxTrees.ConstActualParameter;
 import Triangle.AbstractSyntaxTrees.ConstDeclaration;
-import Triangle.AbstractSyntaxTrees.ConstDeclarationFor;
+import Triangle.AbstractSyntaxTrees.VarDeclarationFor;
 import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
 import Triangle.AbstractSyntaxTrees.DotVname;
 import Triangle.AbstractSyntaxTrees.EmptyActualParameterSequence;
@@ -370,7 +370,7 @@ public class TableVisitor implements Visitor {
       return(null);
   }
   
-   public Object visitConstDeclarationFor(ConstDeclarationFor ast, Object o) {   
+   public Object visitVarDeclarationFor(VarDeclarationFor ast, Object o) {   
       String name = ast.I.spelling;
       String type = "N/A";
       try {
