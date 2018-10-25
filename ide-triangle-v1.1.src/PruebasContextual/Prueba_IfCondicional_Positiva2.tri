@@ -1,4 +1,4 @@
-!Objetivo del caso de prueba: Comando condicional if
+!Objetivo del caso de prueba: Comando condicional if - Usando elsif
 !Disenno del caso de prueba: 
 
 let
@@ -7,6 +7,12 @@ in
   if false then 
     let
       var mySecondBool := true
+    in
+      nil
+    end
+  elsif myBool then
+    let
+      var myThirdBool := true
     in
       nil
     end
