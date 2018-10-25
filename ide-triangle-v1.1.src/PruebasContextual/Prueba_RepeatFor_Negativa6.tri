@@ -1,0 +1,22 @@
+!Objetivo del caso de prueba: Repeat For de forma fallida
+!Disenno del caso de prueba: 
+
+repeat for i
+  from 5 to 10 do
+    let
+      const myConst ~ i
+      ;var testVar : Integer
+      ;proc myProc (var myVar : Integer) ~ nil end
+      ;func myFunc (var myVar : Integer) : Integer ~ myVar
+    in
+      nil
+      ;myProc (i)! ERROR
+      ;testVar := myFunc(i) !ERROR
+    end
+end
+
+!Resultados esperados: Analisis contextual fallido
+!Resultados observados: Analisis contextual fallido
+!No se puede pasar el Id como parametro var de un proc
+!o una funcion
+

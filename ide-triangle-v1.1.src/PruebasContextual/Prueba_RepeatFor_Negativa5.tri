@@ -1,0 +1,11 @@
+!Objetivo del caso de prueba: Repeat For de forma fallida
+!Disenno del caso de prueba: 
+
+repeat for i
+  from 5 to 10 do 
+    i := 100 !ERROR
+end
+
+!Resultados esperados: Analisis contextual fallido
+!Resultados observados: Analisis contextual fallido
+!i no puede aparecer del lado izq de una asignacion

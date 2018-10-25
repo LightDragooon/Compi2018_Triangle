@@ -22,4 +22,5 @@ let
 in
   myProc(false)
   !;myProc(myTrue)!ERROR
-end
+end
+

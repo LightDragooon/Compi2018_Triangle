@@ -1,0 +1,21 @@
+!Objetivo del caso de prueba: Repeat For de forma exitosa - bloque
+!Disenno del caso de prueba: 
+
+repeat for i
+  from 5 to 10 do
+    let
+      var i : Integer
+      ;proc myProc (var myVar : Integer) ~ nil end
+      ;func myFunc (var myVar : Integer) : Integer ~ myVar
+    in
+      i := 100 !El i del for no es accesible
+      ;myProc (var i)
+    end
+end
+
+!Resultados esperados: Analisis contextual fallido
+!Resultados observados: Analisis contextual fallido
+!Se verifica la estructura de bloque y la redeclaración
+!del Id del for
+
+
