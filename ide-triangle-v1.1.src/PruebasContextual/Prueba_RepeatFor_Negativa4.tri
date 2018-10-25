@@ -1,0 +1,16 @@
+!Objetivo del caso de prueba: Repeat For de forma fallida
+!Disenno del caso de prueba: 
+
+repeat for i
+  from 5 to '1' do !Debe ser de tipo integer
+    let
+      const myConst ~ i
+      ;proc myProc (var myVar : Integer) ~ nil end
+    in
+      nil
+    end
+end
+
+!Resultados esperados: Analisis contextual fallido
+!Resultados observados: Analisis contextual fallido - Exp2 debe ser de tipo Integer
+
