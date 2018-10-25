@@ -1,7 +1,9 @@
 let
   recursive 
     proc  
-      myProc (a : Integer) ~ 
+      myProc (a : Integer 
+              !,a : Integer Esto es un Error
+              ) ~ 
         let
           var a : Integer
         in
@@ -19,19 +21,7 @@ let
     proc  
       myProc3 (var b : Integer) ~ b := myFunc(100)
     end
-  end;!FIN RECURSIVE
-  proc  
-      myProc4 (a : Integer) ~ nil
-  end;
-  local
-    proc  
-      myProc3 (var b : Integer) ~ b := 100!; myProcL2 (100)
-    end
-  in
-    proc  
-      myProc5 (var b : Integer) ~ b := 100!; myProcL1 (100)
-    end
-  end
+  end!FIN RECURSIVE
 in
-  nil !myProc(100)
+  myProc(myFunc(200))
 end
