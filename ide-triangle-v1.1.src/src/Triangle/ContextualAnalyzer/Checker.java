@@ -129,12 +129,10 @@ public final class Checker implements Visitor {
         ast.D1.visit(this, null);
         idTable.closeScope();
         ast.D2.visit(this, null);
-  
-        
-        
-        
+
     return null;
   }
+    
   public Object visitCallCommand(CallCommand ast, Object o) {//
 
     Declaration binding = (Declaration) ast.I.visit(this, null);
@@ -172,6 +170,7 @@ public final class Checker implements Visitor {
   }
   
     public Object visitIntegerCommand(IntegerCommand ast, Object o) { 
+        
         return null;
     }
 
@@ -185,20 +184,18 @@ public final class Checker implements Visitor {
   
       //Se a�ade visitRepeatWhileCommand
     public Object visitRepeatDoUntilCommand(RepeatDoUntilCommand ast, Object o) {
-        /*
         TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
         if (! eType.equals(StdEnvironment.booleanType))
           reporter.reportError("Boolean expression expected here", "", ast.E.position);
-        ast.C.visit(this, null);*/
+        ast.C.visit(this, null);
         return null;
     }
       //Se a�ade visitRepeatWhileCommand
     public Object visitRepeatDoWhileCommand(RepeatDoWhileCommand ast, Object o) {
-        /*
         TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
         if (! eType.equals(StdEnvironment.booleanType))
           reporter.reportError("Boolean expression expected here", "", ast.E.position);
-        ast.C.visit(this, null);*/
+        ast.C.visit(this, null);
         return null;
     }
     
@@ -216,11 +213,10 @@ public final class Checker implements Visitor {
     
     //Se a�ade visitRepeatWhileCommand
     public Object visitRepeatUntilCommand(RepeatUntilCommand ast, Object o) {
-        /*
         TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
         if (! eType.equals(StdEnvironment.booleanType))
           reporter.reportError("Boolean expression expected here", "", ast.E.position);
-        ast.C.visit(this, null);*/
+        ast.C.visit(this, null);
         return null;
     }
     
