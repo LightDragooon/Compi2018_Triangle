@@ -1,0 +1,30 @@
+!Objetivo del caso de prueba: Comando condicional if fallido
+!Disenno del caso de prueba: 
+
+let
+  var myBool := true
+in
+  if 1 then 
+    let
+      var mySecondBool := true
+    in
+      nil
+    end
+  elsif 2 then
+    let
+      var myThirdBool := true
+    in
+      nil
+    end
+  else
+    let
+      var myFourthBool := true
+    in
+      nil
+    end
+  end!FIN DE TODO EL IF
+end
+
+!Resultados esperados: Analisis contextual fallido
+!Resultados observados: Analisis contextual fallido
+!Las expresiones deben ser booleanas

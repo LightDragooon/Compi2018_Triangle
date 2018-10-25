@@ -1,0 +1,32 @@
+!Objetivo del caso de prueba: Declaracion recursiva de procs y funcs Fallido
+!Disenno del caso de prueba: 
+
+let
+  recursive 
+    proc  
+      myProc (a : Integer) ~ 
+        let
+          var a : Integer
+        in
+          nil
+        end
+    end
+    |
+    proc  
+      myProc2 (var b : Integer) ~ b := 100; myProc (100)
+    end
+    |
+    func  
+      myFunc (a : Integer) : Integer ~ a + 10
+    |
+    proc  
+      myProc2 (var b : Integer) ~ b := myFunc(100) !ERROR
+    end
+  end!FIN RECURSIVE
+in
+  myProc(myFunc(200))
+end
+
+!Resultados esperados: Analisis contextual fallido
+!Resultados observados: Analisis contextual fallido
+!Los identificadores deben ser distintos
