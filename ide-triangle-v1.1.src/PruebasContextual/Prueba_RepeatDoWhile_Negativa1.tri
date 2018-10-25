@@ -1,0 +1,21 @@
+!Objetivo del caso de prueba: Repeat Do While de forma fallida
+!Disenno del caso de prueba: 
+
+let
+  var myVar : Integer
+in
+  myVar := 0;
+  repeat do 
+    let
+      var myVar2 : Integer
+    in
+      myVar2 := myVar
+    end;
+    myVar := myVar + 1
+  while 5 !Expression debe ser de tipo Boolean
+  end
+  
+end
+
+!Resultados esperados: Analisis contextual fallido
+!Resultados observados: Analisis contextual fallido - Se espera una expresion de tipo Boolean

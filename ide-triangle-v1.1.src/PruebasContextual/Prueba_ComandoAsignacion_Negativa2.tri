@@ -1,0 +1,11 @@
+!Objetivo del caso de prueba: Asiganción de un valor de tipo distinto a la variable
+!Disenno del caso de prueba: 
+
+let
+  var myVar : Integer
+in
+  myVar := true
+end
+
+!Resultados esperados: Analisis contextual fallido
+!Resultados observados: Analisis contextual fallido - Hay incompatibilidad de tipos

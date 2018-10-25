@@ -34,7 +34,7 @@ import Triangle.AbstractSyntaxTrees.CharacterExpression;
 import Triangle.AbstractSyntaxTrees.CharacterLiteral;
 import Triangle.AbstractSyntaxTrees.ConstActualParameter;
 import Triangle.AbstractSyntaxTrees.ConstDeclaration;
-import Triangle.AbstractSyntaxTrees.ConstDeclarationFor;
+import Triangle.AbstractSyntaxTrees.VarDeclarationFor;
 import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
 import Triangle.AbstractSyntaxTrees.DotVname;
 import Triangle.AbstractSyntaxTrees.EmptyActualParameterSequence;
@@ -250,7 +250,7 @@ public class LayoutVisitor implements Visitor {
     return layoutBinary("ConstDecl.", ast.I, ast.E);
   }
   
-  public Object visitConstDeclarationFor(ConstDeclarationFor ast, Object obj) {
+  public Object visitVarDeclarationFor(VarDeclarationFor ast, Object obj) {
     return layoutBinary("ConstDecl.For", ast.I, ast.E);
   }
 

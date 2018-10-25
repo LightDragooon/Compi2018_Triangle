@@ -1,0 +1,24 @@
+let
+  const myConst ~ '5'
+in
+  select 5 from
+    case 1 then nil
+    case 5 | 2 then !ERROR ACA 
+      select 2 from
+        case 1 | 1 then 
+          nil 
+      end
+  end;
+let
+  const myConst ~ '5'
+in
+  select '5' from
+    case '1' then nil
+    case '5' | '2' then !ERROR ACA 
+      select '2' from
+        case '1' | '1' then 
+          nil 
+      end
+  end
+end
+end

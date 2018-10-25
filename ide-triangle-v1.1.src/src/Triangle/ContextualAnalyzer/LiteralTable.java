@@ -13,13 +13,13 @@ import java.util.Stack;
  * @author Josua
  */
 public class LiteralTable { // literal
-    //Stack<IntegerLiteral> literalsStack = new Stack<IntegerLiteral>();
-    private int level;
-    private IteralEntry latest;
 
-    public LiteralTable(int level, IteralEntry latest) {
-        this.level = level;
-        this.latest = latest;
+    private int level;
+    private LiteralEntry latest;
+
+    public LiteralTable() {
+        level = 0;
+        latest = null;
     }
 
     // Opens a new level in the identification table, 1 higher than the
@@ -33,11 +33,12 @@ public class LiteralTable { // literal
     // all entries belonging to that level.
 
     public void closeScope () {
-      IteralEntry entry, local;
+        LiteralEntry entry, local;
+
 
       // Presumably, idTable.level > 0.
       entry = this.latest;
-      while (entry.level == this.level) {
+      while (entry != null && entry.level == this.level) {
         local = entry;
         entry = local.previous;
       }
@@ -50,67 +51,27 @@ public class LiteralTable { // literal
     // duplicated is set to to true iff there is already an entry for the
     // same identifier at the current level.
 
-    public void enter (String id) {
+    public boolean enter (String id) {
 
-      IteralEntry entry = this.latest;
+      LiteralEntry entry = this.latest;
       boolean present = false, searching = true;
 
       // Check for duplicate entry ...
       while (searching) {
         if (entry == null || entry.level < this.level)
-          searching = false;
-        else if (entry.iteral.equals(id)) {
-          present = true;
-          searching = false;
-         } else
-         entry = entry.previous;
+            searching = false;
+        else if (entry.idLiteral.equals(id)) {
+            present = true;
+            searching = false;
+         } else{
+            entry = entry.previous;}
+        
       }
 
       // Add new entry ...
-    //  entry = new IdEntry(id, this.level, this.latest);
+      entry = new LiteralEntry(id, this.level, this.latest);
       this.latest = entry;
+      return present;
     }
-
-    // Finds an entry for the given identifier in the identification table,
-    // if any. If there are several entries for that identifier, finds the
-    // entry at the highest level, in accordance with the scope rules.
-    // Returns null iff no entry is found.
-    // otherwise returns the attribute field of the entry found.
-
-    public boolean retrieve (String id) {
-
-          /*IdEntry entry;
-          Declaration attr = null;
-          boolean present = false, searching = true;
-
-          entry = this.latest;
-          while (searching) {
-            if (entry == null)
-              searching = false;
-            else if (entry.id.equals(id)) {
-              present = true;
-              searching = false;
-              attr = entry.attr;
-            } else
-              entry = entry.previous;
-          }
-*/
-          return false;
-    }
-
-    
-    /*
-    // Insertar nuevos iterales a la pila
-    public boolean enter(IntegerLiteral literal) {
-        for (int x=0;x<this.literalsStack.size();x++){
-             if (literalsStack.get(x).spelling == literal.spelling){
-               return true;
-             }
-         
-         }       
-        this.literalsStack.push(literal);
-        return false;
-    }*/
-    
     
 }

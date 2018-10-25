@@ -41,7 +41,7 @@ import Triangle.AbstractSyntaxTrees.CharacterExpression;
 import Triangle.AbstractSyntaxTrees.CharacterLiteral;
 import Triangle.AbstractSyntaxTrees.ConstActualParameter;
 import Triangle.AbstractSyntaxTrees.ConstDeclaration;
-import Triangle.AbstractSyntaxTrees.ConstDeclarationFor;
+import Triangle.AbstractSyntaxTrees.VarDeclarationFor;
 import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
 import Triangle.AbstractSyntaxTrees.Declaration;
 import Triangle.AbstractSyntaxTrees.DotVname;
@@ -421,7 +421,7 @@ public final class Encoder implements Visitor {
     return new Integer(extraSize);
   }
   
-  public Object visitConstDeclarationFor(ConstDeclarationFor ast, Object o) {
+  public Object visitVarDeclarationFor(VarDeclarationFor ast, Object o) {
     Frame frame = (Frame) o;
     int extraSize = 0;
 
