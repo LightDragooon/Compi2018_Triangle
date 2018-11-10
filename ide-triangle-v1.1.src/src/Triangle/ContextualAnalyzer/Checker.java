@@ -172,10 +172,10 @@ public final class Checker implements Visitor {
             SourcePosition sourcePosition = (SourcePosition) myTuple.y;
             if (!eType.equals(StdEnvironment.charType)) {
                 reporter.reportError("Integer expression expected here", "", sourcePosition);
-            }
 
-            //Añadir el identificador: ast.IL.spelling
-            if (literalTable.enter(ast.CL.spelling))//true está en la tabla
+            }
+            //Aï¿½adir el identificador: ast.IL.spelling
+            if (literalTable.enter(ast.CL.spelling))//true estï¿½ en la tabla
             {
                 reporter.reportError("identifier \"%\" already declared",
                         ast.CL.spelling, ast.position);
@@ -208,8 +208,8 @@ public final class Checker implements Visitor {
                 reporter.reportError("Character expression expected here", "", sourcePosition);
             }
 
-            //Añadir el identificador: ast.IL.spelling
-            if (literalTable.enter(ast.IL.spelling))//true está en la tabla
+            //Aï¿½adir el identificador: ast.IL.spelling
+            if (literalTable.enter(ast.IL.spelling))//true estï¿½ en la tabla
             {
                 reporter.reportError("identifier \"%\" already declared",
                         ast.IL.spelling, ast.position);
@@ -286,8 +286,8 @@ public final class Checker implements Visitor {
         TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
         if (!eType.equals(StdEnvironment.booleanType)) {
             reporter.reportError("Boolean expression expected here", "", ast.E.position);
-        }
         ast.C.visit(this, null);
+        }
         return null;
     }
 
@@ -947,19 +947,19 @@ public final class Checker implements Visitor {
         Declaration binding = (Declaration) ast.I.visit(this, null);
         if (binding == null) {
             reportUndeclared(ast.I);
-        } else if (binding instanceof ConstDeclaration) {
             ast.type = ((ConstDeclaration) binding).E.type;
+        } else if (binding instanceof ConstDeclaration) {
             ast.variable = false;
-        } else if (binding instanceof VarDeclaration) {
             ast.type = ((VarDeclaration) binding).T;
+        } else if (binding instanceof VarDeclaration) {
             ast.variable = true;
         } else if (binding instanceof VarDeclarationFor) {
             ast.type = ((VarDeclarationFor) binding).E.type;
             ast.variable = false;
         } else if (binding instanceof ConstFormalParameter) {
             ast.type = ((ConstFormalParameter) binding).T;
-            ast.variable = false;
         } else if (binding instanceof VarFormalParameter) {
+            ast.variable = false;
             ast.type = ((VarFormalParameter) binding).T;
             ast.variable = true;
         } else if (binding instanceof AssignDeclaration) {

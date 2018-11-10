@@ -1,0 +1,26 @@
+!Local
+let
+  local
+    const myTrue ~ true;
+    local
+      const myInnerTrue ~ true
+    in
+      proc myInnerProc (myTest : Boolean) ~
+        if myInnerTrue then nil
+        else nil
+        end
+      end
+    end
+  in
+    proc myProc (myFalse : Boolean)~
+      if myFalse then nil
+      elsif myTrue then nil 
+      elsif myInnerTrue then nil
+      else myInnerProc (true)
+      end
+    end
+  end
+in
+  myProc(false)
+  ;myProc(myTrue)
+end
