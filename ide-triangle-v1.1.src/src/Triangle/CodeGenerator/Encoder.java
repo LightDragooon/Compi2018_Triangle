@@ -169,45 +169,50 @@ public final class Encoder implements Visitor {
   }
   
     public Object visitLocalDeclaration(LocalDeclaration ast, Object o) {
-//    Frame frame = (Frame) o;
-//    Integer valSize = (Integer) ast.E.visit(this, frame);
-//    encodeStore(ast.V, new Frame (frame, valSize.intValue()),
-//		valSize.intValue());
-    return null;
+        Frame frame = (Frame) o;
+        int extraSize1, extraSize2;
+        extraSize1 = ((Integer) ast.D1.visit(this, frame)).intValue();
+        Frame frame1 = new Frame (frame, extraSize1);
+        extraSize2 = ((Integer) ast.D2.visit(this, frame1)).intValue();
+        return new Integer(extraSize1 + extraSize2);
   }
-    //Se añade visitRepeatUntilCommand
+
+    
     public Object visitRepeatDoUntilCommand(RepeatDoUntilCommand ast, Object o) {
         /*
+        j: execute C 
+           evaluate E
+           JUMPIF(0) j
+        */
+        
         Frame frame = (Frame) o;
-        int jumpAddr, loopAddr;
+        int loopAddr;
 
-        jumpAddr = nextInstrAddr;
-        emit(Machine.JUMPop, 0, Machine.CBr, 0);
         loopAddr = nextInstrAddr;
         ast.C.visit(this, frame);
-        patch(jumpAddr, nextInstrAddr);
         ast.E.visit(this, frame);
-        emit(Machine.JUMPIFop, Machine.trueRep, Machine.CBr, loopAddr);*/
+        emit(Machine.JUMPIFop, Machine.falseRep, Machine.CBr, loopAddr); // Condición false
         return null;
     }
     
-        //Se añade visitRepeatUntilCommand
     public Object visitRepeatDoWhileCommand(RepeatDoWhileCommand ast, Object o) {
         /*
+        j: execute C 
+           evaluate E
+           JUMPIF(1) j
+        */
+        
         Frame frame = (Frame) o;
-        int jumpAddr, loopAddr;
+        int loopAddr;
 
-        jumpAddr = nextInstrAddr;
-        emit(Machine.JUMPop, 0, Machine.CBr, 0);
         loopAddr = nextInstrAddr;
         ast.C.visit(this, frame);
-        patch(jumpAddr, nextInstrAddr);
         ast.E.visit(this, frame);
-        emit(Machine.JUMPIFop, Machine.trueRep, Machine.CBr, loopAddr);*/
+        emit(Machine.JUMPIFop, Machine.trueRep, Machine.CBr, loopAddr);
         return null;
     }
     
-        public Object visitRepeatForCommand(RepeatForCommand ast, Object o) {
+    public Object visitRepeatForCommand(RepeatForCommand ast, Object o) {
         /*
         Frame frame = (Frame) o;
         int jumpAddr, loopAddr;
@@ -225,31 +230,43 @@ public final class Encoder implements Visitor {
     
     //Se añade visitRepeatUntilCommand
     public Object visitRepeatUntilCommand(RepeatUntilCommand ast, Object o) {
-        /*
-        Frame frame = (Frame) o;
+         /* repeat until exp do command
+        j: JUMP h    
+        g: execute C     
+        h: evaluate E
+           JUMPIF (0) g     
+        */     
+        Frame frame = (Frame) o;                        
         int jumpAddr, loopAddr;
 
-        jumpAddr = nextInstrAddr;
-        emit(Machine.JUMPop, 0, Machine.CBr, 0);
-        loopAddr = nextInstrAddr;
+        jumpAddr = nextInstrAddr; // etiqueta j
+        emit(Machine.JUMPop, 0, Machine.CBr, 0); // Instrucción vacía porque no se conoce h
+        loopAddr = nextInstrAddr; // etiqueta g
         ast.C.visit(this, frame);
-        patch(jumpAddr, nextInstrAddr);
-        ast.E.visit(this, frame);
-        emit(Machine.JUMPIFop, Machine.trueRep, Machine.CBr, loopAddr);*/
-        return null;
+        patch(jumpAddr, nextInstrAddr); // En la siguiente dirección ya se conoce h entonces se une jumpAddrr y dicha dirección.
+        ast.E.visit(this, frame); // etiqueta h
+        emit(Machine.JUMPIFop, Machine.falseRep, Machine.CBr, loopAddr); // Como es un until se debe entrar al Comando si la Expresión da resultado False.
+        return null;      
+  
     }
-    
-    //Se añade repeat
+
     public Object visitRepeatWhileCommand(RepeatWhileCommand ast, Object o) {
-        Frame frame = (Frame) o;
+        /*
+        j: JUMP h    
+        g: execute C     
+        h: evaluate E
+           JUMPIF (1) g     
+        */
+        
+        Frame frame = (Frame) o;                        
         int jumpAddr, loopAddr;
 
-        jumpAddr = nextInstrAddr;
-        emit(Machine.JUMPop, 0, Machine.CBr, 0);
-        loopAddr = nextInstrAddr;
+        jumpAddr = nextInstrAddr; // etiqueta j
+        emit(Machine.JUMPop, 0, Machine.CBr, 0); // Instrucción vacía porque no se conoce h
+        loopAddr = nextInstrAddr; // etiqueta g
         ast.C.visit(this, frame);
-        patch(jumpAddr, nextInstrAddr);
-        ast.E.visit(this, frame);
+        patch(jumpAddr, nextInstrAddr); // En la siguiente dirección ya se conoce h entonces se une jumpAddrr y dicha dirección.
+        ast.E.visit(this, frame); // etiqueta h
         emit(Machine.JUMPIFop, Machine.trueRep, Machine.CBr, loopAddr);
         return null;
     }
@@ -1013,7 +1030,7 @@ public final class Encoder implements Visitor {
   private int nextInstrAddr;
 
   // Appends an instruction, with the given fields, to the object code.
-  private void emit (int op, int n, int r, int d) {
+  private void emit (int op, int n, int r, int d) { //  emit(Machine.JUMPIFop, Machine.falseRep, Machine.CBr, 0);
     Instruction nextInstr = new Instruction();
     if (n > 255) {
         reporter.reportRestriction("length of operand can't exceed 255 words");
