@@ -169,7 +169,7 @@ public final class Encoder implements Visitor {
   }
   
     public Object visitLocalDeclaration(LocalDeclaration ast, Object o) {
-       return null 
+      return null;
   }
 
     
@@ -209,16 +209,48 @@ public final class Encoder implements Visitor {
     
     public Object visitRepeatForCommand(RepeatForCommand ast, Object o) {
         /*
+        let const $Final ~ Exp2 ; !el valor final se evalúa solo una vez
+            var Id := Exp1 !Id obtiene como primer valor el que tiene Exp1
+        in   repeat while Id <= $Final do !mientras no se haya excedido el límite superior
+            let
+                const Id ~ Id !se re-declara Id como constante para usarlo en Com
+                !esto protege a Id dentro de Com
+            in Com
+            end ; !el let interno comprende únicamente Com, que llega hasta aquí
+            Id := Id + 1 !se incrementa la variable de control, Id, declarada en el primer let
+            !continuar con las repeticiones
+            end
+        end
+        */
+        
+        
+        /*
+        ! obtener valor del límite superior, esto es, $Sup
+        evaluate [Exp2]
+	! obtener el valor inicial de la variable de control, esto es, Id
+        evaluate [Exp1]
+	! solamente la primera vez saltamos hacia la evaluación de la condición JUMP evalcond
+	repetir:	! ejecutar el comando que debe repetirse en cada iteración
+        execute [Com]
+	! actualizar la variable de control
+	! succ incrementa en 1 lo que está en la cima de la pila
+        CALL succ 
+	evalcond:	! evaluar si la variable de control se encuentra dentro de los límites
+	! cargar simultáneamente Id y $Sup
+        LOAD (2) -2 [ST]
+	! comparar si el límite superior es mayor o igual a la variable de control
+        CALL ge
+	! seguir con la repetición si la variable de control es menor
+        ! o igual que el límite superior, de lo contrario salir (seguir hacia abajo)
+        JUMPIF (1) repetir
+	salir:	! limpiar el espacio de almacenamiento para la variable de
+        ! control y el límite superior (2 palabras)
+        POP 2
+        */
         Frame frame = (Frame) o;
-        int jumpAddr, loopAddr;
-
-        jumpAddr = nextInstrAddr;
-        emit(Machine.JUMPop, 0, Machine.CBr, 0);
-        loopAddr = nextInstrAddr;
-        ast.C.visit(this, frame);
-        patch(jumpAddr, nextInstrAddr);
-        ast.E.visit(this, frame);
-        emit(Machine.JUMPIFop, Machine.trueRep, Machine.CBr, loopAddr);*/
+        int exp1;
+        
+        
         return null;
     }
     
