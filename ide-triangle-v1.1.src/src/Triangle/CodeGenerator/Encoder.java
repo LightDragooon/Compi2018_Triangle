@@ -136,6 +136,7 @@ public final class Encoder implements Visitor {
     }
 
   public Object visitEmptyCommand(EmptyCommand ast, Object o) {
+    emit(Machine.HALTop, 0, 0, 0); // emit(Código de operación, Largo de operación, Número de registro, Desplazamiento)      
     return null;
   }
 
@@ -169,7 +170,17 @@ public final class Encoder implements Visitor {
   }
   
     public Object visitLocalDeclaration(LocalDeclaration ast, Object o) {
-      return null;
+        /* 
+            local D1 in D2
+            elaborate D1
+            elaborate D2
+        */
+        Frame frame = (Frame) o;
+        int extraSize1, extraSize2;
+        extraSize1 = ((Integer) ast.D1.visit(this, frame)).intValue(); // Retorna el espacio extra asignado por declaración
+        Frame frame2 =  new Frame(frame, extraSize1); // Saqué la idea de LetCommand y diapositiva 57 de la presentación del profe.
+        extraSize2 = ((Integer) ast.D2.visit(this, frame2)).intValue(); 
+        return new Integer(extraSize1 + extraSize2); // Como es una declaración debe retonar el espacio extra asignado por declaración.
   }
 
     
@@ -437,8 +448,19 @@ public final class Encoder implements Visitor {
 
   // Declarations
   public Object visitAssignDeclaration(AssignDeclaration ast, Object o){
-      return null;
+      /* 
+       var I := E
+       evaluate(E)
+       PUSH size
+      */
+      
+        Frame frame = (Frame) o;
+        int extraSize = (Integer) ast.E.visit(this, frame); // al visitar la expresion el nivel y tamaño aumenta
+        ast.entity = new KnownAddress(Machine.addressSize, frame.level, frame.size); // por lo anterior se usa frame aqui y no extraSize
+        writeTableDetails(ast);
+        return new Integer(extraSize);
   }
+  
   public Object visitBinaryOperatorDeclaration(BinaryOperatorDeclaration ast,
 					       Object o){
     return new Integer(0);
@@ -1057,7 +1079,9 @@ public final class Encoder implements Visitor {
   private int nextInstrAddr;
 
   // Appends an instruction, with the given fields, to the object code.
-  private void emit (int op, int n, int r, int d) { //  emit(Machine.JUMPIFop, Machine.falseRep, Machine.CBr, 0);
+  
+   
+  private void emit (int op, int n, int r, int d) { // emit(Código de operación, Largo de operación, Número de registro, Desplazamiento)
     Instruction nextInstr = new Instruction();
     if (n > 255) {
         reporter.reportRestriction("length of operand can't exceed 255 words");
