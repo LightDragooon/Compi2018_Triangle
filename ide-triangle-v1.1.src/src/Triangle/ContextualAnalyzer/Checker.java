@@ -987,19 +987,19 @@ public final class Checker implements Visitor {
         Declaration binding = (Declaration) ast.I.visit(this, null);
         if (binding == null) {
             reportUndeclared(ast.I);
-            ast.type = ((ConstDeclaration) binding).E.type;
         } else if (binding instanceof ConstDeclaration) {
+            ast.type = ((ConstDeclaration) binding).E.type;
             ast.variable = false;
-            ast.type = ((VarDeclaration) binding).T;
         } else if (binding instanceof VarDeclaration) {
+            ast.type = ((VarDeclaration) binding).T;
             ast.variable = true;
         } else if (binding instanceof VarDeclarationFor) {
             ast.type = ((VarDeclarationFor) binding).E.type;
             ast.variable = false;
         } else if (binding instanceof ConstFormalParameter) {
             ast.type = ((ConstFormalParameter) binding).T;
-        } else if (binding instanceof VarFormalParameter) {
             ast.variable = false;
+        } else if (binding instanceof VarFormalParameter) {
             ast.type = ((VarFormalParameter) binding).T;
             ast.variable = true;
         } else if (binding instanceof AssignDeclaration) {

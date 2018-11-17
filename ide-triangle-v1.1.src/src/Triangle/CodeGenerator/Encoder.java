@@ -131,12 +131,8 @@ public final class Encoder implements Visitor {
         return null;
     }
 
-  public Object visitEmptyCommand(EmptyCommand ast, Object o) {
-    emit(Machine.HALTop, 0, 0, 0); // emit(C�digo de operaci�n, Largo de operaci�n, N�mero de registro, Desplazamiento)      
-    return null;
-  }
-
     public Object visitEmptyCommand(EmptyCommand ast, Object o) {
+        emit(Machine.HALTop, 0, 0, 0); // emit(C�digo de operaci�n, Largo de operaci�n, N�mero de registro, Desplazamiento)      
         return null;
     }
 
@@ -160,6 +156,10 @@ public final class Encoder implements Visitor {
         return null;
     }
 
+    public Object visitCharacterCommand(CharacterCommand ast, Object o) {
+        return null;
+    }
+
     public Object visitLetCommand(LetCommand ast, Object o) {
         Frame frame = (Frame) o;
         int extraSize = ((Integer) ast.D.visit(this, frame)).intValue();
@@ -175,23 +175,22 @@ public final class Encoder implements Visitor {
             local D1 in D2
             elaborate D1
             elaborate D2
-        */
+         */
         Frame frame = (Frame) o;
         int extraSize1, extraSize2;
         extraSize1 = ((Integer) ast.D1.visit(this, frame)).intValue(); // Retorna el espacio extra asignado por declaraci�n
-        Frame frame2 =  new Frame(frame, extraSize1); // Saqu� la idea de LetCommand y diapositiva 57 de la presentaci�n del profe.
-        extraSize2 = ((Integer) ast.D2.visit(this, frame2)).intValue(); 
+        Frame frame2 = new Frame(frame, extraSize1); // Saqu� la idea de LetCommand y diapositiva 57 de la presentaci�n del profe.
+        extraSize2 = ((Integer) ast.D2.visit(this, frame2)).intValue();
         return new Integer(extraSize1 + extraSize2); // Como es una declaraci�n debe retonar el espacio extra asignado por declaraci�n.
-  }
+    }
 
-    
     public Object visitRepeatDoUntilCommand(RepeatDoUntilCommand ast, Object o) {
         /*
         j: execute C 
            evaluate E
            JUMPIF(0) j
-        */
-        
+         */
+
         Frame frame = (Frame) o;
         int loopAddr;
 
@@ -201,14 +200,14 @@ public final class Encoder implements Visitor {
         emit(Machine.JUMPIFop, Machine.falseRep, Machine.CBr, loopAddr); // Condici�n false
         return null;
     }
-    
+
     public Object visitRepeatDoWhileCommand(RepeatDoWhileCommand ast, Object o) {
         /*
         j: execute C 
            evaluate E
            JUMPIF(1) j
-        */
-        
+         */
+
         Frame frame = (Frame) o;
         int loopAddr;
 
@@ -218,7 +217,7 @@ public final class Encoder implements Visitor {
         emit(Machine.JUMPIFop, Machine.trueRep, Machine.CBr, loopAddr);
         return null;
     }
-    
+
     public Object visitRepeatForCommand(RepeatForCommand ast, Object o) {
         /*
         let const $Final ~ Exp2 ; !el valor final se eval�a solo una vez
@@ -233,10 +232,9 @@ public final class Encoder implements Visitor {
             !continuar con las repeticiones
             end
         end
-        */
-        
-        
-        /*
+         */
+
+ /*
         ! obtener valor del l�mite superior, esto es, $Sup
         evaluate [Exp2]
 	! obtener el valor inicial de la variable de control, esto es, Id
@@ -258,23 +256,22 @@ public final class Encoder implements Visitor {
 	salir:	! limpiar el espacio de almacenamiento para la variable de
         ! control y el l�mite superior (2 palabras)
         POP 2
-        */
+         */
         Frame frame = (Frame) o;
         int exp1;
-        
-        
+
         return null;
     }
 
     //Se a�ade visitRepeatUntilCommand
     public Object visitRepeatUntilCommand(RepeatUntilCommand ast, Object o) {
-         /* repeat until exp do command
+        /* repeat until exp do command
         j: JUMP h    
         g: execute C     
         h: evaluate E
            JUMPIF (0) g     
-        */     
-        Frame frame = (Frame) o;                        
+         */
+        Frame frame = (Frame) o;
         int jumpAddr, loopAddr;
 
         jumpAddr = nextInstrAddr; // etiqueta j
@@ -284,8 +281,8 @@ public final class Encoder implements Visitor {
         patch(jumpAddr, nextInstrAddr); // En la siguiente direcci�n ya se conoce h entonces se une jumpAddrr y dicha direcci�n.
         ast.E.visit(this, frame); // etiqueta h
         emit(Machine.JUMPIFop, Machine.falseRep, Machine.CBr, loopAddr); // Como es un until se debe entrar al Comando si la Expresi�n da resultado False.
-        return null;      
-  
+        return null;
+
     }
 
     public Object visitRepeatWhileCommand(RepeatWhileCommand ast, Object o) {
@@ -294,9 +291,9 @@ public final class Encoder implements Visitor {
         g: execute C     
         h: evaluate E
            JUMPIF (1) g     
-        */
-        
-        Frame frame = (Frame) o;                        
+         */
+
+        Frame frame = (Frame) o;
         int jumpAddr, loopAddr;
 
         jumpAddr = nextInstrAddr; // etiqueta j
@@ -408,9 +405,9 @@ public final class Encoder implements Visitor {
 
     public Object visitIntegerExpression(IntegerExpression ast, Object o) {
         Frame frame = (Frame) o;
-        Integer valSize = (Integer) ast.type.visit(this, null);
+        //Integer valSize = (Integer) ast.type.visit(this, null);
         emit(Machine.LOADLop, 0, 0, Integer.parseInt(ast.IL.spelling));
-        return valSize;
+        return null;//valSize;
     }
 
     public Object visitLetExpression(LetExpression ast, Object o) {
@@ -445,50 +442,19 @@ public final class Encoder implements Visitor {
         return valSize;
     }
 
-  public Object visitVnameExpression(VnameExpression ast, Object o) {
-    Frame frame = (Frame) o;
-    Integer valSize = (Integer) ast.type.visit(this, null);
-    encodeFetch(ast.V, frame, valSize.intValue());
-    return valSize;
-  }
-
-
-  // Declarations
-  public Object visitAssignDeclaration(AssignDeclaration ast, Object o){
-      /* 
+    // Declarations
+    public Object visitAssignDeclaration(AssignDeclaration ast, Object o) {
+        /* 
        var I := E
        evaluate(E)
        PUSH size
-      */
-      
+         */
+ 
         Frame frame = (Frame) o;
-        int extraSize = (Integer) ast.E.visit(this, frame); // al visitar la expresion el nivel y tama�o aumenta
+        //int extraSize = (Integer) ast.E.visit(this, frame); // al visitar la expresion el nivel y tama�o aumenta
         ast.entity = new KnownAddress(Machine.addressSize, frame.level, frame.size); // por lo anterior se usa frame aqui y no extraSize
         writeTableDetails(ast);
-        return new Integer(extraSize);
-  }
-  
-  public Object visitBinaryOperatorDeclaration(BinaryOperatorDeclaration ast,
-					       Object o){
-    return new Integer(0);
-  }
-
-  public Object visitConstDeclaration(ConstDeclaration ast, Object o) {
-    Frame frame = (Frame) o;
-    int extraSize = 0;
-
-    if (ast.E instanceof CharacterExpression) {
-        CharacterLiteral CL = ((CharacterExpression) ast.E).CL;
-        ast.entity = new KnownValue(Machine.characterSize,
-                                 characterValuation(CL.spelling));
-    } else if (ast.E instanceof IntegerExpression) {
-        IntegerLiteral IL = ((IntegerExpression) ast.E).IL;
-        ast.entity = new KnownValue(Machine.integerSize,
-				 Integer.parseInt(IL.spelling));
-    } else {
-      int valSize = ((Integer) ast.E.visit(this, frame)).intValue();
-      ast.entity = new UnknownValue(valSize, frame.level, frame.size);
-      extraSize = valSize;
+        return null;//new Integer(extraSize);
     }
 
     public Object visitBinaryOperatorDeclaration(BinaryOperatorDeclaration ast,
@@ -558,7 +524,7 @@ public final class Encoder implements Visitor {
         patch(jumpAddr, nextInstrAddr);
         return new Integer(0);
     }
-    
+
     public Object visitFuncDeclarationPF(FuncDeclarationPF ast, Object o) {
         Frame frame = (Frame) o;
         int jumpAddr = nextInstrAddr;
@@ -1166,20 +1132,6 @@ public final class Encoder implements Visitor {
         Machine.code[addr].d = d;
     }
 
-  // Implementation notes:
-  // Object code is generated directly into the TAM Code Store, starting at CB.
-  // The address of the next instruction is held in nextInstrAddr.
-
-  private int nextInstrAddr;
-
-  // Appends an instruction, with the given fields, to the object code.
-  
-   
-  private void emit (int op, int n, int r, int d) { // emit(C�digo de operaci�n, Largo de operaci�n, N�mero de registro, Desplazamiento)
-    Instruction nextInstr = new Instruction();
-    if (n > 255) {
-        reporter.reportRestriction("length of operand can't exceed 255 words");
-        n = 255; // to allow code generation to continue
     // DATA REPRESENTATION
     public int characterValuation(String spelling) {
         // Returns the machine representation of the given character literal.
