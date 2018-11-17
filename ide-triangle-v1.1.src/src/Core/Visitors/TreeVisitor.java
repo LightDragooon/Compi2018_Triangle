@@ -32,6 +32,7 @@ import Triangle.AbstractSyntaxTrees.EmptyFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.ErrorTypeDenoter;
 import Triangle.AbstractSyntaxTrees.FuncActualParameter;
 import Triangle.AbstractSyntaxTrees.FuncDeclaration;
+import Triangle.AbstractSyntaxTrees.FuncDeclarationPF;
 import Triangle.AbstractSyntaxTrees.FuncFormalParameter;
 import Triangle.AbstractSyntaxTrees.Identifier;
 import Triangle.AbstractSyntaxTrees.IfCommand;
@@ -54,7 +55,7 @@ import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
 import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
 import Triangle.AbstractSyntaxTrees.ProcFuncsDeclaration;
-import Triangle.AbstractSyntaxTrees.ProcPFDeclaration;
+import Triangle.AbstractSyntaxTrees.ProcDeclarationPF;
 import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
@@ -258,11 +259,15 @@ public class TreeVisitor implements Visitor {
         return(createQuaternary("Function Declaration", ast.I, ast.FPS, ast.T, ast.E));
     }
     
+    public Object visitFuncDeclarationPF(FuncDeclarationPF ast, Object obj) {
+        return(createQuaternary("Function Proc-Funcs Declaration", ast.I, ast.FPS, ast.T, ast.E));
+    }
+    
     public Object visitProcDeclaration(ProcDeclaration ast, Object obj) {
         return(createTernary("Procedure Declaration", ast.I, ast.FPS, ast.C));        
     }
     
-    public Object visitProcPFDeclaration(ProcPFDeclaration ast, Object o){
+    public Object visitProcDeclarationPF(ProcDeclarationPF ast, Object o){
         return(createTernary("Procedure Proc-Funcs Declaration", ast.I, ast.FPS, ast.C));
     }
     

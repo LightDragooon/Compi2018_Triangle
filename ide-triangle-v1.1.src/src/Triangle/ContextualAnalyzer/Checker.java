@@ -47,6 +47,7 @@ import Triangle.AbstractSyntaxTrees.FormalParameter;
 import Triangle.AbstractSyntaxTrees.FormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.FuncActualParameter;
 import Triangle.AbstractSyntaxTrees.FuncDeclaration;
+import Triangle.AbstractSyntaxTrees.FuncDeclarationPF;
 import Triangle.AbstractSyntaxTrees.FuncFormalParameter;
 import Triangle.AbstractSyntaxTrees.Identifier;
 import Triangle.AbstractSyntaxTrees.IfCommand;
@@ -69,7 +70,7 @@ import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
 import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
 import Triangle.AbstractSyntaxTrees.ProcFuncsDeclaration;
-import Triangle.AbstractSyntaxTrees.ProcPFDeclaration;
+import Triangle.AbstractSyntaxTrees.ProcDeclarationPF;
 import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
@@ -105,6 +106,8 @@ import Triangle.AbstractSyntaxTrees.Visitor;
 import Triangle.AbstractSyntaxTrees.VnameExpression;
 import Triangle.AbstractSyntaxTrees.WhileCommand;
 import Triangle.SyntacticAnalyzer.SourcePosition;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class Checker implements Visitor {
 
@@ -150,6 +153,8 @@ public final class Checker implements Visitor {
             reportUndeclared(ast.I);
         } else if (binding instanceof ProcDeclaration) {
             ast.APS.visit(this, ((ProcDeclaration) binding).FPS);
+        } else if (binding instanceof ProcDeclarationPF) {
+            ast.APS.visit(this, ((ProcDeclarationPF) binding).FPS);
         } else if (binding instanceof ProcFormalParameter) {
             ast.APS.visit(this, ((ProcFormalParameter) binding).FPS);
         } else {
@@ -250,16 +255,14 @@ public final class Checker implements Visitor {
     //Se aï¿½ade visitRepeatWhileCommand
     public Object visitRepeatForCommand(RepeatForCommand ast, Object o) {
         idTable.openScope();
-        
+
         TypeDenoter eType = (TypeDenoter) ast.E.visit(this, o);
         if (!eType.equals(StdEnvironment.integerType)) {
             reporter.reportError("Integer expression expected here", "",
                     ast.E.position);
         }
-        
-        ast.D.visit(this, o);
-        
 
+        ast.D.visit(this, o);
 
         ast.C.visit(this, o);
         idTable.closeScope();
@@ -399,6 +402,9 @@ public final class Checker implements Visitor {
         } else if (binding instanceof FuncDeclaration) {
             ast.APS.visit(this, ((FuncDeclaration) binding).FPS);
             ast.type = ((FuncDeclaration) binding).T;
+        } else if (binding instanceof FuncDeclarationPF) {
+            ast.APS.visit(this, ((FuncDeclarationPF) binding).FPS);
+            ast.type = ((FuncDeclarationPF) binding).T;
         } else if (binding instanceof FuncFormalParameter) {
             ast.APS.visit(this, ((FuncFormalParameter) binding).FPS);
             ast.type = ((FuncFormalParameter) binding).T;
@@ -524,6 +530,26 @@ public final class Checker implements Visitor {
         return null;
     }
 
+    public Object visitFuncDeclarationPF(FuncDeclarationPF ast, Object o) {
+
+        ast.T = (TypeDenoter) ast.T.visit(this, null);
+        idTable.enter(ast.I.spelling, ast); // permits recursion
+        if (ast.duplicated) {
+            reporter.reportError("identifier \"%\" already declared",
+                    ast.I.spelling, ast.position);
+        }
+        idTable.openScope();
+        ast.FPS.visit(this, null);
+        TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+        idTable.closeScope();
+        if (!ast.T.equals(eType)) {
+            reporter.reportError("body of function \"%\" has wrong type",
+                    ast.I.spelling, ast.E.position);
+        }
+
+        return null;
+    }
+
     public Object visitProcDeclaration(ProcDeclaration ast, Object o) {
         idTable.enter(ast.I.spelling, ast); // permits recursion
         if (ast.duplicated) {
@@ -534,26 +560,37 @@ public final class Checker implements Visitor {
         ast.FPS.visit(this, null);
         ast.C.visit(this, null);
         idTable.closeScope();
-
         return null;
     }
 
-    public Object visitProcPFDeclaration(ProcPFDeclaration ast, Object o) {
-        idTable.enter(ast.I.spelling, ast); // permits recursion
-        if (ast.duplicated) {
-            reporter.reportError("identifier \"%\" already declared",
-                    ast.I.spelling, ast.position);
+    public Object visitProcDeclarationPF(ProcDeclarationPF ast, Object o) {
+        if(ast.justI){
+            
+        }else{
+            idTable.enter(ast.I.spelling, ast); // permits recursion
+            if (ast.duplicated) {
+                reporter.reportError("identifier \"%\" already declared",
+                        ast.I.spelling, ast.position);
+            }
+            ast.justI = false;
+            idTable.openScope();
+            ast.FPS.visit(this, null);
+            ast.C.visit(this, null);
+            idTable.closeScope();
         }
-        idTable.openScope();
-        ast.FPS.visit(this, null);
-        ast.C.visit(this, null);
-        idTable.closeScope();
         return null;
     }
 
     public Object visitProcFuncsDeclaration(ProcFuncsDeclaration ast, Object o) {
-        ast.D1.visit(this, null);
-        ast.D2.visit(this, null);
+        if (ast.isFirst){
+            ast.D1.visit(this, null);//ProcDeclarationPF | FuncDeclarationPF
+            ast.D2.visit(this, null);//ProcDeclarationPF | FuncDeclarationPF | ProcFuncsDeclaration  idTableProcs
+            
+            ast.D1.visit(this, null);
+            ast.D2.visit(this, null);
+            
+            ast.isFirst = false;
+        }
         return null;
     }
 
@@ -710,10 +747,11 @@ public final class Checker implements Visitor {
         FormalParameter fp = (FormalParameter) o;
 
         Declaration binding = (Declaration) ast.I.visit(this, null);
-        if (binding == null) {
+        if (binding == null && ast.I.spelling!= "help") {
             reportUndeclared(ast.I);
         } else if (!(binding instanceof FuncDeclaration
-                || binding instanceof FuncFormalParameter)) {
+                || binding instanceof FuncFormalParameter
+                || binding instanceof FuncDeclarationPF)) {
             reporter.reportError("\"%\" is not a function identifier",
                     ast.I.spelling, ast.I.position);
         } else if (!(fp instanceof FuncFormalParameter)) {
@@ -747,7 +785,8 @@ public final class Checker implements Visitor {
         if (binding == null) {
             reportUndeclared(ast.I);
         } else if (!(binding instanceof ProcDeclaration
-                || binding instanceof ProcFormalParameter)) {
+                || binding instanceof ProcFormalParameter
+                || binding instanceof ProcDeclarationPF)) {
             reporter.reportError("\"%\" is not a procedure identifier",
                     ast.I.spelling, ast.I.position);
         } else if (!(fp instanceof ProcFormalParameter)) {
@@ -889,9 +928,10 @@ public final class Checker implements Visitor {
 
     public Object visitIdentifier(Identifier I, Object o) {//
         Declaration binding = idTable.retrieve(I.spelling);
-        if (binding != null) {
+        if (binding != null) {//Ya está declarado
             I.decl = binding;
         }
+        //Voy a buscar en la tabla de procs
         return binding;
     }
 
@@ -1013,6 +1053,7 @@ public final class Checker implements Visitor {
         this.reporter = reporter;
         this.idTable = new IdentificationTable();
         this.literalTable = new LiteralTable();
+        this.a = new ArrayList<>();
         establishStdEnvironment();
     }
 
@@ -1020,6 +1061,7 @@ public final class Checker implements Visitor {
     private LiteralTable literalTable;
     private static SourcePosition dummyPos = new SourcePosition();
     private ErrorReporter reporter;
+    private ArrayList<String> a;
 
     // Reports that the identifier or operator used at a leaf of the AST
     // has not been declared.

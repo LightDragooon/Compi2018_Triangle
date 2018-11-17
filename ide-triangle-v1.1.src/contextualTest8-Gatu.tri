@@ -2,29 +2,23 @@
 !Disenno del caso de prueba: 
 
 let
-  var myVar := 100;
   recursive 
     proc  
       myProc (a : Integer) ~ 
-        myProc4(a)
+        let
+          var a : Integer
+        in
+          myProc2(a)
+        end
     end
     |
     proc  
       myProc2 (var b : Integer) ~ b := 100; myProc (100)
     end
-    |
-    proc  
-      myProc3 (var b : Integer) ~ nil
-    end
-    |
-    proc  
-      myProc4 (c : Integer) ~ nil
-    end
+
   end!FIN RECURSIVE
 in
-  myProc(10);
-  myProc2(var myVar);
-  myProc3(var myVar)
+  myProc(100)
 end
 
 !Resultados esperados: Analisis contextual exitoso

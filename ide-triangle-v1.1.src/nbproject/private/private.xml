@@ -4,11 +4,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Josua/Documents/TEC/Compiladores/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/AbstractSyntaxTrees/FuncDeclaration.java</file>
-            <file>file:/C:/Users/Josua/Documents/TEC/Compiladores/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/ContextualAnalyzer/IteralEntry.java</file>
-            <file>file:/C:/Users/Josua/Documents/TEC/Compiladores/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/ContextualAnalyzer/IdEntry.java</file>
-            <file>file:/C:/Users/Josua/Documents/TEC/Compiladores/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/ContextualAnalyzer/IdentificationTable.java</file>
-            <file>file:/C:/Users/Josua/Documents/TEC/Compiladores/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/ContextualAnalyzer/Checker.java</file>
+            <file>file:/C:/Users/Esteban/OneDrive/TEC/Semestre_VI_2018/Compiladores%20e%20Interpretes/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/ContextualAnalyzer/Checker.java</file>
+            <file>file:/C:/Users/Esteban/OneDrive/TEC/Semestre_VI_2018/Compiladores%20e%20Interpretes/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/AbstractSyntaxTrees/Declaration.java</file>
+            <file>file:/C:/Users/Esteban/OneDrive/TEC/Semestre_VI_2018/Compiladores%20e%20Interpretes/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/ContextualAnalyzer/IdentificationTable.java</file>
+            <file>file:/C:/Users/Esteban/OneDrive/TEC/Semestre_VI_2018/Compiladores%20e%20Interpretes/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/AbstractSyntaxTrees/ProcFuncsDeclaration.java</file>
+            <file>file:/C:/Users/Esteban/OneDrive/TEC/Semestre_VI_2018/Compiladores%20e%20Interpretes/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/AbstractSyntaxTrees/ProcDeclarationPF.java</file>
+            <file>file:/C:/Users/Esteban/OneDrive/TEC/Semestre_VI_2018/Compiladores%20e%20Interpretes/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/SyntacticAnalyzer/Parser.java</file>
+            <file>file:/C:/Users/Esteban/OneDrive/TEC/Semestre_VI_2018/Compiladores%20e%20Interpretes/Compi2018_Triangle/ide-triangle-v1.1.src/src/Triangle/AbstractSyntaxTrees/FuncDeclarationPF.java</file>
         </group>
     </open-files>
 </project-private>

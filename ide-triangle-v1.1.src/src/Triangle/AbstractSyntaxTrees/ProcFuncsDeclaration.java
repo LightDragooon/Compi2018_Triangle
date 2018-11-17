@@ -14,6 +14,7 @@ public class ProcFuncsDeclaration extends Declaration {
     super (thePosition);
     D1 = d1AST;
     D2 = d2AST;
+    isFirst = true;
   }
 
   @Override
@@ -22,4 +23,5 @@ public class ProcFuncsDeclaration extends Declaration {
   }
 
   public Declaration D1, D2;
+  public boolean isFirst;
 }
