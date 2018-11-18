@@ -219,22 +219,8 @@ public final class Encoder implements Visitor {
     }
 
     public Object visitRepeatForCommand(RepeatForCommand ast, Object o) {
-        /*
-        let const $Final ~ Exp2 ; !el valor final se eval�a solo una vez
-            var Id := Exp1 !Id obtiene como primer valor el que tiene Exp1
-        in   repeat while Id <= $Final do !mientras no se haya excedido el l�mite superior
-            let
-                const Id ~ Id !se re-declara Id como constante para usarlo en Com
-                !esto protege a Id dentro de Com
-            in Com
-            end ; !el let interno comprende �nicamente Com, que llega hasta aqu�
-            Id := Id + 1 !se incrementa la variable de control, Id, declarada en el primer let
-            !continuar con las repeticiones
-            end
-        end
-         */
 
- /*
+    /*
         ! obtener valor del l�mite superior, esto es, $Sup
         evaluate [Exp2]
 	! obtener el valor inicial de la variable de control, esto es, Id
@@ -257,9 +243,39 @@ public final class Encoder implements Visitor {
         ! control y el l�mite superior (2 palabras)
         POP 2
          */
+       
+         /*
+            LOADL Exp2
+            LOADL Dec1
+            JUMP Comparar
+            Exec Command
+            CALL succ
+            LOAD (2) -2 [ST]
+            CALL ge   (funcion de comparar)
+            JUMPIF(1) l repetir
+            POP (0) 2
+        */
         Frame frame = (Frame) o;
-        int exp1;
-
+        int repetir, jumpComparar, varControl, exp2Addr, extraSize1, extraSize2;
+        
+        extraSize1 = (Integer) ast.E.visit(this, frame); // obtener valor del l?mite superior
+        
+        Frame frame1 = new Frame (frame, extraSize1);
+        varControl = nextInstrAddr;
+        extraSize2 = ((Integer) ast.D.visit(this, frame1)).intValue(); // obtener el valor inicial de la variable de control
+        jumpComparar = nextInstrAddr;  // Ya tengo las 2 variables de control y las quiero comparar  
+        emit(Machine.JUMPop, 0, Machine.CBr, 0); // Por lo que guardo la direccion para patchear con la instruccion de comparar que aun no conozco
+        Frame frame2 = new Frame (frame, extraSize2 + extraSize1);
+        repetir = nextInstrAddr; // Etiqueta repeptir
+        ast.C.visit(this, frame2);
+        
+        emit(Machine.CALLop, varControl, Machine.PBr, Machine.succDisplacement); // succ incrementa en 1 lo que est? en la cima de la pila
+        
+        patch(jumpComparar, nextInstrAddr); // Ya conozco la forma de comparar, por lo que patcheo con la direccion anterior
+        emit(Machine.LOADop, extraSize1 + extraSize2, Machine.STr, -2); // cargar simult?neamente Id y $Sup
+        emit(Machine.CALLop, Machine.SBr, Machine.PBr, Machine.geDisplacement); // comparar si el l?mite superior es mayor o igual a la variable de control
+        emit(Machine.JUMPIFop, Machine.trueRep, Machine.CBr, repetir); // seguir con la repetici?n si la variable de control es menor o igual que el l?mite superior, de lo contrario salir (seguir hacia abajo)
+        emit(Machine.POPop, 0, 0, extraSize1 + extraSize2); // limpiar el espacio de almacenamiento para la variable de control y el l?mite superior (2 palabras)
         return null;
     }
 
