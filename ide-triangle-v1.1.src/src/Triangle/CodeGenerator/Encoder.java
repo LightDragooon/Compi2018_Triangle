@@ -139,7 +139,6 @@ public final class Encoder implements Visitor {
     public Object visitIfCommand(IfCommand ast, Object o) {
         Frame frame = (Frame) o;
         int jumpifAddr, jumpAddr;
-
         Integer valSize = (Integer) ast.E.visit(this, frame);
         jumpifAddr = nextInstrAddr;
         emit(Machine.JUMPIFop, Machine.falseRep, Machine.CBr, 0);
@@ -256,7 +255,7 @@ public final class Encoder implements Visitor {
             POP (0) 2
         */
         Frame frame = (Frame) o;
-        int repetir, jumpComparar, varControl, exp2Addr, extraSize1, extraSize2;
+        int repetir, jumpComparar, varControl, extraSize1, extraSize2;
         
         extraSize1 = (Integer) ast.E.visit(this, frame); // obtener valor del l?mite superior
         
@@ -322,9 +321,13 @@ public final class Encoder implements Visitor {
         return null;
     }
 
-    public Object visitSelectCommand(SelectCommand ast, Object o) {
-        ast.E.visit(this, o);
-        ast.C.visit(this, o);
+    public Object visitSelectCommand(SelectCommand ast, Object o) {  // No sé como hacer con los literales
+        Frame frame = (Frame) o;
+        int expresionCase;     
+        expresionCase = (Integer) ast.E.visit(this, frame); 
+        emit(Machine.LOADop, expresionCase, Machine.STr, -1);
+        Frame frame1 = new Frame (frame, expresionCase);
+        ast.C.visit(this, frame1);
         return null;
     }
 
@@ -335,6 +338,8 @@ public final class Encoder implements Visitor {
     }
 
     public Object visitSequentialCaseLiteral(SequentialCaseLiteral ast, Object o) {
+        ast.C1.visit(this, o);
+        ast.C2.visit(this, o);
         return null;
     }
 
@@ -607,7 +612,12 @@ public final class Encoder implements Visitor {
     }
 
     public Object visitProcFuncsDeclaration(ProcFuncsDeclaration ast, Object o) {
-        return (null);
+        Frame frame = (Frame) o;
+        int extraSize1, extraSize2;
+        extraSize1 = ((Integer) ast.D1.visit(this, frame)).intValue();
+        Frame frame1 = new Frame(frame, extraSize1);
+        extraSize2 = ((Integer) ast.D2.visit(this, frame1)).intValue();
+        return new Integer(extraSize1 + extraSize2);
     }
 
     public Object visitSequentialDeclaration(SequentialDeclaration ast, Object o) {
@@ -930,6 +940,7 @@ public final class Encoder implements Visitor {
     }
 
     public Object visitIntegerLiteral(IntegerLiteral ast, Object o) {
+        
         return null;
     }
 
