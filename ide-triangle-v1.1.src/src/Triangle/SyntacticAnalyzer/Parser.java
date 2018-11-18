@@ -540,9 +540,9 @@ public class Parser {
         accept(Token.END);
         
         while (!st.empty()){
-            Command c2AST = (Command) st.pop();
-            Expression e2AST = (Expression) st.pop();
-            c1AST = new IfCommand(e2AST, c2AST, c1AST, commandPos);
+            Command c2AST = (Command) st.pop();// saco el comando del elsif o if
+            Expression e2AST = (Expression) st.pop(); // saco la exp del elsif o if
+            c1AST = new IfCommand(e2AST, c2AST, c1AST, commandPos); // exp elsif  cmd elsif cmd else
         }
         
         finish(commandPos);

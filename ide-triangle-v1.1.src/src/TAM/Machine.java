@@ -69,22 +69,25 @@ public final class Machine {
 // REGISTER NUMBERS
 
   public final static int
-    CBr = 0,
-    CTr = 1,
-    PBr = 2,
-    PTr = 3,
-    SBr = 4,
-    STr = 5,
-    HBr = 6,
-    HTr = 7,
-    LBr = 8,
+    // Code Store
+    CBr = 0,   // Code Base
+    CTr = 1,  // Code Top
+    PBr = 2, // Primitive Base. Store microcode for elementary arithmetic
+    PTr = 3, // Primitive Top
+          
+    // Data Store
+    SBr = 4, // Stack Base
+    STr = 5, // Stack Top
+    HBr = 6, // Heap Base
+    HTr = 7, // Heap Top
+    LBr = 8,  // Points to the base of the topmost frame
     L1r = LBr + 1,
     L2r = LBr + 2,
     L3r = LBr + 3,
     L4r = LBr + 4,
     L5r = LBr + 5,
     L6r = LBr + 6,
-    CPr = 15;
+    CPr = 15;  // Points the next intr to be executed 
 
 
 // DATA REPRESENTATION
