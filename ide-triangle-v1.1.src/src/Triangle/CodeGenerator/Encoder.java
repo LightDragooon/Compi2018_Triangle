@@ -193,12 +193,12 @@ public final class Encoder implements Visitor {
         */
         
         Frame frame = (Frame) o;
-        int loopAddr;
+        int repeatAddr;
 
-        loopAddr = nextInstrAddr;
+        repeatAddr = nextInstrAddr;
         ast.C.visit(this, frame);
         ast.E.visit(this, frame);
-        emit(Machine.JUMPIFop, Machine.falseRep, Machine.CBr, loopAddr); // Condici�n false
+        emit(Machine.JUMPIFop, Machine.falseRep, Machine.CBr, repeatAddr); // Condici�n false
         return null;
     }
     
@@ -210,12 +210,12 @@ public final class Encoder implements Visitor {
         */
         
         Frame frame = (Frame) o;
-        int loopAddr;
+        int repeatAddr;
 
-        loopAddr = nextInstrAddr;
+        repeatAddr = nextInstrAddr;
         ast.C.visit(this, frame);
         ast.E.visit(this, frame);
-        emit(Machine.JUMPIFop, Machine.trueRep, Machine.CBr, loopAddr);
+        emit(Machine.JUMPIFop, Machine.trueRep, Machine.CBr, repeatAddr);
         return null;
     }
     
@@ -261,9 +261,10 @@ public final class Encoder implements Visitor {
         
         extraSize1 = (Integer) ast.E.visit(this, frame); // obtener valor del l?mite superior
         
-        Frame frame1 = new Frame (frame, extraSize1);
+        Frame frame1 = new Frame (frame, extraSize1);    
         varControl = nextInstrAddr;
-        extraSize2 = ((Integer) ast.D.visit(this, frame1)).intValue(); // obtener el valor inicial de la variable de control
+        extraSize2 = (Integer) ast.D.visit(this, frame1);
+         // obtener el valor inicial de la variable de control
         jumpComparar = nextInstrAddr;  // Ya tengo las 2 variables de control y las quiero comparar  
         emit(Machine.JUMPop, 0, Machine.CBr, 0); // Por lo que guardo la direccion para patchear con la instruccion de comparar que aun no conozco
         Frame frame2 = new Frame (frame, extraSize2 + extraSize1);
@@ -289,17 +290,16 @@ public final class Encoder implements Visitor {
            JUMPIF (0) g     
         */     
         Frame frame = (Frame) o;                        
-        int jumpAddr, loopAddr;
+        int jumpAddr, repeatAddr;
 
         jumpAddr = nextInstrAddr; // etiqueta j
         emit(Machine.JUMPop, 0, Machine.CBr, 0); // Instrucci�n vac�a porque no se conoce h
-        loopAddr = nextInstrAddr; // etiqueta g
+        repeatAddr = nextInstrAddr; // etiqueta g
         ast.C.visit(this, frame);
         patch(jumpAddr, nextInstrAddr); // En la siguiente direcci�n ya se conoce h entonces se une jumpAddrr y dicha direcci�n.
         ast.E.visit(this, frame); // etiqueta h
-        emit(Machine.JUMPIFop, Machine.falseRep, Machine.CBr, loopAddr); // Como es un until se debe entrar al Comando si la Expresi�n da resultado False.
+        emit(Machine.JUMPIFop, Machine.falseRep, Machine.CBr, repeatAddr); // Como es un until se debe entrar al Comando si la Expresi�n da resultado False.
         return null;      
-  
     }
 
     public Object visitRepeatWhileCommand(RepeatWhileCommand ast, Object o) {
@@ -311,17 +311,31 @@ public final class Encoder implements Visitor {
         */
         
         Frame frame = (Frame) o;                        
-        int jumpAddr, loopAddr;
+        int jumpAddr, repeatAddr;
 
         jumpAddr = nextInstrAddr; // etiqueta j
         emit(Machine.JUMPop, 0, Machine.CBr, 0); // Instrucci�n vac�a porque no se conoce h
-        loopAddr = nextInstrAddr; // etiqueta g
+        repeatAddr = nextInstrAddr; // etiqueta g
         ast.C.visit(this, frame);
         patch(jumpAddr, nextInstrAddr); // En la siguiente direcci�n ya se conoce h entonces se une jumpAddrr y dicha direcci�n.
         ast.E.visit(this, frame); // etiqueta h
-        emit(Machine.JUMPIFop, Machine.trueRep, Machine.CBr, loopAddr);
+        emit(Machine.JUMPIFop, Machine.trueRep, Machine.CBr, repeatAddr);
         return null;
     }
+    
+      public Object visitWhileCommand(WhileCommand ast, Object o) {
+    Frame frame = (Frame) o;
+    int jumpAddr, loopAddr;
+
+    jumpAddr = nextInstrAddr;
+    emit(Machine.JUMPop, 0, Machine.CBr, 0);
+    loopAddr = nextInstrAddr;
+    ast.C.visit(this, frame);
+    patch(jumpAddr, nextInstrAddr);
+    ast.E.visit(this, frame);
+    emit(Machine.JUMPIFop, Machine.trueRep, Machine.CBr, loopAddr);
+    return null;
+  }
 
     public Object visitSelectCommand(SelectCommand ast, Object o) {  // No s� como hacer con los literales
         Frame frame = (Frame) o;
@@ -354,20 +368,6 @@ public final class Encoder implements Visitor {
     public Object visitSequentialElseCase(SequentialElseCase ast, Object o) {
         ast.C1.visit(this, o);
         ast.C2.visit(this, o);
-        return null;
-    }
-
-    public Object visitWhileCommand(WhileCommand ast, Object o) {
-        Frame frame = (Frame) o;
-        int jumpAddr, loopAddr;
-
-        jumpAddr = nextInstrAddr;
-        emit(Machine.JUMPop, 0, Machine.CBr, 0);
-        loopAddr = nextInstrAddr;
-        ast.C.visit(this, frame);
-        patch(jumpAddr, nextInstrAddr);
-        ast.E.visit(this, frame);
-        emit(Machine.JUMPIFop, Machine.trueRep, Machine.CBr, loopAddr);
         return null;
     }
 
@@ -509,21 +509,8 @@ public final class Encoder implements Visitor {
 
     public Object visitVarDeclarationFor(VarDeclarationFor ast, Object o) {
         Frame frame = (Frame) o;
-        int extraSize = 0;
-
-        if (ast.E instanceof CharacterExpression) {
-            CharacterLiteral CL = ((CharacterExpression) ast.E).CL;
-            ast.entity = new KnownValue(Machine.characterSize,
-                    characterValuation(CL.spelling));
-        } else if (ast.E instanceof IntegerExpression) {
-            IntegerLiteral IL = ((IntegerExpression) ast.E).IL;
-            ast.entity = new KnownValue(Machine.integerSize,
-                    Integer.parseInt(IL.spelling));
-        } else {
-            int valSize = ((Integer) ast.E.visit(this, frame)).intValue();
-            ast.entity = new UnknownValue(valSize, frame.level, frame.size);
-            extraSize = valSize;
-        }
+        int extraSize = (Integer) ast.E.visit(this, frame); // al visitar la expresion el nivel y tama�o aumenta
+        ast.entity = new KnownAddress(Machine.addressSize, frame.level, frame.size); // por lo anterior se usa frame aqui y no extraSize
         writeTableDetails(ast);
         return new Integer(extraSize);
     }
