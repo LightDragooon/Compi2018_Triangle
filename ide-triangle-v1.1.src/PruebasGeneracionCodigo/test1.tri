@@ -1,8 +1,5 @@
 let
   var myVar := 5
 in
-  repeat until myVar = 0 do
-    myVar := myVar - 1;
-    putint(myVar)
-  end
+  putint(myVar)
 end
