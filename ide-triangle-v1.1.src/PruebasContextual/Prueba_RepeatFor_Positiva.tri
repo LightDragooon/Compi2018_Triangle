@@ -3,12 +3,7 @@
 
 repeat for i
   from 5 to 10 do
-    let
-      const myConst ~ i
-      ;proc myProc (var myVar : Integer) ~ nil end
-    in
-      nil
-    end
+    nil
 end
 
 !Resultados esperados: Analisis contextual exitoso

@@ -1,0 +1,9 @@
+let
+  var myVar : Integer
+in
+  myVar := 0;
+  repeat while myVar \= 10 do
+    putint(myVar);
+    myVar := myVar + 1
+  end
+end

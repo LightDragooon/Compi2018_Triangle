@@ -1,5 +1,32 @@
 let
-  var myVar := 5
+  var myVar := 999;
+  recursive 
+    proc  
+      myProc (a : Integer) ~ 
+        putint(a);myProc5('x')
+    end
+    |
+    proc  
+      myProc2 (var b : Integer) ~ myProc(3)!myProc(myFunc(3))
+    end
+    |
+    func  
+      myFunc (a : Integer) : Integer ~ a + 90
+    |
+    proc  
+      myProc3 (var b : Integer) ~ myProc(myFunc(2))
+    end
+    |
+    proc  
+      myProc4 (var b : Integer) ~ myProc2(var myVar)
+    end
+    |
+    proc  
+      myProc5 (c : Char) ~ put(c)
+    end
+  end
 in
-  putint(myVar)
-end
+  myProc(1);
+  myProc3(var myVar);
+  myProc4(var myVar)
+end

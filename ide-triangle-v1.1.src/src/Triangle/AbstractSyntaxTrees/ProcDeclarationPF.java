@@ -15,7 +15,6 @@ public class ProcDeclarationPF extends Declaration {
 
     @Override
     public Object visit(Visitor v, Object o) {
-        System.out.println("Hello");
         return v.visitProcDeclarationPF(this, o);
     }
 

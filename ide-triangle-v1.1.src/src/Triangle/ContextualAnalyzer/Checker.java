@@ -289,8 +289,8 @@ public final class Checker implements Visitor {
         TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
         if (!eType.equals(StdEnvironment.booleanType)) {
             reporter.reportError("Boolean expression expected here", "", ast.E.position);
-        ast.C.visit(this, null);
         }
+        ast.C.visit(this, null);
         return null;
     }
 
@@ -531,22 +531,33 @@ public final class Checker implements Visitor {
     }
 
     public Object visitFuncDeclarationPF(FuncDeclarationPF ast, Object o) {
-
-        ast.T = (TypeDenoter) ast.T.visit(this, null);
-        idTable.enter(ast.I.spelling, ast); // permits recursion
-        if (ast.duplicated) {
-            reporter.reportError("identifier \"%\" already declared",
-                    ast.I.spelling, ast.position);
+        
+        if((boolean)o){
+            idTable.enter(ast.I.spelling, ast); // permits recursion
+            if (ast.duplicated) {
+                reporter.reportError("identifier \"%\" already declared",
+                        ast.I.spelling, ast.position);
+            }
+            ast.T = (TypeDenoter) ast.T.visit(this, null);
+            idTable.openScope();
+            ast.FPS.visit(this, null);
+            TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+            idTable.closeScope();
+            if (!ast.T.equals(eType)) {
+                reporter.reportError("body of function \"%\" has wrong type",
+                        ast.I.spelling, ast.E.position);
+            }
+        }else{
+            ast.T = (TypeDenoter) ast.T.visit(this, null);
+            idTable.openScope();
+            ast.FPS.visit(this, null);
+            TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+            idTable.closeScope();
+            if (!ast.T.equals(eType)) {
+                reporter.reportError("body of function \"%\" has wrong type",
+                        ast.I.spelling, ast.E.position);
+            }
         }
-        idTable.openScope();
-        ast.FPS.visit(this, null);
-        TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
-        idTable.closeScope();
-        if (!ast.T.equals(eType)) {
-            reporter.reportError("body of function \"%\" has wrong type",
-                    ast.I.spelling, ast.E.position);
-        }
-
         return null;
     }
 
@@ -564,33 +575,48 @@ public final class Checker implements Visitor {
     }
 
     public Object visitProcDeclarationPF(ProcDeclarationPF ast, Object o) {
-        if(ast.justI){
-            
-        }else{
+        
+        if((boolean)o){
             idTable.enter(ast.I.spelling, ast); // permits recursion
             if (ast.duplicated) {
                 reporter.reportError("identifier \"%\" already declared",
                         ast.I.spelling, ast.position);
             }
+            idTable.openScope();
+            ast.FPS.visit(this, null);
+            idTable.closeScope();
             ast.justI = false;
+        }else{
             idTable.openScope();
             ast.FPS.visit(this, null);
             ast.C.visit(this, null);
             idTable.closeScope();
         }
+        /*
+        idTable.enter(ast.I.spelling, ast); // permits recursion
+        if (ast.duplicated) {
+            reporter.reportError("identifier \"%\" already declared",
+                    ast.I.spelling, ast.position);
+        }
+        idTable.openScope();
+        ast.FPS.visit(this, null);
+        ast.C.visit(this, null);
+        idTable.closeScope();*/
         return null;
     }
 
     public Object visitProcFuncsDeclaration(ProcFuncsDeclaration ast, Object o) {
-        if (ast.isFirst){
-            ast.D1.visit(this, null);//ProcDeclarationPF | FuncDeclarationPF
-            ast.D2.visit(this, null);//ProcDeclarationPF | FuncDeclarationPF | ProcFuncsDeclaration  idTableProcs
-            
-            ast.D1.visit(this, null);
-            ast.D2.visit(this, null);
-            
-            ast.isFirst = false;
+        //ast.D1.visit(this, null);//ProcDeclarationPF | FuncDeclarationPF
+        //ast.D2.visit(this, null);//ProcDeclarationPF | FuncDeclarationPF | ProcFuncsDeclaration  idTableProcs
+        ast.D2.visit(this, true);
+        
+        if (ast.D1 instanceof ProcDeclarationPF || ast.D1 instanceof FuncDeclarationPF){
+            ast.D1.visit(this, true);
         }
+        
+        ast.D1.visit(this, false);
+        ast.D2.visit(this, false);
+        
         return null;
     }
 
@@ -737,6 +763,7 @@ public final class Checker implements Visitor {
             reporter.reportError("const actual parameter not expected here", "",
                     ast.position);
         } else if (!eType.equals(((ConstFormalParameter) fp).T)) {
+            
             reporter.reportError("wrong type for const actual parameter", "",
                     ast.E.position);
         }

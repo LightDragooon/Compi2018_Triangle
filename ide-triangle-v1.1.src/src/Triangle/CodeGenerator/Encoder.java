@@ -297,8 +297,8 @@ public final class Encoder implements Visitor {
         ast.C.visit(this, frame);
         patch(jumpAddr, nextInstrAddr); // En la siguiente direcci�n ya se conoce h entonces se une jumpAddrr y dicha direcci�n.
         ast.E.visit(this, frame); // etiqueta h
-        emit(Machine.JUMPIFop, Machine.falseRep, Machine.CBr, loopAddr); // Como es un until se debe entrar al Comando si la Expresi�n da resultado False.
-        return null;      
+        emit(Machine.JUMPIFop, Machine.falseRep, Machine.CBr, loopAddr);
+        return null;     
   
     }
 
