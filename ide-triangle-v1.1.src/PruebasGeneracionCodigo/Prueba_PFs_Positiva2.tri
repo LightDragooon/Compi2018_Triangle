@@ -10,7 +10,7 @@ let
         if (a \= 4) then
           myProc(var a)
         else
-          putint(a)
+          myProc2(a) !myProc2 is declared after
         end
     end
     |

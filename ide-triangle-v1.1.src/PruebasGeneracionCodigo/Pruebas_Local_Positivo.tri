@@ -1,0 +1,16 @@
+!Objetivo del caso de prueba: Local Declaration
+!Disenno del caso de prueba: 
+
+let
+  local
+    var myLocalVar := 10
+  in
+    var myVar := myLocalVar
+  end
+in
+  putint(myVar)
+  !;putint(myLocalVar)   !ESTO ES UN ERROR
+end
+
+!Resultados esperados: Impresión del número 10
+!Resultados observados: Impresión del número 10
