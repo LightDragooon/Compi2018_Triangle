@@ -1,0 +1,23 @@
+!Objetivo del caso de prueba: Local Declaration
+!Disenno del caso de prueba: 
+
+let
+  var myVar := 5;
+  recursive
+    func  
+      myFunc (var a : Integer) : Integer ~ a + 10
+    |
+    proc  
+      myProc2 (var a : Integer) ~ 
+        putint(myFunc(var a))
+    end
+  end
+in
+  myProc2(var myVar)
+end
+
+
+
+
+!Resultados esperados: Impresión del número 15
+!Resultados observados: Impresión del número 15

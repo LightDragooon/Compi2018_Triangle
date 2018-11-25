@@ -1,4 +1,4 @@
-!Objetivo del caso de prueba: Local Declaration
+!Objetivo del caso de prueba: ProcFuncs - Anidamiento Mutuo
 !Disenno del caso de prueba: 
 
 let
@@ -6,17 +6,22 @@ let
   recursive
     proc  
       myProc (var a : Integer) ~ 
-        a := a + 2;
+        a := a + 1;
         if (a \= 4) then
-          myProc(var a)
+          myProc2(var a)
         else
-          myProc2(a) !myProc2 is declared after
+          putint(a)
         end
     end
     |
     proc  
-      myProc2 (a : Integer) ~ 
-        putint(a)
+      myProc2 (var a : Integer) ~ 
+        a := a + 1;
+        if (a \= 4) then
+          myProc(var a)
+        else
+          putint(a)
+        end
     end
   end
 in

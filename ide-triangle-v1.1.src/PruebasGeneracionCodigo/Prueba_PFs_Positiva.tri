@@ -1,4 +1,4 @@
-!Objetivo del caso de prueba: Local Declaration
+!Objetivo del caso de prueba: ProcFuncs - Anidamiento
 !Disenno del caso de prueba: 
 
 let
@@ -15,12 +15,12 @@ let
     end
     |
     proc  
-      myProc2 (a : Integer) ~ 
-        putint(a)
+      myProc2 (var a : Integer) ~ 
+        myProc(var a)
     end
   end
 in
-  myProc(var myVar)
+  myProc2(var myVar)
 end
 
 
