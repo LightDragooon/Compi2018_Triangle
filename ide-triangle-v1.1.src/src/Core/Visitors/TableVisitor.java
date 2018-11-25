@@ -130,8 +130,8 @@ public class TableVisitor implements Visitor {
     }
 
     public Object visitCaseCommand(CaseCommand ast, Object o) {
-        ast.C1.visit(this, null);
-        ast.C2.visit(this, null);
+        ast.E.visit(this, null);
+        ast.C.visit(this, null);
 
         return (null);
     }
@@ -222,13 +222,6 @@ public class TableVisitor implements Visitor {
         return (null);
     }
 
-    public Object visitSequentialCaseLiteral(SequentialCaseLiteral ast, Object o) {
-        ast.C1.visit(this, null);
-        ast.C2.visit(this, null);
-
-        return (null);
-    }
-
     public Object visitSequentialCommand(SequentialCommand ast, Object o) {
         ast.C1.visit(this, null);
         ast.C2.visit(this, null);
@@ -308,7 +301,15 @@ public class TableVisitor implements Visitor {
 
         return (null);
     }
+    
+    
+    public Object visitSequentialCaseLiteral(SequentialCaseLiteral ast, Object o) {
+        ast.E1.visit(this, null);
+        ast.E2.visit(this, null);
 
+        return (null);
+    }
+    
     public Object visitUnaryExpression(UnaryExpression ast, Object o) {
         ast.E.visit(this, null);
         ast.O.visit(this, null);

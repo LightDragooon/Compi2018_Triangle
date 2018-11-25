@@ -121,7 +121,7 @@ public class LayoutVisitor implements Visitor {
     }
 
     public Object visitCaseCommand(CaseCommand ast, Object obj) {
-        return layoutBinary("CaseCom.", ast.C1, ast.C2);
+        return layoutBinary("CaseCom.", ast.E, ast.C);
     }
 
     public Object visitCharacterCommand(CharacterCommand ast, Object o) {
@@ -153,7 +153,7 @@ public class LayoutVisitor implements Visitor {
     }
 
     public Object visitSequentialCaseLiteral(SequentialCaseLiteral ast, Object obj) {
-        return layoutBinary("Seq.CaseLit.", ast.C1, ast.C2);
+        return layoutBinary("Seq.CaseLit.", ast.E1, ast.E2);
     }
 
     public Object visitSequentialCommand(SequentialCommand ast, Object obj) {

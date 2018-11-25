@@ -7,19 +7,19 @@ package Triangle.AbstractSyntaxTrees;
 
 import Triangle.SyntacticAnalyzer.SourcePosition;
 
-public class SequentialCaseLiteral extends Command {
+public class SequentialCaseLiteral extends Expression {
 
-  public SequentialCaseLiteral (Command c1AST, Command c2AST,
+  public SequentialCaseLiteral (Expression e1AST, Expression e2AST,
                        SourcePosition thePosition) {
     super (thePosition);
-    C1 = c1AST;
-    C2 = c2AST;
+    E1 = e1AST;
+    E2 = e2AST;
   }
 
   public Object visit(Visitor v, Object o) {
     return v.visitSequentialCaseLiteral(this, o);
   }
 
-  public Command C1;
-  public Command C2;
+  public Expression E1;
+  public Expression E2;
 }

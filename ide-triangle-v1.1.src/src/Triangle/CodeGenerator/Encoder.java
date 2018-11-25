@@ -128,6 +128,9 @@ public final class Encoder implements Visitor {
     }
 
     public Object visitCaseCommand(CaseCommand ast, Object o) {
+        Frame frame = (Frame) o;
+        Integer valSize = (Integer) ast.E.visit(this, frame);
+        ast.C.visit(this, o);
         return null;
     }
 
@@ -153,6 +156,7 @@ public final class Encoder implements Visitor {
     }
 
     public Object visitIntegerCommand(IntegerCommand ast, Object o) {
+        ast.IL.visit(this, o);
         return null;
     }
     
@@ -338,7 +342,7 @@ public final class Encoder implements Visitor {
     return null;
   }
 
-    public Object visitSelectCommand(SelectCommand ast, Object o) {  // No s� como hacer con los literales
+    public Object visitSelectCommand(SelectCommand ast, Object o) {  
         Frame frame = (Frame) o;
         int expresionCase;     
         expresionCase = (Integer) ast.E.visit(this, frame); 
@@ -355,9 +359,9 @@ public final class Encoder implements Visitor {
     }
 
     public Object visitSequentialCaseLiteral(SequentialCaseLiteral ast, Object o) {
-        ast.C1.visit(this, o);
-        ast.C2.visit(this, o);
-        return null;
+        Integer valSize1 = (Integer) ast.E1.visit(this, o);
+        Integer val2Size2 = (Integer) ast.E2.visit(this, o);
+        return valSize1 + val2Size2;
     }
 
     public Object visitSequentialCommand(SequentialCommand ast, Object o) {
@@ -930,8 +934,10 @@ public final class Encoder implements Visitor {
         return null;
     }
 
-    public Object visitIntegerLiteral(IntegerLiteral ast, Object o) {
-        
+    public Object visitIntegerLiteral(IntegerLiteral ast, Object o) { //aqui
+        Frame frame = (Frame) o;   
+        emit(Machine.LOADLop, 0, 0, Integer.parseInt(ast.spelling));
+        emit(Machine.CALLop, Machine.SBr, Machine.PBr, Machine.eqDisplacement);
         return null;
     }
 
