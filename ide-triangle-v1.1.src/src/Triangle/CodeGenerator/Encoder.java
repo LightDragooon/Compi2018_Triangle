@@ -142,8 +142,10 @@ public final class Encoder implements Visitor {
             arrayDirecciones.add(nextInstrAddr);
             emit(Machine.JUMPop, 0, Machine.CBr, 0);  // Jump EXIT
             patch(jumpAbort, nextInstrAddr);
+            emit(Machine.POPop, 0, 0, valSize);
        //     emit(Machine.POPop,valSize,0,0);
         }else{
+            
             //Entr� a sequential case literal
             //S� coincidi� con alguna debo hacer jump al comando
             //Se podr�a revisar la instancia
@@ -395,15 +397,22 @@ public final class Encoder implements Visitor {
         ast.C2.visit(this, o); // ultimo a�adido
         return null;
     }
-    
+ /*   
     public Object visitCaseCommand(CaseCommand ast, Object o) {
         //Se guarda en la pila
         Frame frame = (Frame) o;
+        int jumpAbort, jumpExit;
         Integer valSize = (Integer) ast.E.visit(this, frame);// visitSequentialCaseLiteral o [Integer/Character] Expression
         //Si valSize es del tama�o de una palabra entonces  solo hay un literal
         //Debo hacer un jumpif
         if(valSize == 1){
-            //Una palabra
+            emit(Machine.CALLop, Machine.SBr, Machine.PBr, Machine.eqDisplacement); 
+            jumpAbort = nextInstrAddr;
+            emit(Machine.JUMPIFop, Machine.falseRep, Machine.CBr, 0); 
+            ast.C.visit(this, frame);
+            arrayDirecciones.add(nextInstrAddr);
+            emit(Machine.JUMPop, 0, Machine.CBr, 0);  // Jump EXIT
+            patch(jumpAbort, nextInstrAddr);
             
         }else{
             //Entr� a sequential case literal
@@ -414,12 +423,12 @@ public final class Encoder implements Visitor {
                 Si es de teste tipo revisar variable myBool
                 Si es verdad entonces debo ejecutar comando
                 
-            }*/
+            }
         }
         
-        ast.C.visit(this, o);//Comando  a ejecutar en caso de True
+    //    ast.C.visit(this, o);//Comando  a ejecutar en caso de True
         return null;
-    }
+    }*/
 
     public Object visitSequentialCaseLiteral(SequentialCaseLiteral ast, Object o) {
         //Tengo que comparar y hacer un jumpif si es necesario
