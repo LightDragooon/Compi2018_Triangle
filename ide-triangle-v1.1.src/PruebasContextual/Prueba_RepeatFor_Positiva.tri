@@ -2,8 +2,8 @@
 !Disenno del caso de prueba: 
 
 repeat for i
-  from 5 to 10 do
-    nil
+  from 1 to 5 do
+    putint(i)
 end
 
 !Resultados esperados: Analisis contextual exitoso
