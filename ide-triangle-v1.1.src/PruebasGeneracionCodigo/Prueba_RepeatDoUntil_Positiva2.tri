@@ -1,0 +1,9 @@
+let
+  var myVar : Integer
+in
+  myVar := 0;
+  repeat do
+    putint(myVar);
+    myVar := myVar + 1
+  until myVar = 10 end
+end

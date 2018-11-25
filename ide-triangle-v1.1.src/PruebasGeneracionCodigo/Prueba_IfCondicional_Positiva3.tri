@@ -1,0 +1,12 @@
+let
+  var myInt : Integer
+in
+  if true then 
+    myInt := 1
+  elsif true then 
+    myInt := 2
+  else
+    myInt := 3
+  end;
+  putint(myInt)
+end

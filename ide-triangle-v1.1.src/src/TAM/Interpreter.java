@@ -570,6 +570,13 @@ public class Interpreter {
         case Machine.HALTop:
           status = halted;
           break;
+        case Machine.JUMPIFNOTop:
+            //ST = ST - 1;
+            if (data[ST] == n)
+              CP = d + content(r);//Vaya al registro r con desplazamiento d
+            else
+              CP = CP + 1;//En caso de que no 
+            break;
       }
       if ((CP < CB) || (CP >= CT))
         status = failedInvalidCodeAddress;

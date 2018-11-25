@@ -1,0 +1,6 @@
+let
+  var myVar : Integer
+in
+  myVar := 5;
+  putint(myVar)
+end

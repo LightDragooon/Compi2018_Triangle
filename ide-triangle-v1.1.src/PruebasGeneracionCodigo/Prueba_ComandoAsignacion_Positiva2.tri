@@ -1,0 +1,6 @@
+let
+  var myVar : Char
+in
+  myVar := 'H';
+  put(myVar)
+end
