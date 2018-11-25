@@ -1,29 +1,15 @@
 !Objetivo del caso de prueba: Comando condicional if - Usando elsif
 !Disenno del caso de prueba: 
 
-let
-  var myBool := true
-in
-  if false then 
-    let
-      var mySecondBool := true
-    in
-      nil
-    end
-  elsif myBool then
-    let
-      var myThirdBool := true
-    in
-      nil
-    end
+
+  if 2 = 3 then 
+     putint(3)
+  elsif 2 = 2 then
+     putint(2)
   else
-    let
-      var myFourthBool := true
-    in
-      nil
-    end
+    putint(10)
   end!FIN DE TODO EL IF
-end
+
 
 !Resultados esperados: Analisis contextual exitoso
 !Resultados observados: Analisis contextual exitoso

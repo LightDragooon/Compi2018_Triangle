@@ -20,6 +20,6 @@ public class SequentialCase extends Command {
     return v.visitSequentialCase(this, o);
   }
 
-  public Command C1;
-  public Command C2;
+  public Command C1; // Conjunto de selects
+  public Command C2; // ultimo añadido
 }

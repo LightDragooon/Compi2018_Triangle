@@ -108,9 +108,11 @@ import Triangle.AbstractSyntaxTrees.Visitor;
 import Triangle.AbstractSyntaxTrees.Vname;
 import Triangle.AbstractSyntaxTrees.VnameExpression;
 import Triangle.AbstractSyntaxTrees.WhileCommand;
+import java.util.ArrayList;
 
 public final class Encoder implements Visitor {
 
+    
     // Commands
     public Object visitAssignCommand(AssignCommand ast, Object o) {
         Frame frame = (Frame) o;
@@ -127,7 +129,47 @@ public final class Encoder implements Visitor {
         return null;
     }
 
-    
+    public Object visitCaseCommand(CaseCommand ast, Object o) {
+
+        Frame frame = (Frame) o;
+        int jumpAbort, jumpExit;
+        Integer valSize = (Integer) ast.E.visit(this, frame);// visitSequentialCaseLiteral o [Integer/Character] Expression
+        if(valSize == 1){
+            emit(Machine.CALLop, Machine.SBr, Machine.PBr, Machine.eqDisplacement); 
+            jumpAbort = nextInstrAddr;
+            emit(Machine.JUMPIFop, Machine.falseRep, Machine.CBr, 0); 
+            ast.C.visit(this, frame);
+            arrayDirecciones.add(nextInstrAddr);
+            emit(Machine.JUMPop, 0, Machine.CBr, 0);  // Jump EXIT
+            patch(jumpAbort, nextInstrAddr);
+       //     emit(Machine.POPop,valSize,0,0);
+        }else{
+            //Entrï¿½ a sequential case literal
+            //Sï¿½ coincidiï¿½ con alguna debo hacer jump al comando
+            //Se podrï¿½a revisar la instancia
+            /*
+            if(valSize instanceof Object){
+                Si es de teste tipo revisar variable myBool
+                Si es verdad entonces debo ejecutar comando
+
+            }
+        }
+
+        ast.C.visit(this, o);//Comando  a ejecutar en caso de True
+        return null;*/
+        }
+
+       /* Frame frame = (Frame) o;
+        int jumpifAddr;
+        
+        Integer valSize = (Integer) ast.E.visit(this, frame);
+        
+        jumpifAddr = nextInstrAddr;
+        
+        patch(jumpifAddr, nextInstrAddr);
+        ;*/
+        return null;
+    }
 
   public Object visitEmptyCommand(EmptyCommand ast, Object o) {
     emit(Machine.HALTop, 0, 0, 0); // emit(Cï¿½digo de operaciï¿½n, Largo de operaciï¿½n, Nï¿½mero de registro, Desplazamiento)      
@@ -340,19 +382,17 @@ public final class Encoder implements Visitor {
     public Object visitSelectCommand(SelectCommand ast, Object o) {  
         Frame frame = (Frame) o;
         int expresionCase;     
-        expresionCase = (Integer) ast.E.visit(this, frame); //Se guarda en el tope
-        
-        emit(Machine.LOADop, expresionCase, Machine.STr, -1);//Se guarda en la pila
-        
+        expresionCase = (Integer) ast.E.visit(this, frame); 
         Frame frame1 = new Frame (frame, expresionCase);
-        ast.C.visit(this, frame1);// visitSequentialElseCase o visitSequentialCase
+        ast.C.visit(this, frame1);
+     //   emit(Machine.POPop, 0, 0, expresionCase);
         return null;
     }
     
 
     public Object visitSequentialCase(SequentialCase ast, Object o) {
-        ast.C1.visit(this, o);//visitCaseCommand
-        ast.C2.visit(this, o);//visitCaseCommand
+        ast.C1.visit(this, o); // Conjunto de selects
+        ast.C2.visit(this, o); // ultimo aï¿½adido
         return null;
     }
     
@@ -360,15 +400,15 @@ public final class Encoder implements Visitor {
         //Se guarda en la pila
         Frame frame = (Frame) o;
         Integer valSize = (Integer) ast.E.visit(this, frame);// visitSequentialCaseLiteral o [Integer/Character] Expression
-        //Si valSize es del tamaño de una palabra entonces  solo hay un literal
+        //Si valSize es del tamaï¿½o de una palabra entonces  solo hay un literal
         //Debo hacer un jumpif
         if(valSize == 1){
             //Una palabra
             
         }else{
-            //Entré a sequential case literal
-            //Sí coincidió con alguna debo hacer jump al comando
-            //Se podría revisar la instancia
+            //Entrï¿½ a sequential case literal
+            //Sï¿½ coincidiï¿½ con alguna debo hacer jump al comando
+            //Se podrï¿½a revisar la instancia
             /*
             if(valSize instanceof Object){
                 Si es de teste tipo revisar variable myBool
@@ -385,7 +425,7 @@ public final class Encoder implements Visitor {
         //Tengo que comparar y hacer un jumpif si es necesario
         Integer valSize1 = (Integer) ast.E1.visit(this, o); //[Integer/Character] Expression
         Integer val2Size2 = (Integer) ast.E2.visit(this, o);//visitSequentialCaseLiteral | [Integer/Character] Expression
-        //Retornar un objeto con tamaño y sí fue exitosa la comparacion
+        //Retornar un objeto con tamaï¿½o y sï¿½ fue exitosa la comparacion
         //myBool = myBool || otherE2.myBool
         return valSize1 + val2Size2;
     }
@@ -397,8 +437,11 @@ public final class Encoder implements Visitor {
     }
 
     public Object visitSequentialElseCase(SequentialElseCase ast, Object o) {
-        ast.C1.visit(this, o);//Sequential Case
-        ast.C2.visit(this, o);//Comando Default
+        ast.C1.visit(this, o);
+        ast.C2.visit(this, o);
+        for(Integer i: arrayDirecciones){
+            patch(i, nextInstrAddr);
+        }
         return null;
     }
 
@@ -1093,7 +1136,9 @@ public final class Encoder implements Visitor {
         writeTableDetails(routineDeclaration);
     }
 
+    private ArrayList<Integer> arrayDirecciones;
     private final void elaborateStdEnvironment() {
+        arrayDirecciones = new ArrayList<Integer>();
         tableDetailsReqd = false;
         elaborateStdConst(StdEnvironment.falseDecl, Machine.falseRep);
         elaborateStdConst(StdEnvironment.trueDecl, Machine.trueRep);

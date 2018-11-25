@@ -1,6 +1,7 @@
 !Objetivo del caso de prueba: Ejecución de Select de forma exitosa
 !Disenno del caso de prueba: 
 
+<<<<<<< Updated upstream
 select 1 from
   case 1 | 2 | 4 then 
     putint(0)
@@ -9,6 +10,19 @@ select 1 from
   else 
     putint(9)
 end
+=======
+
+	select 2 from
+
+	case 3 then 
+		putint(3)
+	case 2 then
+		putint(2)
+	else 
+		putint(10)
+	end
+
+>>>>>>> Stashed changes
 
 !Resultados esperados: putint(0)
 !Resultados observados: putint(0)
