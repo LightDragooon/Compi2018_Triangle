@@ -291,68 +291,71 @@ public class Parser {
   
   Command parseCase() throws SyntaxError{
       Command commandAST = null;
+      Expression expressionAST = null;
       
       SourcePosition casePos = new SourcePosition();
       start(casePos);
       accept(Token.CASE);
-      commandAST = parseCaseLiterals();
+      expressionAST = parseCaseLiterals();
       accept(Token.THEN);
       Command c1AST = parseCommand();
       finish(casePos);
-      commandAST = new CaseCommand(commandAST, c1AST, casePos);//Este es el arbol del case
-      
-      
+      commandAST = new CaseCommand(expressionAST, c1AST, casePos);//Este es el arbol del case
+
       return commandAST;
   }
   
-  Command parseCaseLiterals() throws SyntaxError{
-      Command commandAST = null;
+  Expression parseCaseLiterals() throws SyntaxError{
+      Expression expressionAST = null;
       
       SourcePosition commandPos = new SourcePosition();
       start(commandPos);
-      commandAST = parseCaseLiteral();
+      expressionAST = parseCaseLiteral();
       while (currentToken.kind == Token.PIPE) {
         acceptIt();
-        Command c1AST = parseCaseLiteral();
+        Expression e1AST = parseCaseLiteral();
         finish(commandPos);
-        commandAST = new SequentialCaseLiteral(commandAST, c1AST, commandPos);
+        expressionAST = new SequentialCaseLiteral(expressionAST, e1AST, commandPos);
       }
-    return commandAST;
+    return expressionAST;
       
   }
   
-  Command parseCaseLiteral() throws SyntaxError{
-      Command commandAST = null;
-      
-      SourcePosition commandPos = new SourcePosition();
-      start(commandPos);
-      
-      switch(currentToken.kind){
-          case Token.INTLITERAL:
-      {
-        IntegerLiteral ilAST = parseIntegerLiteral();
-        finish(commandPos);
-        commandAST = new IntegerCommand(ilAST, commandPos);
-      }
-      break;
+  Expression parseCaseLiteral() throws SyntaxError{
+    Expression expressionAST = null; // in case there's a syntactic error
 
-    case Token.CHARLITERAL:
-      {
-        CharacterLiteral clAST= parseCharacterLiteral();
-        finish(commandPos);
-        commandAST = new CharacterCommand(clAST, commandPos);
-      }
-      break;
-      
-    default:
-        {
-        syntacticError("\"%\" found. Expected a <IntegerLiteral> or <CharacterLiteral>",
-            currentToken.spelling);
-        }
-        break;
-                                  
-      }
-      return commandAST;
+    SourcePosition expressionPos = new SourcePosition();
+    start(expressionPos);
+
+    switch (currentToken.kind) {
+
+        case Token.INTLITERAL:
+          {
+            IntegerLiteral ilAST = parseIntegerLiteral();
+            finish(expressionPos);
+            expressionAST = new IntegerExpression(ilAST, expressionPos);
+          }
+          
+          break;
+
+        case Token.CHARLITERAL:
+          {
+            CharacterLiteral clAST= parseCharacterLiteral();
+            finish(expressionPos);
+            expressionAST = new CharacterExpression(clAST, expressionPos);
+          }
+          
+          break;
+
+        default:
+            {
+            syntacticError("\"%\" found. Expected a <IntegerLiteral> or <CharacterLiteral>",
+                currentToken.spelling);
+            }
+            break;
+
+    }
+      return expressionAST;
   }
   
 

@@ -165,8 +165,8 @@ public final class Checker implements Visitor {
     }
 
     public Object visitCaseCommand(CaseCommand ast, Object o) {
-        ast.C1.visit(this, o);
-        ast.C2.visit(this, null);
+        ast.E.visit(this, o);
+        ast.C.visit(this, null);
         return null;
     }
 
@@ -324,9 +324,8 @@ public final class Checker implements Visitor {
     }
 
     public Object visitSequentialCaseLiteral(SequentialCaseLiteral ast, Object o) {
-
-        ast.C1.visit(this, o);//StdEnvironment.integerType | StdEnvironment.charType
-        ast.C2.visit(this, o);
+        ast.E1.visit(this, o);//StdEnvironment.integerType | StdEnvironment.charType
+        ast.E2.visit(this, o);
         return null;
     }
 

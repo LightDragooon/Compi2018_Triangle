@@ -14,15 +14,16 @@ import Triangle.SyntacticAnalyzer.SourcePosition;
 
 public class CaseCommand extends Command {
 
-  public CaseCommand (Command c1AST, Command c2AST, SourcePosition thePosition) {
+  public CaseCommand (Expression eAST, Command cAST, SourcePosition thePosition) {
     super (thePosition);
-    C1 = c1AST;
-    C2 = c2AST;
+    E = eAST;
+    C = cAST;
   }
 
   public Object visit(Visitor v, Object o) {
     return v.visitCaseCommand(this, o);
   }
 
-  public Command C1, C2;
+  public Expression E;
+  public Command C;
 }

@@ -117,7 +117,7 @@ public class TreeVisitor implements Visitor {
     }
     
     public Object visitCaseCommand(CaseCommand ast, Object o) {
-        return(createBinary("Case Command", ast.C1, ast.C2));
+        return(createBinary("Case Command", ast.E, ast.C));
     }
     
      public Object visitCharacterCommand(CharacterCommand ast, Object o) { 
@@ -172,10 +172,6 @@ public class TreeVisitor implements Visitor {
     public Object visitSequentialCase(SequentialCase ast, Object o) { 
         return(createBinary("Sequential Case", ast.C1, ast.C2));
     }
-    
-    public Object visitSequentialCaseLiteral(SequentialCaseLiteral ast, Object o) {
-        return(createBinary("Sequential Case Literal", ast.C1, ast.C2));
-    }
       
     public Object visitSequentialCommand(SequentialCommand ast, Object obj) {
         return(createBinary("Sequential Command", ast.C1, ast.C2));
@@ -226,6 +222,10 @@ public class TreeVisitor implements Visitor {
     
     public Object visitRecordExpression(RecordExpression ast, Object obj) {
         return(createUnary("Record Expression", ast.RA));
+    }
+    
+    public Object visitSequentialCaseLiteral(SequentialCaseLiteral ast, Object o) {
+        return(createBinary("Sequential Case Literal", ast.E1, ast.E2));
     }
     
     public Object visitUnaryExpression(UnaryExpression ast, Object obj) {
