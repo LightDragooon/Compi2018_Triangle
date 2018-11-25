@@ -7,5 +7,5 @@ in
   putint(myVar)
 end
 
-!Resultados esperados: Analisis contextual exitoso
-!Resultados observados: Analisis contextual exitoso
+!Resultados esperados: Impresión del entero <100>
+!Resultados observados: Impresión del entero <100>

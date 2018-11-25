@@ -1,0 +1,11 @@
+!Objetivo del caso de prueba: Repeat For de forma exitosa
+!Disenno del caso de prueba: 
+
+repeat for i
+  from 5 to 10 do
+    putint(i);
+    put('_')
+end
+
+!Resultados esperados: Impresión de los números del 5 al 10
+!Resultados observados: Impresión de los números del 5 al 10

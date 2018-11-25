@@ -1,7 +1,7 @@
 !Objetivo del caso de prueba: Ejecución de Select de forma exitosa
 !Disenno del caso de prueba: 
 
-select 1 from
+select 4 from
   case 1 | 2 | 4 then 
     putint(0)
   case 3 then

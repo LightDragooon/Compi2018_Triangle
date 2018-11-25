@@ -1,0 +1,11 @@
+!Objetivo del caso de prueba: Declaracion de variable inicializada de forma exitosa
+!Disenno del caso de prueba: 
+
+let
+  var myVar := 'Y'
+in
+  put(myVar)
+end
+
+!Resultados esperados: Impresión del char 'Y'
+!Resultados observados: Impresión del char 'Y'
